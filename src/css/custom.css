@@ -1,0 +1,247 @@
+/**
+ * OFPPT Tech Academy - Custom Theme
+ * Main color: Royal Blue (#1a3c8f)
+ * Assistance colors: White (#ffffff), Black (#1a1a1a)
+ * Created by: Omar Maarouf
+ */
+
+/* ============================================================
+   LIGHT MODE VARIABLES
+   ============================================================ */
+:root {
+  --ifm-color-primary: #1a3c8f;
+  --ifm-color-primary-dark: #163382;
+  --ifm-color-primary-darker: #132f77;
+  --ifm-color-primary-darkest: #0e2460;
+  --ifm-color-primary-light: #1e459c;
+  --ifm-color-primary-lighter: #2050ad;
+  --ifm-color-primary-lightest: #2a63c9;
+
+  --ifm-background-color: #ffffff;
+  --ifm-background-surface-color: #f4f7fc;
+  --ifm-font-color-base: #1a1a1a;
+  --ifm-heading-color: #1a3c8f;
+
+  --ifm-navbar-background-color: #1a3c8f;
+  --ifm-navbar-link-color: #ffffff;
+  --ifm-navbar-link-hover-color: #aec6ff;
+  --ifm-navbar-shadow: 0 2px 8px rgba(26, 60, 143, 0.25);
+
+  --ifm-footer-background-color: #0e2460;
+  --ifm-footer-color: #ffffff;
+  --ifm-footer-link-color: #aec6ff;
+  --ifm-footer-link-hover-color: #ffffff;
+
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(26, 60, 143, 0.12);
+
+  --ifm-toc-border-color: #1a3c8f;
+  --ifm-link-color: #1a3c8f;
+  --ifm-link-hover-color: #2a63c9;
+  --ifm-blockquote-border-left-color: #1a3c8f;
+}
+
+/* ============================================================
+   DARK MODE VARIABLES
+   ============================================================ */
+[data-theme='dark'] {
+  --ifm-color-primary: #4d7fff;
+  --ifm-color-primary-dark: #2e66ff;
+  --ifm-color-primary-darker: #1f5bff;
+  --ifm-color-primary-darkest: #003de0;
+  --ifm-color-primary-light: #6c93ff;
+  --ifm-color-primary-lighter: #7ea0ff;
+  --ifm-color-primary-lightest: #b3c9ff;
+
+  --ifm-background-color: #0d1117;
+  --ifm-background-surface-color: #161b22;
+  --ifm-font-color-base: #e6edf3;
+  --ifm-heading-color: #4d7fff;
+
+  --ifm-navbar-background-color: #161b22;
+  --ifm-navbar-link-color: #e6edf3;
+  --ifm-navbar-link-hover-color: #4d7fff;
+  --ifm-navbar-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+
+  --ifm-footer-background-color: #0d1117;
+  --ifm-footer-color: #e6edf3;
+  --ifm-footer-link-color: #4d7fff;
+  --ifm-footer-link-hover-color: #b3c9ff;
+
+  --docusaurus-highlighted-code-line-bg: rgba(77, 127, 255, 0.15);
+  --ifm-link-color: #4d7fff;
+  --ifm-link-hover-color: #b3c9ff;
+  --ifm-blockquote-border-left-color: #4d7fff;
+  --ifm-toc-border-color: #4d7fff;
+}
+
+/* ============================================================
+   NAVBAR STYLING
+   ============================================================ */
+.navbar {
+  border-bottom: 2px solid rgba(77, 127, 255, 0.3);
+}
+
+.navbar__title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.02em;
+  color: #ffffff !important;
+}
+
+[data-theme='dark'] .navbar__title {
+  color: #ffffff !important;
+}
+
+.navbar__item.navbar__link {
+  font-weight: 500;
+}
+
+.navbar__item.navbar__link:hover {
+  color: var(--ifm-navbar-link-hover-color);
+}
+
+/* ============================================================
+   SIDEBAR STYLING
+   ============================================================ */
+.menu__link--active {
+  background-color: rgba(26, 60, 143, 0.1);
+  border-left: 3px solid var(--ifm-color-primary);
+  font-weight: 600;
+}
+
+[data-theme='dark'] .menu__link--active {
+  background-color: rgba(77, 127, 255, 0.15);
+}
+
+.menu__link:hover {
+  background-color: rgba(26, 60, 143, 0.06);
+}
+
+[data-theme='dark'] .menu__link:hover {
+  background-color: rgba(77, 127, 255, 0.1);
+}
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+.markdown h1 {
+  font-size: 2rem;
+  border-bottom: 2px solid var(--ifm-color-primary);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.markdown h2 {
+  font-size: 1.5rem;
+  border-left: 4px solid var(--ifm-color-primary);
+  padding-left: 0.75rem;
+  margin-top: 2rem;
+}
+
+.markdown h3 {
+  font-size: 1.2rem;
+  color: var(--ifm-color-primary);
+}
+
+/* ============================================================
+   CODE BLOCKS
+   ============================================================ */
+.prism-code {
+  border-radius: 6px;
+  border: 1px solid rgba(26, 60, 143, 0.2);
+}
+
+[data-theme='dark'] .prism-code {
+  border: 1px solid rgba(77, 127, 255, 0.2);
+}
+
+/* ============================================================
+   ADMONITIONS (INFO / WARNING / NOTE BOXES)
+   ============================================================ */
+.alert--info {
+  border-left-color: #1a3c8f;
+  background-color: rgba(26, 60, 143, 0.08);
+}
+
+[data-theme='dark'] .alert--info {
+  border-left-color: #4d7fff;
+  background-color: rgba(77, 127, 255, 0.1);
+}
+
+/* ============================================================
+   TABLE STYLING
+   ============================================================ */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5rem 0;
+}
+
+table th {
+  background-color: var(--ifm-color-primary);
+  color: #ffffff;
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+
+table td {
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid rgba(26, 60, 143, 0.15);
+}
+
+[data-theme='dark'] table td {
+  border-bottom: 1px solid rgba(77, 127, 255, 0.15);
+}
+
+table tr:nth-child(even) {
+  background-color: rgba(26, 60, 143, 0.04);
+}
+
+[data-theme='dark'] table tr:nth-child(even) {
+  background-color: rgba(77, 127, 255, 0.07);
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer--dark {
+  border-top: 2px solid rgba(77, 127, 255, 0.3);
+}
+
+.footer__title {
+  color: #ffffff;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+}
+
+/* ============================================================
+   BREADCRUMBS
+   ============================================================ */
+.breadcrumbs__item--active .breadcrumbs__link {
+  color: var(--ifm-color-primary);
+  font-weight: 600;
+}
+
+/* ============================================================
+   SCROLLBAR (for WebKit browsers)
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(26, 60, 143, 0.4);
+  border-radius: 3px;
+}
+
+[data-theme='dark'] ::-webkit-scrollbar-thumb {
+  background: rgba(77, 127, 255, 0.4);
+}
