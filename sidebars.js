@@ -52,6 +52,7 @@ const sidebars = {
       collapsed: true,
       items: [
         'idosr/linux/intro',
+        'idosr/linux/lesson-00',
         'idosr/linux/lesson-01',
         'idosr/linux/lesson-02',
         'idosr/linux/lesson-03',
@@ -88,22 +89,33 @@ const sidebars = {
     },
   ],
 
-  quizzesSidebar: [
-    {
-      type: 'category',
-      label: 'Quizzes',
-      collapsed: true,
-      items: [
-        'quizzes/quiz-ldap',
-        'quizzes/quiz-networking',
-        'quizzes/quiz-windows',
-        'quizzes/quiz-linux',
-        'quizzes/quiz-devfullstack',
-        'quizzes/quiz-general',
-        'quizzes/quiz-ldap'
-      ],
-    },
-  ],
+ quizzesSidebar: [
+  {
+    type: 'category',
+    label: 'Quizzes',
+    collapsed: true,
+    items: [
+      'quizzes/quiz-networking',
+      'quizzes/quiz-windows',
+      'quizzes/quiz-devfullstack',
+      'quizzes/quiz-general',
+      {
+        type: 'category',
+        label: 'Linux',
+        collapsed: true,
+        items: [
+          'quizzes/linux/quizz-00-les-commandes-de-base',
+          'quizzes/linux/ConfigurationDeBaseLinuxServer',
+          'quizzes/linux/quizzDhcp',
+          'quizzes/linux/quiz-ldap',
+          'quizzes/linux/quiz-linux',
+
+
+        ],
+      },
+    ],
+  },
+],
 
   referenceSidebar: [
     {

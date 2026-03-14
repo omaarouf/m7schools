@@ -1,14 +1,15 @@
 ---
 id: lesson-02
-title:  DHCP SERVER
+title: DHCP SERVER
+sidebar_label: DHCP SERVER
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-
-# Lecon 02 : Serveur DHCP (isc-dhcp-server)
+# Lecon 02 : Serveur DHCP
 
 ---
-
 
 ## 1. Logique DHCP
 
@@ -27,23 +28,55 @@ title:  DHCP SERVER
 
 ## 2. Installation
 
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
 ```bash
-apt update
-apt install isc-dhcp-server -y
+sudo apt update
+sudo apt install isc-dhcp-server -y
 ```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+sudo dnf install dhcp-server -y
+```
+
+</TabItem>
+</Tabs>
 
 ---
 
 ## 3. Fichiers importants
 
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
 | Chemin | Utilite / Role |
 |--------|---------------|
-| `/etc/dhcp/dhcpd.conf` | Fichier principal de configuration DHCP - Definit les pools d adresses IP, les plages (range), les options reseau |
-| `/etc/default/isc-dhcp-server` | Fichier d options par defaut - Permet de lier le service a une interface specifique (ex: `INTERFACESv4="eth0"`), active/desactive IPv4 ou IPv6 |
-| `/var/lib/dhcp/dhcpd.leases` | Base de donnees des baux actifs - Contient la liste de toutes les adresses IP attribuees (MAC address, IP assignee, date d attribution, date d expiration, hostname client) |
-| `/var/log/syslog` | Journal des evenements systeme - Enregistre les logs DHCP (demarrage/arret, attribution des baux, erreurs, renouvellements, conflits) |
+| `/etc/dhcp/dhcpd.conf` | Fichier principal de configuration DHCP |
+| `/etc/default/isc-dhcp-server` | Definit l interface d ecoute (`INTERFACESv4="ens33"`) |
+| `/var/lib/dhcp/dhcpd.leases` | Base de donnees des baux actifs |
+| `/var/log/syslog` | Journal des evenements DHCP |
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+| Chemin | Utilite / Role |
+|--------|---------------|
+| `/etc/dhcp/dhcpd.conf` | Fichier principal de configuration DHCP |
+| `/etc/sysconfig/dhcpd` | Definit l interface d ecoute (`DHCPDARGS=enp0s3`) |
+| `/var/lib/dhcpd/dhcpd.leases` | Base de donnees des baux actifs |
+| `/var/log/messages` | Journal des evenements DHCP |
+
+</TabItem>
+</Tabs>
 
 ### Commandes associees
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
 
 ```bash
 # Redemarrer le service DHCP
@@ -59,15 +92,48 @@ tail -f /var/log/syslog | grep dhcpd
 sudo netstat -uap | grep dhcpd
 ```
 
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+# Redemarrer le service DHCP
+sudo systemctl restart dhcpd
+
+# Tester la syntaxe du fichier de configuration
+sudo dhcpd -t
+
+# Surveiller les logs DHCP en temps reel
+tail -f /var/log/messages | grep dhcpd
+
+# Verifier que le serveur ecoute sur le port 67
+sudo netstat -uap | grep dhcpd
+```
+
+</TabItem>
+</Tabs>
+
 ---
 
 ## 4. Configuration du Scope (Plage DHCP)
 
-Editer le fichier principal :
+### Editer le fichier principal
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
 
 ```bash
-nano /etc/dhcp/dhcpd.conf
+sudo nano /etc/dhcp/dhcpd.conf
 ```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+sudo nano /etc/dhcp/dhcpd.conf
+```
+
+</TabItem>
+</Tabs>
 
 ### Structure typique
 
@@ -110,8 +176,11 @@ host pc1 {
 
 ## 5. Configurer l interface DHCP
 
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
 ```bash
-nano /etc/default/isc-dhcp-server
+sudo nano /etc/default/isc-dhcp-server
 ```
 
 Modifier la ligne :
@@ -122,23 +191,77 @@ INTERFACESv4="ens33"
 
 Remplacer `ens33` par le nom de votre interface (verifier avec `ip a`).
 
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+sudo nano /etc/sysconfig/dhcpd
+```
+
+Modifier la ligne :
+
+```
+DHCPDARGS=enp0s3
+```
+
+Remplacer `enp0s3` par le nom de votre interface (verifier avec `ip a`).
+
+</TabItem>
+</Tabs>
+
 ---
 
 ## 6. Demarrage et Verification du Service
 
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
 ```bash
 # Demarrer le service
-systemctl restart isc-dhcp-server
+sudo systemctl restart isc-dhcp-server
+
+# Activer au demarrage
+sudo systemctl enable isc-dhcp-server
 
 # Verifier l etat
 systemctl status isc-dhcp-server
 ```
 
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+# Demarrer le service
+sudo systemctl restart dhcpd
+
+# Activer au demarrage
+sudo systemctl enable dhcpd
+
+# Verifier l etat
+systemctl status dhcpd
+```
+
+</TabItem>
+</Tabs>
+
 ### Voir les baux actifs
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
 
 ```bash
 cat /var/lib/dhcp/dhcpd.leases
 ```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+cat /var/lib/dhcpd/dhcpd.leases
+```
+
+</TabItem>
+</Tabs>
 
 Exemple de contenu :
 
@@ -153,10 +276,24 @@ lease 192.168.10.105 {
 
 ### Voir les logs
 
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
 ```bash
 journalctl -u isc-dhcp-server
 tail -f /var/log/syslog
 ```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+journalctl -u dhcpd
+tail -f /var/log/messages
+```
+
+</TabItem>
+</Tabs>
 
 ---
 
@@ -191,7 +328,7 @@ host poste-reserve {
 
 **A savoir :**
 - Adapter le `subnet` au reseau cible
-- Modifier l interface dans `/etc/default/isc-dhcp-server`
+- Modifier l interface dans le fichier d options
 - Redemarrer le service apres modification
 - Verifier les leases apres connexion d un client
 
@@ -201,18 +338,45 @@ host poste-reserve {
 
 ### Etape 1 — Verifier que le service fonctionne
 
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
 ```bash
 systemctl status isc-dhcp-server
 ```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+systemctl status dhcpd
+```
+
+</TabItem>
+</Tabs>
 
 Si `inactive` → probleme de configuration.
 
 ### Etape 2 — Verifier l interface configuree
 
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
 ```bash
 cat /etc/default/isc-dhcp-server
 ip a
 ```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+cat /etc/sysconfig/dhcpd
+ip a
+```
+
+</TabItem>
+</Tabs>
 
 Comparer l interface dans le fichier avec celle affichee par `ip a`. Une mauvaise interface signifie que DHCP n ecoute pas.
 
@@ -225,32 +389,58 @@ Comparer l interface dans le fichier avec celle affichee par `ip a`. Une mauvais
 
 ```bash
 # Tester la syntaxe
-systemctl restart isc-dhcp-server
-journalctl -xe
+sudo dhcpd -t
 ```
 
 ### Etape 4 — Verifier le pare-feu
-
-```bash
-ufw status
-```
 
 DHCP utilise :
 - **UDP 67** — serveur
 - **UDP 68** — client
 
-Autoriser si UFW est actif :
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
 
 ```bash
+ufw status
+
+# Autoriser si UFW est actif
 sudo ufw allow 67/udp
 sudo ufw allow 68/udp
 ```
 
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+firewall-cmd --state
+
+# Autoriser DHCP
+sudo firewall-cmd --add-service=dhcp --permanent
+sudo firewall-cmd --reload
+```
+
+</TabItem>
+</Tabs>
+
 ### Etape 5 — Verifier que le pool n est pas epuise
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
 
 ```bash
 cat /var/lib/dhcp/dhcpd.leases
 ```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+cat /var/lib/dhcpd/dhcpd.leases
+```
+
+</TabItem>
+</Tabs>
 
 Si toutes les IPs de la plage sont attribuees, le client ne recevra pas d IP.
 
@@ -266,20 +456,24 @@ Si toutes les IPs de la plage sont attribuees, le client ne recevra pas d IP.
 
 | Probleme | Cause probable |
 |----------|----------------|
-| Service ne demarre pas | Mauvaise interface dans `/etc/default/isc-dhcp-server` |
+| Service ne demarre pas | Mauvaise interface dans le fichier d options |
 | Client ne reçoit pas d IP | Pare-feu actif bloquant UDP 67/68 |
 | Erreur de syntaxe | Point-virgule oublie dans `dhcpd.conf` |
-| Pas de logs visibles | Utiliser `journalctl -u isc-dhcp-server` |
+| Pas de logs visibles | Utiliser `journalctl -u isc-dhcp-server` (Ubuntu) ou `journalctl -u dhcpd` (Fedora) |
 
 ---
 
 ## Resume des fichiers et commandes
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
 
 ```bash
 # Fichiers cles
 /etc/dhcp/dhcpd.conf              # Configuration principale
 /etc/default/isc-dhcp-server      # Interface d ecoute
 /var/lib/dhcp/dhcpd.leases        # Baux actifs
+/var/log/syslog                   # Logs
 
 # Commandes essentielles
 systemctl restart isc-dhcp-server  # Redemarrer
@@ -289,3 +483,34 @@ cat /var/lib/dhcp/dhcpd.leases     # Voir les baux
 journalctl -u isc-dhcp-server      # Voir les logs
 tail -f /var/log/syslog            # Surveiller les logs en direct
 ```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+# Fichiers cles
+/etc/dhcp/dhcpd.conf              # Configuration principale
+/etc/sysconfig/dhcpd              # Interface d ecoute
+/var/lib/dhcpd/dhcpd.leases       # Baux actifs
+/var/log/messages                 # Logs
+
+# Commandes essentielles
+systemctl restart dhcpd            # Redemarrer
+systemctl status dhcpd             # Verifier l etat
+sudo dhcpd -t                      # Tester la syntaxe
+cat /var/lib/dhcpd/dhcpd.leases    # Voir les baux
+journalctl -u dhcpd                # Voir les logs
+tail -f /var/log/messages          # Surveiller les logs en direct
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+:::tip Quiz disponible
+
+Testez vos connaissances sur cette lecon :
+[Faire le quiz →](/quizzes/linux/quizzDhcp)
+
+:::

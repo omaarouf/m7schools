@@ -1,11 +1,12 @@
 ---
 id: lesson-01
-title: Configuration de Base (Ubuntu Server)
+title: Configuration de Base Linux Server
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-
-# Lecon 01 : Configuration de Base (Ubuntu Server)
+# Lecon 01 : Configuration de Base Linux
 
 ---
 
@@ -19,6 +20,9 @@ Le hostname identifie ton serveur dans le reseau. Il doit correspondre au DNS si
 
 ### Configurer le hostname
 
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
 ```bash
 hostnamectl set-hostname srv1.ofppt.local
 ```
@@ -30,6 +34,23 @@ Modifier aussi `/etc/hosts` :
 127.0.1.1   srv1.ofppt.local srv1
 ```
 
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+hostnamectl set-hostname srv1.ofppt.local
+```
+
+Modifier aussi `/etc/hosts` :
+
+```
+127.0.0.1   localhost
+127.0.1.1   srv1.ofppt.local srv1
+```
+
+</TabItem>
+</Tabs>
+
 ### Verification
 
 ```bash
@@ -39,168 +60,94 @@ hostname -f
 
 ---
 
-## 2. Configuration IP Statique (Netplan)
+## 2. Configuration IP via nmcli (NetworkManager)
 
-Ubuntu Server utilise **Netplan** pour la configuration reseau.
+`nmcli` est l'outil en ligne de commande de NetworkManager pour gerer les connexions reseau.
 
-**Fichier :** `/etc/netplan/*.yaml`
+### Installer NetworkManager
 
-### Exemple de configuration
-
-```yaml
-network:
-  version: 2
-  ethernets:
-    ens33:
-      addresses:
-        - 192.168.1.10/24
-      gateway4: 192.168.1.1
-      nameservers:
-        addresses:
-          - 8.8.8.8
-```
-
-### Commandes essentielles
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
 
 ```bash
-ip a
-ip route
-nano /etc/netplan/00-installer-config.yaml
-netplan apply
-netplan generate
-```
-
-### Verification
-
-```bash
-ip a
-ping 8.8.8.8
-ping google.com
-```
-
-### Erreurs frequentes
-
-| Erreur | Cause |
-|--------|-------|
-| Config non appliquee | Mauvaise indentation YAML |
-| Interface non reconnue | Mauvais nom d interface (ens33 vs enp0s3) |
-| Pas d effet | Oublier `netplan apply` |
-
----
-
-## 3. Configuration IP via Shell
-
-### METHODE 1 — IP Statique (temporaire)
-
-```bash
-# Ajouter une IP
-sudo ip addr add 192.168.1.10/24 dev ens33
-
-# Ajouter une deuxieme IP sur la meme interface
-sudo ip addr add 192.168.1.20/24 dev ens33
-
-# Activer l interface
-sudo ip link set ens33 up
-
-# Desactiver l interface
-sudo ip link set ens33 down
-
-# Verifier
-ip a
-
-# Configurer la passerelle par defaut
-sudo ip route add default via 192.168.1.1
-
-# Verifier
-ip route
-
-# Supprimer une passerelle
-sudo ip route del default
-
-# Flush (supprimer) une configuration IP
-sudo ip addr flush dev ens33
-
-# Supprimer toutes les routes
-sudo ip route flush table main
-```
-
-### Configurer DNS (temporaire)
-
-Le DNS se trouve dans : `/etc/resolv.conf`
-
-```bash
-# Ajouter un DNS
-echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
-
-# Ou editer manuellement
-sudo nano /etc/resolv.conf
-```
-
-Exemple de contenu :
-
-```
-nameserver 8.8.8.8
-nameserver 1.1.1.1
-```
-
-### Gestion DHCP
-
-```bash
-# Demander une IP via DHCP
-sudo dhclient ens33
-
-# Liberer une IP DHCP
-sudo dhclient -r ens33
-
-# Renouveler une IP DHCP
-sudo dhclient ens33
-```
-
-### Redemarrer le service reseau
-
-```bash
-sudo systemctl restart networking
-# ou
-sudo netplan apply
-```
-
-> **Important :** Les commandes `ip` sont **temporaires**. Apres redemarrage, la configuration est perdue.
-> Pour une configuration permanente :
-> - Ubuntu → `/etc/netplan/`
-> - Rocky/CentOS → `/etc/sysconfig/network-scripts/`
-
----
-
-### METHODE 2 — Ubuntu avec NetworkManager (nmcli)
-
-```bash
-# Installer NetworkManager (si absent)
 sudo apt update
 sudo apt install network-manager -y
 
-# Activer
 sudo systemctl enable NetworkManager
 sudo systemctl start NetworkManager
 ```
 
-**IP Statique + Gateway + DNS :**
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+sudo dnf install NetworkManager -y
+
+sudo systemctl enable NetworkManager
+sudo systemctl start NetworkManager
+```
+
+</TabItem>
+</Tabs>
+
+### IP Statique + Gateway + DNS
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
 
 ```bash
 nmcli connection modify ens3 ipv4.method manual
 nmcli connection modify ens3 ipv4.addresses 172.16.1.50/24
 nmcli connection modify ens3 ipv4.gateway 172.16.1.1
-nmcli connection modify ens3 ipv4.dns 172.16.1.50
+nmcli connection modify ens3 ipv4.dns 8.8.8.8
 nmcli connection up ens3
 ```
 
-**Configurer en DHCP :**
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+nmcli connection modify enp0s3 ipv4.method manual
+nmcli connection modify enp0s3 ipv4.addresses 172.16.1.50/24
+nmcli connection modify enp0s3 ipv4.gateway 172.16.1.1
+nmcli connection modify enp0s3 ipv4.dns 8.8.8.8
+nmcli connection up enp0s3
+```
+### Permissions (important)
+
+Si les permissions sont trop ouvertes, Netplan affiche un avertissement et refuse d'appliquer la configuration :
+```bash
+sudo chmod 600 /etc/netplan/01-netcfg.yaml
+sudo netplan apply
+```
+</TabItem>
+</Tabs>
+
+### Configurer en DHCP
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
 
 ```bash
 nmcli connection modify ens3 ipv4.method auto
 nmcli connection up ens3
 ```
 
-**Renouveler DHCP :**
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+nmcli connection modify enp0s3 ipv4.method auto
+nmcli connection up enp0s3
+```
+
+</TabItem>
+</Tabs>
+
+### Renouveler DHCP
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
 
 ```bash
 nmcli device reapply ens3
@@ -209,19 +156,37 @@ dhclient -r ens3
 dhclient ens3
 ```
 
-**Verification :**
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
 
 ```bash
-ip a
-ip route
-cat /etc/resolv.conf
+nmcli device reapply enp0s3
+# ou
+dhclient -r enp0s3
+dhclient enp0s3
 ```
 
----
+</TabItem>
+</Tabs>
 
-### METHODE 3 — Netplan (Recommandee)
+### Verification
 
-**IP Statique + Gateway + DNS :**
+> Bonne pratique : apres chaque configuration reseau, toujours configurer puis verifier.
+
+| Commande | Verification |
+|----------|-------------|
+| `ip a` | Verifie que l'adresse IP est bien assignee a l'interface |
+| `ip route` | Verifie que la passerelle par defaut est correcte |
+| `cat /etc/resolv.conf` | Verifie que le DNS est bien configure |
+
+## 3. Configuration IP Statique (Fichiers)
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
+Ubuntu Server utilise **Netplan** pour la configuration reseau permanente.
+
+**Fichier :** `/etc/netplan/*.yaml`
 
 ```bash
 sudo nano /etc/netplan/01-netcfg.yaml
@@ -238,31 +203,409 @@ network:
       gateway4: 172.16.1.1
       nameservers:
         addresses:
-          - 172.16.1.50
+          - 8.8.8.8
 ```
+### Permissions (important)
+
+Si les permissions sont trop ouvertes, Netplan affiche un avertissement et refuse d'appliquer la configuration ondoit faire:
+```bash
+sudo chmod 600 /etc/netplan/01-netcfg.yaml
+sudo netplan apply
+```
+
+```
+Puis: 
+```bash
+sudo netplan generate
+sudo netplan apply
+```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+Red Hat / Fedora utilise les fichiers dans `/etc/sysconfig/network-scripts/`.
+
+**Fichier :** `/etc/sysconfig/network-scripts/ifcfg-enp0s3`
+
+```bash
+more /etc/sysconfig/network-scripts/ifcfg-enp0s3
+```
+
+Exemple de contenu :
+
+```
+DEVICE=enp0s3
+BOOTPROTO=static
+IPADDR=192.168.1.10
+NETMASK=255.255.255.0
+GATEWAY=192.168.1.1
+DNS1=8.8.8.8
+ONBOOT=yes
+```
+
+```bash
+sudo chmod 600 /etc/sysconfig/network-scripts/ifcfg-eth0
+sudo systemctl restart NetworkManager
+```
+
+### Permissions (important)
+
+
+```bash
+sudo systemctl restart network
+```
+
+</TabItem>
+</Tabs>
 
 ---
 
-## 4. SSH — Secure Shell
+## 4. Configuration IP via Shell (Temporaire)
 
-**Prerequis :**
-- Adresse IP du serveur : `192.168.7.10`
-- Acces reseau fonctionnel (ping OK)
+> **Important :** Ces commandes sont temporaires. Apres redemarrage, la configuration est perdue.
+
+
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
 
 ```bash
-# Verifier le service SSH
-systemctl status ssh
+# Ajouter une IP
+sudo ip addr add 192.168.1.10/24 dev ens3
 
+# Activer / desactiver une interface
+sudo ip link set ens3 up
+sudo ip link set ens3 down
+
+# Configurer la passerelle par defaut
+sudo ip route add default via 192.168.1.1
+
+# Supprimer une passerelle
+sudo ip route del default
+
+# Supprimer la configuration IP
+sudo ip addr flush dev ens3
+
+# Verification
+ip a
+ip route
+```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+# Ajouter une IP
+sudo ip addr add 192.168.1.10/24 dev enp0s3
+
+# Activer / desactiver une interface
+sudo ip link set enp0s3 up
+sudo ip link set enp0s3 down
+
+# Configurer la passerelle par defaut
+sudo ip route add default via 192.168.1.1
+
+# Supprimer une passerelle
+sudo ip route del default
+
+# Supprimer la configuration IP
+sudo ip addr flush dev enp0s3
+
+# Verification
+ip a
+ip route
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+## 5. Demarrer, Arreter ou Redemarrer un Service
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
+Ubuntu utilise **systemd** pour la gestion des services.
+
+```bash
+# Syntaxe generale
+sudo systemctl start   nomservice
+sudo systemctl stop    nomservice
+sudo systemctl restart nomservice
+sudo systemctl status  nomservice
+sudo systemctl enable  nomservice
+sudo systemctl disable nomservice
+
+# Exemples
+sudo systemctl start  apache2
+sudo systemctl start  ssh
+sudo systemctl restart networking
+```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+Red Hat / Fedora utilise aussi **systemd**, mais l'ancienne syntaxe `service` est egalement supportee.
+
+```bash
+# Ancienne syntaxe (toujours valide)
+service nomservice start
+service nomservice restart
+service nomservice stop
+
+# Exemples ancienne syntaxe
+service network start
+service named start
+
+# Syntaxe moderne (recommandee)
+sudo systemctl start   nomservice
+sudo systemctl stop    nomservice
+sudo systemctl restart nomservice
+sudo systemctl status  nomservice
+sudo systemctl enable  nomservice
+
+# Exemples modernes
+sudo systemctl start  httpd
+sudo systemctl start  named
+sudo systemctl restart NetworkManager
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+## 6. Gestion des Packages
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
+Ubuntu utilise **apt** comme gestionnaire de packages.
+
+```bash
+# Mettre a jour la liste des packages
+sudo apt update
+
+# Installer un package
+sudo apt install nompackage -y
+
+# Desinstaller un package
+sudo apt remove nompackage
+
+# Mettre a jour un package
+sudo apt upgrade nompackage
+
+# Lister les packages installes
+dpkg -l
+
+# Verifier l existence d un package
+dpkg -l | grep dhcp
+# ou
+apt list --installed | grep dhcp
+```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+Red Hat / Fedora utilise **rpm** et **dnf** comme gestionnaires de packages.
+
+```bash
+# Installer un fichier .rpm
+rpm -ivh fichier.rpm
+
+# Desinstaller un package
+rpm -e nompackage
+
+# Mettre a jour un package
+rpm -uvh fichier.rpm
+
+# Lister tous les packages installes
+rpm -qa
+
+# Verifier l existence d un package (ex: dhcp)
+rpm -q dhcp
+
+# Avec dnf (recommande)
+sudo dnf install nompackage -y
+sudo dnf remove nompackage
+sudo dnf update nompackage
+sudo dnf list installed
+sudo dnf list installed | grep dhcp
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+## 7. Verification Reseau et Ports
+
+### netstat — Statistiques reseau
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
+```bash
+# Installer net-tools si absent
+sudo apt install net-tools -y
+
+# Afficher la table de routage
+netstat -nr
+
+# Afficher les statistiques des interfaces
+netstat -i
+
+# Afficher les sockets actifs
+netstat -an
+
+# Afficher les applications qui ouvrent un port
+netstat -anp
+
+# Afficher ports TCP/UDP en ecoute avec processus
+netstat -tulnp
+```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+# Installer net-tools si absent
+sudo dnf install net-tools -y
+
+# Afficher la table de routage
+netstat -nr
+
+# Afficher les statistiques des interfaces
+netstat -i
+
+# Afficher les sockets actifs
+netstat -an
+
+# Afficher les applications qui ouvrent un port
+netstat -anp
+
+# Afficher ports TCP/UDP en ecoute avec processus
+netstat -tulnp
+```
+
+</TabItem>
+</Tabs>
+
+### ARP — Table de correspondance IP/MAC
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
+```bash
+# Afficher la table ARP
+arp -a
+
+# Equivalent moderne
+ip neigh
+```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+# Afficher la table ARP
+arp -a
+
+# Equivalent moderne
+ip neigh
+```
+
+</TabItem>
+</Tabs>
+
+### nmap — Scanner de ports
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
+```bash
+# Installer nmap
+sudo apt install nmap -y
+
+# Scanner les ports TCP actifs
+nmap -sT 192.168.1.1
+
+# Tester un port specifique (ex: port 22)
+nmap -p 22 192.168.1.1
+
+# Scanner tous les ports
+nmap -p- 192.168.1.1
+
+# Scanner le reseau local
+nmap 192.168.1.0/24
+```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+# Installer nmap
+sudo dnf install nmap -y
+
+# Scanner les ports TCP actifs
+nmap -sT 192.168.1.1
+
+# Tester un port specifique (ex: port 22)
+nmap -p 22 192.168.1.1
+
+# Scanner tous les ports
+nmap -p- 192.168.1.1
+
+# Scanner le reseau local
+nmap 192.168.1.0/24
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+## 8. SSH — Secure Shell
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
+```bash
 # Installer SSH
-sudo apt install ssh
+sudo apt install openssh-server -y
 
-# Activer SSH au demarrage
+# Activer et demarrer SSH
 sudo systemctl enable ssh
 sudo systemctl start ssh
 
-# Connexion SSH depuis un client
+# Verifier le statut
+systemctl status ssh
+
+# Connexion depuis un client
 ssh omar@192.168.7.10
 ```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+# Installer SSH
+sudo dnf install openssh-server -y
+
+# Activer et demarrer SSH
+sudo systemctl enable sshd
+sudo systemctl start sshd
+
+# Verifier le statut
+systemctl status sshd
+
+# Connexion depuis un client
+ssh omar@192.168.7.10
+```
+
+</TabItem>
+</Tabs>
 
 ### Securisation SSH (base)
 
@@ -273,17 +616,31 @@ PermitRootLogin no
 PasswordAuthentication yes
 ```
 
-```bash
-# Redemarrage du service apres modification
-sudo systemctl restart ssh
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
 
-# Verification
+```bash
+sudo systemctl restart ssh
 systemctl status ssh
 ```
 
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+sudo systemctl restart sshd
+systemctl status sshd
+```
+
+</TabItem>
+</Tabs>
+
 ---
 
-## 5. Gestion Utilisateurs et Groupes
+## 9. Gestion Utilisateurs et Groupes
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
 
 ```bash
 # Creer un utilisateur
@@ -306,87 +663,103 @@ id user1
 groups user1
 ```
 
----
-
-## 6. Gestion des Services (systemctl)
-
-Tous les services passent par **systemd**.
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
 
 ```bash
-systemctl start apache2
-systemctl stop apache2
-systemctl restart apache2
-systemctl status apache2
-systemctl enable apache2
-systemctl disable apache2
+# Creer un utilisateur
+useradd user1
+passwd user1
+
+# Ajouter au groupe wheel (equivalent sudo)
+usermod -aG wheel user1
+
+# Supprimer un utilisateur
+userdel user1
+
+# Creer un groupe
+groupadd admins
+
+# Ajouter utilisateur a un groupe
+usermod -aG admins user1
+
+# Verification
+id user1
+groups user1
 ```
 
-**Diagnostic :**
-
-```bash
-journalctl -xe
-journalctl -u apache2
-```
-
-> Si un service est active mais ne demarre pas, lire les logs.
+</TabItem>
+</Tabs>
 
 ---
 
-## 7. Verification Reseau et Ports
+## 10. Tableau de Reference — Commandes Reseau
 
-| Commande | Description |
-|----------|-------------|
-| `ss -tulnp` | Affiche les sockets en ecoute (TCP/UDP) avec les processus associes |
-| `ping` | Teste la connectivite reseau vers une IP ou nom d hote |
-| `ip a` | Affiche les adresses IP de toutes les interfaces reseau |
-| `ip route` | Affiche la table de routage du systeme |
-| `netstat -tulnp` | Affiche les connexions reseau et ports ouverts (legacy) |
-| `lsof -i :80` | Liste les processus utilisant le port 80 |
-| `curl -I http://localhost` | Teste une connexion HTTP et affiche les en-tetes |
-| `traceroute google.com` | Affiche le chemin vers une destination |
-| `mtr google.com` | Combinaison de ping et traceroute |
-| `iptables -L -v -n` | Liste les regles du pare-feu |
-| `ufw status verbose` | Etat du pare-feu UFW |
-| `hostname -I` | Affiche toutes les adresses IP de la machine |
-| `dig google.com` | Interroge les serveurs DNS |
-| `nslookup google.com` | Resolution DNS (legacy) |
-| `ip neigh` | Affiche la table ARP |
-| `ethtool eth0` | Informations de l interface reseau |
-| `systemctl restart networking` | Redemarrage du service reseau |
+| Commande | Description | Equivalent Windows |
+|----------|-------------|-------------------|
+| `ifconfig` | Parametres reseau des interfaces | `ipconfig` |
+| `route` / `route -n` | Table de routage | `route print` |
+| `netstat -nr` | Table de routage via netstat | `route print` |
+| `netstat -i` | Statistiques des interfaces | - |
+| `netstat -an` | Sockets actifs | `netstat -an` |
+| `netstat -anp` | Applications qui ouvrent un port | `netstat -b` |
+| `arp -a` | Table ARP | `arp -a` |
+| `nmap -sT IP` | Ports TCP actifs | - |
+| `nmap -p 22 IP` | Tester un port specifique | - |
+| `ip a` | Adresses IP (moderne) | `ipconfig` |
+| `ip route` | Table de routage (moderne) | `route print` |
+| `ip neigh` | Table ARP (moderne) | `arp -a` |
+| `ss -tulnp` | Ports en ecoute (moderne) | `netstat -an` |
+| `ping` | Test connectivite | `ping` |
+| `traceroute` | Chemin vers destination | `tracert` |
 
 ---
 
-## 8. Structure Systeme Importante
-
-| Dossier | Role | Contenu typique |
-|---------|------|-----------------|
-| `/etc` | Fichiers de configuration | nginx/, ssh/, hosts, fstab, passwd |
-| `/var/log` | Logs systeme et applications | syslog, auth.log, nginx/access.log |
-| `/home` | Repertoires personnels utilisateurs | /home/username/ |
-| `/srv` | Donnees des services heberges | Sites web, fichiers partages, FTP |
-| `/mnt` | Montage temporaire de systemes de fichiers | Disques externes, partages reseau |
-| `/bin` | Binaires essentiels | ls, cp, mv, cat, chmod |
-| `/sbin` | Binaires systeme (admin) | fdisk, mkfs, ifconfig, reboot |
-| `/usr` | Programmes et bibliotheques utilisateurs | /usr/bin/, /usr/lib/ |
-| `/usr/local` | Logiciels installes manuellement | /usr/local/bin/, /usr/local/etc/ |
-| `/opt` | Logiciels tiers optionnels | /opt/google/, /opt/lampp/ |
-| `/tmp` | Fichiers temporaires (effaces au redemarrage) | Fichiers de session, caches |
-| `/var` | Donnees variables (logs, spools) | /var/mail/, /var/spool/, /var/cache/ |
-| `/var/www` | Racine web par defaut (Apache/Nginx) | html/, sites web |
-| `/boot` | Fichiers de demarrage du systeme | Kernel (vmlinuz), GRUB, initramfs |
-| `/dev` | Fichiers de peripheriques | sda, tty, null, random |
-| `/root` | Repertoire du superutilisateur root | Configurations de root |
-
-### Hierarchie FHS (Filesystem Hierarchy Standard)
-
-- **Statique** (`/bin`, `/sbin`, `/lib`, `/usr`, `/opt`) — Lecture seule, partageable
-- **Variable** (`/var`, `/tmp`, `/run`) — Ecriture frequente, locale
-- **Configuration** (`/etc`) — Locale, admin uniquement
-- **Home** (`/home`, `/root`) — Donnees utilisateurs
-
----
 
 ## Resume des commandes cles
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
+```bash
+# Hostname
+hostnamectl set-hostname nom.domaine.local
+
+# Reseau temporaire
+sudo ip addr add IP/MASQUE dev INTERFACE
+sudo ip route add default via PASSERELLE
+
+# Reseau permanent (Netplan)
+sudo nano /etc/netplan/01-netcfg.yaml
+sudo netplan apply
+
+# nmcli
+nmcli connection modify ens3 ipv4.method manual
+nmcli connection modify ens3 ipv4.addresses IP/MASQUE
+nmcli connection up ens3
+
+# SSH
+sudo systemctl enable ssh && sudo systemctl start ssh
+ssh utilisateur@IP
+
+# Packages
+sudo apt install nompackage -y
+sudo apt remove nompackage
+
+# Services
+sudo systemctl start|stop|restart|status|enable|disable NOM_SERVICE
+
+# Diagnostic reseau
+ifconfig
+route -n
+netstat -an
+netstat -anp
+arp -a
+nmap -sT IP
+```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
 
 ```bash
 # Hostname
@@ -397,17 +770,46 @@ sudo ip addr add IP/MASQUE dev INTERFACE
 sudo ip route add default via PASSERELLE
 
 # Reseau permanent
-sudo nano /etc/netplan/01-netcfg.yaml
-sudo netplan apply
+more /etc/sysconfig/network-scripts/ifcfg-enp0s3
+sudo nano /etc/sysconfig/network-scripts/ifcfg-enp0s3
+sudo systemctl restart network
+
+# nmcli
+nmcli connection modify enp0s3 ipv4.method manual
+nmcli connection modify enp0s3 ipv4.addresses IP/MASQUE
+nmcli connection up enp0s3
 
 # SSH
-sudo systemctl enable ssh && sudo systemctl start ssh
+sudo systemctl enable sshd && sudo systemctl start sshd
 ssh utilisateur@IP
 
-# Utilisateurs
-adduser NOM
-usermod -aG GROUPE NOM
+# Packages
+rpm -ivh fichier.rpm
+rpm -e nompackage
+rpm -uvh fichier.rpm
+rpm -qa
+rpm -q dhcp
+sudo dnf install nompackage -y
 
 # Services
-systemctl start|stop|restart|status|enable|disable NOM_SERVICE
+service nomservice start|restart|stop
+sudo systemctl start|stop|restart|status|enable|disable NOM_SERVICE
+
+# Diagnostic reseau
+ifconfig
+route -n
+netstat -an
+netstat -anp
+arp -a
+nmap -sT IP
 ```
+
+</TabItem>
+</Tabs>
+
+:::tip Quiz disponible
+
+Testez vos connaissances sur cette lecon :
+[Faire le quiz →](/quizzes/linux/ConfigurationDeBaseLinuxServer)
+
+:::
