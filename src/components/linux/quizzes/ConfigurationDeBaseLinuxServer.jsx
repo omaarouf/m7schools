@@ -434,13 +434,17 @@ if (typeof document !== "undefined" && !document.getElementById(styleId)) {
   document.head.appendChild(style);
 }
 
-const qcmQuestions = questions.filter((q) => q.type === "qcm");
-const vfQuestions  = questions.filter((q) => q.type === "vf");
+const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5);
+
 
 export default function ConfigurationDeBaseLinuxServer() {
   const [answers, setAnswers]   = useState({});
   const [revealed, setRevealed] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [shuffledQuestions, setShuffledQuestions] = useState(() => shuffle([...questions]));
+
+  const qcmQuestions = shuffledQuestions.filter((q) => q.type === "qcm");
+  const vfQuestions  = shuffledQuestions.filter((q) => q.type === "vf");
 
   const total    = questions.length;
   const answered = Object.keys(answers).length;
@@ -499,11 +503,12 @@ export default function ConfigurationDeBaseLinuxServer() {
     setRevealed(all);
   };
 
-  const handleReset = () => {
-    setAnswers({});
-    setRevealed({});
-    setSubmitted(false);
-  };
+const handleReset = () => {
+  setAnswers({});
+  setRevealed({});
+  setSubmitted(false);
+  setShuffledQuestions(shuffle([...questions]));
+};
 
   const renderQuestion = (q, qi) => {
     const userAnswer = answers[q.id];
@@ -516,9 +521,6 @@ export default function ConfigurationDeBaseLinuxServer() {
       <div key={q.id} className={cardClass}>
         <div style={{ display: "flex", gap: 8, marginBottom: 14, alignItems: "flex-start" }}>
           <span className={qnumClass}>Q{qi + 1}</span>
-          <span className={"lq-type-badge " + (q.type === "vf" ? "lq-type-vf" : "lq-type-qcm")}>
-            {q.type === "vf" ? "Vrai / Faux" : "QCM"}
-          </span>
           <span className="lq-qtext">{q.question}</span>
         </div>
 
@@ -598,11 +600,13 @@ export default function ConfigurationDeBaseLinuxServer() {
         </div>
       </div>
 
-      <div className="lq-section-title">Section 1 — QCM (Questions a Choix Multiple)</div>
-      {qcmQuestions.map((q, i) => renderQuestion(q, i))}
+      <div className="lq-section-title">Section 1 — Vrai / Faux</div>
+      {vfQuestions.map((q, i) => renderQuestion(q, i))}
 
-      <div className="lq-section-title">Section 2 — Vrai / Faux</div>
-      {vfQuestions.map((q, i) => renderQuestion(q, qcmQuestions.length + i))}
+      <div className="lq-section-title">Section 2 — QCM (Questions a Choix Multiple)</div>
+      {qcmQuestions.map((q, i) => renderQuestion(q, vfQuestions.length + i))}
+
+
 
       {!submitted && (
         <button

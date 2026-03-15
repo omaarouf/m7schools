@@ -85,7 +85,7 @@ const config = {
           type: 'docSidebar',
           sidebarId: 'quizzesSidebar',
           position: 'left',
-          label: 'Test',
+          label: 'QCM',
         },
         {
           type: 'docSidebar',
