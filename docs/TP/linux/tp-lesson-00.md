@@ -117,7 +117,7 @@ cd ../..
 <summary>Voir la reponse</summary>
 
 ```bash
-mkdir -p /ISTAHH/{Direction,Formation/{Tertiaire,NTIC},CDS}
+mkdir -p /ISTAHH/{Direction,Formation/{Tertiaire,NTIC/{ExerciceAlgo,TPprogram}},CDS}
 ```
 
 </details>
@@ -242,7 +242,7 @@ cp /var/named/localdomain.zone /ISTAHH/Formation/istahh.ma
 <summary>Voir la reponse</summary>
 
 ```bash
-mkdir -p /{Gestion,Develop/{SAID,ALI/{Formation,Doc}},Commerce}
+mkdir -p ./{Gestion,Develop/{SAID,ALI/{Formation,Doc}},Commerce/{groupeTC1,groupeTC2}}
 ```
 
 </details>

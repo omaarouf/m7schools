@@ -178,6 +178,36 @@ tree
         ├── photos/
         └── captures/
 ``````
+#### NB: Règle générale
+
+Les `{}` fonctionnent avec beaucoup de commandes Linux grâce au mécanisme **brace expansion** du shell.
+
+| Commande | Exemple |
+|---------|--------|
+| `mkdir` | `mkdir -p projet/{docs,src,tests}` |
+| `touch` | `touch file{1,2,3}.txt` |
+| `cp` | `cp {a,b}.txt dossier/` |
+| `mv` | `mv {ancien,nouveau}.txt` |
+| `rm` | `rm file{1,2}.txt` |
+
+---
+
+#### Exemple 
+
+```bash
+touch fichier{1..5}.txt
+```
+
+Cela va crée les fichiers suivants :
+
+```bash
+fichier1.txt
+fichier2.txt
+fichier3.txt
+fichier4.txt
+fichier5.txt
+```
+
 ### `rmdir` - Supprimer un repertoire vide
 
 Signification : *remove directory*. Equivalent Windows : `rmdir` / `rd`

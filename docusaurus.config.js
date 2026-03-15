@@ -7,15 +7,15 @@ const darkCodeTheme = require('prism-react-renderer').themes.dracula;
 /** @type {import('@docusaurus/types').Config} */
 const config = {
 
-  title: 'OFPPT Tech Academy',
+  title: 'M7Schools',
   tagline: 'Your Professional IT Learning Platform',
   favicon: 'img/favicon.ico',
 
-  url: 'https://ofppt-tech-academy.vercel.app',
+  url: 'https://M7Schools.vercel.app',
   baseUrl: '/',
 
   organizationName: 'omar-maarouf',
-  projectName: 'ofppt-academy',
+  projectName: 'M7Schools',
 
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
@@ -62,9 +62,9 @@ const config = {
     },
 
     navbar: {
-      title: 'OFPPT Tech Academy',
+      title: 'M7Schools',
       logo: {
-        alt: 'OFPPT Tech Academy Logo',
+        alt: 'M7Schools Logo',
         src: 'img/logo.svg',
       },
 
@@ -94,7 +94,7 @@ const config = {
           label: 'TP',
         },
         {
-          href: 'https://github.com/omar-maarouf/ofppt-academy',
+          href: 'https://github.com/omaarouf/M7Schools',
           label: 'GitHub',
           position: 'right',
         },
@@ -157,7 +157,7 @@ const config = {
       ],
 
       copyright:
-        `Copyright ${new Date().getFullYear()} OFPPT Tech Academy. Created by Omar Maarouf. Built with Docusaurus.`,
+        `Copyright ${new Date().getFullYear()} M7Schools. Created by Omar Maarouf. Built with Docusaurus.`,
     },
 
     prism: {
