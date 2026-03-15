@@ -69,25 +69,7 @@ const sidebars = {
     },
   ],
 
-  devfullstackSidebar: [
-    {
-      type: 'category',
-      label: 'Dev Full Stack',
-      collapsed: true,
-      items: [
-        'devfullstack/intro',
-        'devfullstack/lesson-01',
-        'devfullstack/lesson-02',
-        'devfullstack/lesson-03',
-        'devfullstack/lesson-04',
-        'devfullstack/lesson-05',
-        'devfullstack/lesson-06',
-        'devfullstack/lesson-07',
-        'devfullstack/lesson-08',
-        'devfullstack/lesson-09',
-      ],
-    },
-  ],
+ 
 
  quizzesSidebar: [
   {
@@ -97,8 +79,6 @@ const sidebars = {
     items: [
       'quizzes/quiz-networking',
       'quizzes/quiz-windows',
-      'quizzes/quiz-devfullstack',
-      'quizzes/quiz-general',
       {
         type: 'category',
         label: 'Linux',

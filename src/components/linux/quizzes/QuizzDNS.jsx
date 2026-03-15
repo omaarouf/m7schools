@@ -463,7 +463,7 @@ export default function QuizzDhcp() {
   return (
     <QuizEngine
       questions={questions}
-      title="Quiz — Serveur DHCP"
+      title="Serveur DHCP"
       courseLink="/idosr/linux/lesson-02"
     />
   );

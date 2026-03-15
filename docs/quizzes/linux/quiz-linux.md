@@ -1,6 +1,6 @@
 ---
 id: quiz-linux
-title: Quiz OpenLDAP
+title:  OpenLDAP
 sidebar_label: Quiz OpenLDAP
 ---
 
