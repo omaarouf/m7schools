@@ -24,4 +24,4 @@ chmod 755 fichier
 
 ---
 
-*Ajouter vos propres commandes a cette reference.*
+

@@ -71,9 +71,9 @@ const config = {
       items: [
         {
           type: 'docSidebar',
-          sidebarId: 'idosrSidebar',
+          sidebarId: 'couresSidebar',
           position: 'left',
-          label: 'IDOSR',
+          label: 'Coures',
         },
         
         {

@@ -2,13 +2,12 @@
 
 const sidebars = {
 
-  idosrSidebar: [
+  couresSidebar: [
     {
       type: 'doc',
       id: 'intro',
       label: 'Home',
     },
-
     {
       type: 'category',
       label: 'Conception Reseau',
@@ -28,7 +27,6 @@ const sidebars = {
         'idosr/networking/lesson-11',
       ],
     },
-
     {
       type: 'category',
       label: 'Administration Windows',
@@ -45,7 +43,6 @@ const sidebars = {
         'idosr/windows/lesson-08',
       ],
     },
-
     {
       type: 'category',
       label: 'Administration Linux',
@@ -69,46 +66,80 @@ const sidebars = {
     },
   ],
 
- 
-
- quizzesSidebar: [
-  {
-    type: 'category',
+  quizzesSidebar: [
+    {
+    type: 'doc',
+    id: 'quizzes/quizzes-intro',
     label: 'Quizzes',
-    collapsed: true,
-    items: [
-      'quizzes/quiz-networking',
-      'quizzes/quiz-windows',
-      {
-        type: 'category',
-        label: 'Linux',
-        collapsed: true,
-        items: [
-          'quizzes/linux/quizz-00-les-commandes-de-base',
-          'quizzes/linux/ConfigurationDeBaseLinuxServer',
-          'quizzes/linux/quizzDhcp',
-          'quizzes/linux/quizzDNS',
-          'quizzes/linux/quiz-ldap',
-          'quizzes/linux/quiz-linux',
-
-
-        ],
-      },
-    ],
-  },
-],
+    },
+  
+    {
+      type: 'category',
+      label: 'Conception Reseau',
+      collapsed: true,
+      items: [
+        'quizzes/quiz-networking',
+      ],
+    },
+    
+    {
+      type: 'category',
+      label: 'Administration Windows',
+      collapsed: true,
+      items: [
+        'quizzes/quiz-windows',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Administration Linux',
+      collapsed: true,
+      items: [
+        'quizzes/linux/quizz-00-les-commandes-de-base',
+        'quizzes/linux/ConfigurationDeBaseLinuxServer',
+        'quizzes/linux/quizzDhcp',
+        'quizzes/linux/quizzDNS',
+        'quizzes/linux/quiz-ldap',
+        'quizzes/linux/quiz-linux',
+      ],
+    },
+      
+    
+  ],
 
   TpSidebar: [
     {
+    type: 'doc',
+    id: 'TP/tp-intro',
+    label: 'TP Pratiques',
+    },
+    {
       type: 'category',
-      label: 'TP',
+      label: 'Conception Reseau',
       collapsed: true,
       items: [
         'TP/linux/tp-lesson-00',
-        'TP/linux/commands-linux',
-
       ],
     },
+    {
+      type: 'category',
+      label: 'Administration Windows',
+      collapsed: true,
+      items: [
+        'TP/linux/tp-lesson-00',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Administration Linux',
+      collapsed: true,
+      items: [
+        'TP/linux/tp-lesson-00',
+        'TP/linux/tp-Configuration-de-base',
+        'TP/linux/tp-DHCP',
+        'TP/linux/tp-DNS',
+      ],
+    },  
   ],
 
 };

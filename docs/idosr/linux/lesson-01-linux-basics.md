@@ -6,6 +6,8 @@ title: Configuration de Base Linux Server
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+
+
 # Lecon 01 : Configuration de Base Linux
 
 ---
@@ -862,9 +864,23 @@ nmap -sT IP
 </TabItem>
 </Tabs>
 
-:::tip Quiz disponible
 
-Testez vos connaissances sur cette lecon :
+
+
+
+:::info Testez vos connaissances sur cette lecon
+
+<Tabs>
+  <TabItem value="quizzes" label="Quizzes">
+
 [Faire le quiz →](/quizzes/linux/ConfigurationDeBaseLinuxServer)
+
+  </TabItem>
+  <TabItem value="tp" label="TP">
+
+[Faire les TP →](/TP/linux/TpLinuxServer)
+
+  </TabItem>
+</Tabs>
 
 :::

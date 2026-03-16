@@ -508,9 +508,20 @@ tail -f /var/log/messages          # Surveiller les logs en direct
 
 ---
 
-:::tip Quiz disponible
+:::info Testez vos connaissances sur cette lecon
 
-Testez vos connaissances sur cette lecon :
-[Faire le quiz →](/quizzes/linux/quizzDhcp)
+<Tabs>
+  <TabItem value="quizzes" label="Quizzes">
+
+[Faire le quiz ](/quizzes/linux/quizzDhcp)
+
+
+  </TabItem>
+  <TabItem value="tp" label="TP">
+
+ [Faire les TP ](/TP/linux/tp-DHCP)
+
+  </TabItem>
+</Tabs>
 
 :::

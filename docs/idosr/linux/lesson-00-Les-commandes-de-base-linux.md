@@ -3,6 +3,8 @@ id: lesson-00
 title: Les Commandes de Base Linux
 ---
 
+
+
 ## Introduction au Shell Linux
 
 Le shell est l'interface en ligne de commande (CLI) qui permet de communiquer avec le noyau Linux en saisissant des commandes textuelles. C'est l'outil fondamental de tout administrateur système.
@@ -678,10 +680,25 @@ cat /proc/ioports            # Affiche les ports d'entree/sortie utilises
 | `>>` | `commande >> fichier` | Redirection (ajoute en fin) |
 | `\|` | `cmd1 \| cmd2` | Pipe : chainer les commandes |
 
-:::TP et Quiz disponible
 
-Testez vos connaissances sur cette lecon :
-### Quizzes: [Faire le quiz ](/quizzes/linux/quizz-00-les-commandes-de-base)
-### TP: [Faire les TP ](/TP/linux/tp-lesson-00)
+
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+:::info Testez vos connaissances sur cette lecon
+
+<Tabs>
+  <TabItem value="quizzes" label="Quizzes">
+
+[Faire le quiz](/quizzes/linux/quizz-00-les-commandes-de-base)
+
+  </TabItem>
+  <TabItem value="tp" label="TP">
+
+[Faire les TP](/TP/linux/tp-lesson-00)
+
+  </TabItem>
+</Tabs>
 
 :::
