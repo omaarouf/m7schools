@@ -8,11 +8,110 @@ import TabItem from '@theme/TabItem';
 
 
 
-# Lecon 01 : Configuration de Base Linux
+# Lecon 01 : Concepts Fondamentaux
 
 ---
 
-## 1. Hostname
+## 1 Demons et Services Linux
+
+###  Demon (Daemon)
+
+Un **démon** est un programme qui travaille en arrière-plan. Sans les demons, il faudrait demarrer manuellement chaque service a chaque fois qu un client en a besoin. Grace aux demons, les services sont toujours disponibles,
+
+**À quoi ça sert ?**
+
+*Service continu* : Il offre un service (réseau ou système) 24h/24.
+
+*Autonomie* : Il démarre souvent en même temps que l'ordinateur.
+
+*Disponibilité* : Le service est toujours prêt.
+
+---
+
+### systemd — Gestionnaire de services
+
+**systemd** est le systeme d initialisation et de gestion des services sur les distributions Linux modernes (Ubuntu, Fedora, Debian, Red Hat).
+
+***Exemple***
+```bash
+# Demarrer un service
+sudo systemctl start nomservice
+
+# Arreter un service
+sudo systemctl stop nomservice
+
+# Redemarrer un service
+sudo systemctl restart nomservice
+
+# Recharger la configuration sans redemarrage
+sudo systemctl reload nomservice
+
+# Verifier l etat d un service
+systemctl status nomservice
+
+# Activer au demarrage
+sudo systemctl enable nomservice
+
+# Desactiver au demarrage
+sudo systemctl disable nomservice
+
+# Verifier si un service est actif
+systemctl is-active nomservice
+
+# Verifier si un service est active au demarrage
+systemctl is-enabled nomservice
+```
+
+---
+
+### Etats d un service
+
+| Etat | Signification |
+|------|--------------|
+| `active (running)` | Le service tourne correctement |
+| `inactive (dead)` | Le service est arrete |
+| `failed` | Le service a rencontre une erreur |
+| `activating` | Le service est en cours de demarrage |
+| `enabled` | Le service demarre automatiquement au boot |
+| `disabled` | Le service ne demarre pas au boot |
+
+---
+
+### journalctl — Consulter les logs
+```bash
+# Voir tous les logs
+journalctl
+
+# Logs d un service specifique
+journalctl -u sshd
+
+# Logs en temps reel
+journalctl -f
+
+# Logs depuis le dernier boot
+journalctl -b
+
+# Derniers 50 logs d un service
+journalctl -u named -n 50
+
+# Logs avec erreurs uniquement
+journalctl -p err
+```
+
+---
+
+### Notions
+
+| Notion | Definition |
+|--------|-----------|
+| **Socket** | Combinaison IP + Port. Ex : `192.168.1.1:22` |
+| **PID** | Process ID — numero unique attribue a chaque processus |
+| **Init system** | Premier processus lance au boot (systemd sur les distros modernes) |
+
+---
+
+
+## 2. Hostname
 
 Le hostname identifie ton serveur dans le reseau. Il doit correspondre au DNS si utilise.
 
@@ -62,7 +161,7 @@ hostname -f
 
 ---
 
-## 2. Configuration IP via nmcli (NetworkManager)
+## 3. Configuration IP via nmcli (NetworkManager)
 
 `nmcli` est l'outil en ligne de commande de NetworkManager pour gerer les connexions reseau.
 
@@ -181,7 +280,7 @@ dhclient enp0s3
 | `ip route` | Verifie que la passerelle par defaut est correcte |
 | `cat /etc/resolv.conf` | Verifie que le DNS est bien configure |
 
-## 3. Configuration IP Statique (Fichiers)
+## 4. Configuration IP Statique (Fichiers)
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
@@ -262,7 +361,7 @@ sudo systemctl restart network
 
 ---
 
-## 4. Configuration IP via Shell (Temporaire)
+## 5. Configuration IP via Shell (Temporaire)
 
 > **Important :** Ces commandes sont temporaires. Apres redemarrage, la configuration est perdue.
 
@@ -323,60 +422,6 @@ ip route
 
 ---
 
-## 5. Demarrer, Arreter ou Redemarrer un Service
-
-<Tabs groupId="linux-distros">
-<TabItem value="ubuntu" label="Ubuntu / Debian">
-
-Ubuntu utilise **systemd** pour la gestion des services.
-
-```bash
-# Syntaxe generale
-sudo systemctl start   nomservice
-sudo systemctl stop    nomservice
-sudo systemctl restart nomservice
-sudo systemctl status  nomservice
-sudo systemctl enable  nomservice
-sudo systemctl disable nomservice
-
-# Exemples
-sudo systemctl start  apache2
-sudo systemctl start  ssh
-sudo systemctl restart networking
-```
-
-</TabItem>
-<TabItem value="fedora" label="Fedora / Red Hat">
-
-Red Hat / Fedora utilise aussi **systemd**, mais l'ancienne syntaxe `service` est egalement supportee.
-
-```bash
-# Ancienne syntaxe (toujours valide)
-service nomservice start
-service nomservice restart
-service nomservice stop
-
-# Exemples ancienne syntaxe
-service network start
-service named start
-
-# Syntaxe moderne (recommandee)
-sudo systemctl start   nomservice
-sudo systemctl stop    nomservice
-sudo systemctl restart nomservice
-sudo systemctl status  nomservice
-sudo systemctl enable  nomservice
-
-# Exemples modernes
-sudo systemctl start  httpd
-sudo systemctl start  named
-sudo systemctl restart NetworkManager
-```
-
-</TabItem>
-</Tabs>
-
----
 
 ## 6. Gestion des Packages
 
@@ -441,7 +486,6 @@ sudo dnf list installed | grep dhcp
 
 ---
 
-## 7. Verification Reseau et Ports
 
 ### netstat — Statistiques reseau
 
@@ -494,81 +538,11 @@ netstat -tulnp
 </TabItem>
 </Tabs>
 
-### ARP — Table de correspondance IP/MAC
 
-<Tabs groupId="linux-distros">
-<TabItem value="ubuntu" label="Ubuntu / Debian">
-
-```bash
-# Afficher la table ARP
-arp -a
-
-# Equivalent moderne
-ip neigh
-```
-
-</TabItem>
-<TabItem value="fedora" label="Fedora / Red Hat">
-
-```bash
-# Afficher la table ARP
-arp -a
-
-# Equivalent moderne
-ip neigh
-```
-
-</TabItem>
-</Tabs>
-
-### nmap — Scanner de ports
-
-<Tabs groupId="linux-distros">
-<TabItem value="ubuntu" label="Ubuntu / Debian">
-
-```bash
-# Installer nmap
-sudo apt install nmap -y
-
-# Scanner les ports TCP actifs
-nmap -sT 192.168.1.1
-
-# Tester un port specifique (ex: port 22)
-nmap -p 22 192.168.1.1
-
-# Scanner tous les ports
-nmap -p- 192.168.1.1
-
-# Scanner le reseau local
-nmap 192.168.1.0/24
-```
-
-</TabItem>
-<TabItem value="fedora" label="Fedora / Red Hat">
-
-```bash
-# Installer nmap
-sudo dnf install nmap -y
-
-# Scanner les ports TCP actifs
-nmap -sT 192.168.1.1
-
-# Tester un port specifique (ex: port 22)
-nmap -p 22 192.168.1.1
-
-# Scanner tous les ports
-nmap -p- 192.168.1.1
-
-# Scanner le reseau local
-nmap 192.168.1.0/24
-```
-
-</TabItem>
-</Tabs>
 ---
-## 8. SSH — Secure Shell
+## 7. SSH — Secure Shell
 
-**SSH (Secure Shell)** est un protocole de communication securise qui remplace les anciens protocoles non chiffres.
+**SSH (Secure Shell)** est un outil qui permet de se connecter à un autre ordinateur (souvent un serveur) à distance, d'une manière sécurisée grâce au chiffrement, à l'intégrité et à l'authenticité.
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
@@ -626,44 +600,6 @@ scp omar@192.168.7.10:/home/omar/fichier.txt /tmp/
 scp -r dossier/ omar@192.168.7.10:/home/omar/
 ```
 
-### Authentification par cles (cryptage asymetrique RSA/DSA)
-
-SSH supporte deux methodes d authentification :
-- **Mot de passe** — simple mais moins securise
-- **Cle publique/privee** — plus securise, sans mot de passe
-
-**Principe du cryptage asymetrique :**
-```
-Etape 1 : Le client SSH genere un couple de cles publique/privee
-          ssh-keygen -t rsa
-
-Etape 2 : Le client transfert sa cle publique vers le serveur SSH
-          ssh-copy-id omar@192.168.7.10
-
-Etape 3 : Le client se connecte — le serveur verifie la cle publique
-          ssh omar@192.168.7.10
-          (connexion sans mot de passe)
-```
-```bash
-# Generer un couple de cles RSA
-ssh-keygen -t rsa -b 4096
-
-# Les cles sont stockees dans
-# ~/.ssh/id_rsa        <- cle privee (ne jamais partager)
-# ~/.ssh/id_rsa.pub    <- cle publique (a copier sur le serveur)
-
-# Copier la cle publique sur le serveur
-ssh-copy-id omar@192.168.7.10
-
-# Se connecter sans mot de passe
-ssh omar@192.168.7.10
-```
-
-> **Important :** La cle privee ne doit jamais quitter la machine cliente. Seule la cle publique est copiee sur le serveur dans `~/.ssh/authorized_keys`.
-
-
-
-
 
 ### Securisation SSH (base)
 
@@ -693,178 +629,129 @@ systemctl status sshd
 ---
 
 
+## 8. Gestion Utilisateurs et Groupes
 
-## 9. Gestion Utilisateurs et Groupes
-
-<Tabs groupId="linux-distros">
-<TabItem value="ubuntu" label="Ubuntu / Debian">
+### Creer un utilisateur
 
 ```bash
-# Creer un utilisateur
+# Ubuntu — cree le repertoire home automatiquement et demande le mot de passe
 adduser user1
 
-# Ajouter au groupe sudo
+# Fedora / Red Hat — plus manuel
+useradd user1
+passwd user1          # definir le mot de passe
+
+# Creer un utilisateur avec un repertoire home specifique
+useradd -d /home/user1 -m user1
+
+# Creer un utilisateur avec un shell specifique
+useradd -s /bin/bash user1
+
+
+```
+
+---
+
+
+
+### Modifier un utilisateur
+
+```bash
+
+# Ajouter au groupe sudo 
 usermod -aG sudo user1
 
-# Supprimer un utilisateur
-deluser user1
 
-# Creer un groupe
-groupadd admins
+# Ajouter a plusieurs groupes
+usermod -aG sudo,admins,www-data user1
 
-# Ajouter utilisateur a un groupe
-usermod -aG admins user1
+# Changer son propre mot de passe
+passwd
 
-# Verification
-id user1
-groups user1
-```
-
-</TabItem>
-<TabItem value="fedora" label="Fedora / Red Hat">
-
-```bash
-# Creer un utilisateur
-useradd user1
+# Changer le mot de passe d un autre utilisateur (root uniquement)
 passwd user1
 
-# Ajouter au groupe wheel (equivalent sudo)
-usermod -aG wheel user1
+# Forcer l utilisateur a changer son mot de passe a la prochaine connexion
+passwd -e user1
 
-# Supprimer un utilisateur
+# Renommer un utilisateur
+usermod -l nouveaunom anciennom
+
+# Supprimer un utilisateur (garde le repertoire home)
 userdel user1
 
+# Supprimer un utilisateur ET son repertoire home
+userdel -r user1
+
+```
+---
+
+### Gestion des groupes
+
+```bash
 # Creer un groupe
 groupadd admins
 
-# Ajouter utilisateur a un groupe
+# Creer un groupe avec un GID specifique
+groupadd -g 1500 admins
+
+# Renommer un groupe
+groupmod -n nouveau_nom ancien_nom
+
+# Supprimer un groupe
+groupdel admins
+
+# Ajouter un utilisateur a un groupe
 usermod -aG admins user1
 
-# Verification
+# Retirer un utilisateur d un groupe
+gpasswd -d user1 admins
+```
+
+---
+
+### Fichiers systeme importants
+
+| Fichier | Contenu |
+|---------|---------|
+| `/etc/passwd` | Liste des utilisateurs (nom, UID, GID, home, shell) |
+| `/etc/shadow` | Mots de passe chiffres et politiques de mots de passe |
+| `/etc/group` | Liste des groupes et leurs membres |
+| `/etc/gshadow` | Mots de passe des groupes |
+
+### Vérification
+```bash
+# Afficher les informations d un utilisateur
 id user1
+
+# Afficher les groupes d un utilisateur
 groups user1
-```
 
-</TabItem>
-</Tabs>
+# Afficher le contenu de /etc/passwd pour un utilisateur
+grep user1 /etc/passwd
+
+# Afficher tous les utilisateurs
+cat /etc/passwd
+
+# Afficher tous les groupes
+cat /etc/group
+
+# Afficher qui est connecte
+who
+w
+```
 
 ---
 
-## 10. Tableau de Reference — Commandes Reseau
+### Structure de /etc/passwd
 
-| Commande | Description | Equivalent Windows |
-|----------|-------------|-------------------|
-| `ifconfig` | Parametres reseau des interfaces | `ipconfig` |
-| `route` / `route -n` | Table de routage | `route print` |
-| `netstat -nr` | Table de routage via netstat | `route print` |
-| `netstat -i` | Statistiques des interfaces | - |
-| `netstat -an` | Sockets actifs | `netstat -an` |
-| `netstat -anp` | Applications qui ouvrent un port | `netstat -b` |
-| `arp -a` | Table ARP | `arp -a` |
-| `nmap -sT IP` | Ports TCP actifs | - |
-| `nmap -p 22 IP` | Tester un port specifique | - |
-| `ip a` | Adresses IP (moderne) | `ipconfig` |
-| `ip route` | Table de routage (moderne) | `route print` |
-| `ip neigh` | Table ARP (moderne) | `arp -a` |
-| `ss -tulnp` | Ports en ecoute (moderne) | `netstat -an` |
-| `ping` | Test connectivite | `ping` |
-| `traceroute` | Chemin vers destination | `tracert` |
+```
+user1 : x : 1001 : 1001 : Description : /home/user1 : /bin/bash
+  |     |    |      |         |               |              |
+  nom   mdp  UID   GID    commentaire       home           shell
+```
 
 ---
-
-
-## Resume des commandes cles
-
-<Tabs groupId="linux-distros">
-<TabItem value="ubuntu" label="Ubuntu / Debian">
-
-```bash
-# Hostname
-hostnamectl set-hostname nom.domaine.local
-
-# Reseau temporaire
-sudo ip addr add IP/MASQUE dev INTERFACE
-sudo ip route add default via PASSERELLE
-
-# Reseau permanent (Netplan)
-sudo nano /etc/netplan/01-netcfg.yaml
-sudo netplan apply
-
-# nmcli
-nmcli connection modify ens3 ipv4.method manual
-nmcli connection modify ens3 ipv4.addresses IP/MASQUE
-nmcli connection up ens3
-
-# SSH
-sudo systemctl enable ssh && sudo systemctl start ssh
-ssh utilisateur@IP
-
-# Packages
-sudo apt install nompackage -y
-sudo apt remove nompackage
-
-# Services
-sudo systemctl start|stop|restart|status|enable|disable NOM_SERVICE
-
-# Diagnostic reseau
-ifconfig
-route -n
-netstat -an
-netstat -anp
-arp -a
-nmap -sT IP
-```
-
-</TabItem>
-<TabItem value="fedora" label="Fedora / Red Hat">
-
-```bash
-# Hostname
-hostnamectl set-hostname nom.domaine.local
-
-# Reseau temporaire
-sudo ip addr add IP/MASQUE dev INTERFACE
-sudo ip route add default via PASSERELLE
-
-# Reseau permanent
-more /etc/sysconfig/network-scripts/ifcfg-enp0s3
-sudo nano /etc/sysconfig/network-scripts/ifcfg-enp0s3
-sudo systemctl restart network
-
-# nmcli
-nmcli connection modify enp0s3 ipv4.method manual
-nmcli connection modify enp0s3 ipv4.addresses IP/MASQUE
-nmcli connection up enp0s3
-
-# SSH
-sudo systemctl enable sshd && sudo systemctl start sshd
-ssh utilisateur@IP
-
-# Packages
-rpm -ivh fichier.rpm
-rpm -e nompackage
-rpm -uvh fichier.rpm
-rpm -qa
-rpm -q dhcp
-sudo dnf install nompackage -y
-
-# Services
-service nomservice start|restart|stop
-sudo systemctl start|stop|restart|status|enable|disable NOM_SERVICE
-
-# Diagnostic reseau
-ifconfig
-route -n
-netstat -an
-netstat -anp
-arp -a
-nmap -sT IP
-```
-
-</TabItem>
-</Tabs>
-
-
 
 
 

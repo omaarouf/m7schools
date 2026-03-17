@@ -90,6 +90,8 @@ tail -f /var/log/syslog | grep dhcpd
 
 # Verifier que le serveur ecoute sur le port 67
 sudo netstat -uap | grep dhcpd
+
+sudo ss -ulp | grep dhcpd
 ```
 
 </TabItem>
@@ -107,10 +109,21 @@ tail -f /var/log/messages | grep dhcpd
 
 # Verifier que le serveur ecoute sur le port 67
 sudo netstat -uap | grep dhcpd
+
+sudo ss -ulp | grep dhcpd
+
 ```
 
 </TabItem>
 </Tabs>
+
+### Decortication de -uap
+
+| Option | Signification |
+|--------|--------------|
+| `-u` | Affiche uniquement les connexions UDP |
+| `-a` `-l`   | Affiche toutes les sockets |
+| `-p` | Ajoute une colonne avec le PID et le nom du programme qui utilise le port |
 
 ---
 
@@ -158,8 +171,8 @@ subnet 192.168.10.0 netmask 255.255.255.0 {
 | `option routers` | Passerelle par defaut envoyee aux clients |
 | `option domain-name-servers` | DNS envoye aux clients |
 | `option domain-name` | Nom de domaine envoye aux clients |
-| `default-lease-time` | Duree du bail par defaut (en secondes) |
-| `max-lease-time` | Duree maximale du bail (en secondes) |
+| `default-lease-time` | Duree du bail par defaut (en secondes) —  pendant laquelle un client conserve son IP sans la renouveler |
+| `max-lease-time` | Duree maximale du bail (en secondes) — plafond que le client ne peut pas depasser meme s il demande une duree plus longue |
 
 ### Reservation par adresse MAC
 
@@ -297,44 +310,7 @@ tail -f /var/log/messages
 
 ---
 
-## 7. TP Pratique
-
-**Objectif :** Configurer DHCP pour le reseau `192.168.20.0/24`
-
-| Parametre | Valeur |
-|-----------|--------|
-| Reseau | 192.168.20.0/24 |
-| Plage (Range) | 192.168.20.100 a 192.168.20.150 |
-| Passerelle | 192.168.20.1 |
-| DNS | 192.168.20.10 |
-| Reservation | IP 192.168.20.50 pour MAC `08:00:27:AA:BB:CC` |
-
-**Solution :**
-
-```bash
-subnet 192.168.20.0 netmask 255.255.255.0 {
-    range 192.168.20.100 192.168.20.150;
-    option routers 192.168.20.1;
-    option domain-name-servers 192.168.20.10;
-    default-lease-time 600;
-    max-lease-time 7200;
-}
-
-host poste-reserve {
-    hardware ethernet 08:00:27:AA:BB:CC;
-    fixed-address 192.168.20.50;
-}
-```
-
-**A savoir :**
-- Adapter le `subnet` au reseau cible
-- Modifier l interface dans le fichier d options
-- Redemarrer le service apres modification
-- Verifier les leases apres connexion d un client
-
----
-
-## 8. Diagnostic — Le client ne reçoit pas d IP
+## 7. Diagnostic — Le client ne reçoit pas d IP
 
 ### Etape 1 — Verifier que le service fonctionne
 
@@ -452,16 +428,7 @@ Si toutes les IPs de la plage sont attribuees, le client ne recevra pas d IP.
 
 ---
 
-## 9. Erreurs frequentes en examen
 
-| Probleme | Cause probable |
-|----------|----------------|
-| Service ne demarre pas | Mauvaise interface dans le fichier d options |
-| Client ne reçoit pas d IP | Pare-feu actif bloquant UDP 67/68 |
-| Erreur de syntaxe | Point-virgule oublie dans `dhcpd.conf` |
-| Pas de logs visibles | Utiliser `journalctl -u isc-dhcp-server` (Ubuntu) ou `journalctl -u dhcpd` (Fedora) |
-
----
 
 ## Resume des fichiers et commandes
 

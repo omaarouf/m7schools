@@ -1,6 +1,7 @@
 ---
 id: tp-Configuration-de-base
-title: Configuration-de-base
+title: TP — Configuration de Base Linux Server
+sidebar_label: TP Configuration de Base
 ---
 
 # TP — Configuration de Base Linux Server
@@ -9,7 +10,149 @@ title: Configuration-de-base
 
 ---
 
-## TP n°1 — Hostname et Verification Reseau (Facile)
+## TP n°1 — Demons et Services (Facile)
+
+**Objectif :** Comprendre et manipuler les demons et services avec systemd.
+
+---
+
+**1. Afficher l etat du service SSH.**
+
+<details>
+<summary>Voir la reponse</summary>
+
+Ubuntu :
+```bash
+systemctl status ssh
+```
+
+Fedora :
+```bash
+systemctl status sshd
+```
+
+</details>
+
+---
+
+**2. Verifier si le service SSH demarre automatiquement au boot.**
+
+<details>
+<summary>Voir la reponse</summary>
+
+Ubuntu :
+```bash
+systemctl is-enabled ssh
+```
+
+Fedora :
+```bash
+systemctl is-enabled sshd
+```
+
+Si la sortie est `enabled` — le service demarre au boot.
+Si `disabled` — il ne demarre pas automatiquement.
+
+</details>
+
+---
+
+**3. Demarrer, arreter puis redemarrer le service SSH.**
+
+<details>
+<summary>Voir la reponse</summary>
+
+Ubuntu :
+```bash
+sudo systemctl start ssh
+sudo systemctl stop ssh
+sudo systemctl restart ssh
+```
+
+Fedora :
+```bash
+sudo systemctl start sshd
+sudo systemctl stop sshd
+sudo systemctl restart sshd
+```
+
+</details>
+
+---
+
+**4. Activer le service SSH au demarrage.**
+
+<details>
+<summary>Voir la reponse</summary>
+
+Ubuntu :
+```bash
+sudo systemctl enable ssh
+```
+
+Fedora :
+```bash
+sudo systemctl enable sshd
+```
+
+</details>
+
+---
+
+**5. Afficher les 20 derniers logs du service SSH.**
+
+<details>
+<summary>Voir la reponse</summary>
+
+Ubuntu :
+```bash
+journalctl -u ssh -n 20
+```
+
+Fedora :
+```bash
+journalctl -u sshd -n 20
+```
+
+</details>
+
+---
+
+**6. Afficher les logs du service SSH en temps reel.**
+
+<details>
+<summary>Voir la reponse</summary>
+
+Ubuntu :
+```bash
+journalctl -f -u ssh
+```
+
+Fedora :
+```bash
+journalctl -f -u sshd
+```
+
+Appuyer sur `Ctrl + C` pour quitter.
+
+</details>
+
+---
+
+**7. Afficher uniquement les erreurs dans les logs systeme.**
+
+<details>
+<summary>Voir la reponse</summary>
+
+```bash
+journalctl -p err
+```
+
+</details>
+
+---
+
+## TP n°2 — Hostname et Configuration Reseau (Facile)
 
 **Objectif :** Configurer le hostname et verifier les parametres reseau de base.
 
@@ -51,8 +194,7 @@ hostnamectl set-hostname srv1.ofppt.local
 sudo nano /etc/hosts
 ```
 
-Ajouter ou modifier :
-
+Ajouter :
 ```
 127.0.0.1   localhost
 127.0.1.1   srv1.ofppt.local srv1
@@ -117,7 +259,7 @@ ping google.com
 
 ---
 
-## TP n°2 — Configuration IP avec nmcli (Facile-Moyen)
+## TP n°3 — Configuration IP avec nmcli (Moyen)
 
 **Objectif :** Configurer une adresse IP statique et DHCP via nmcli.
 
@@ -147,12 +289,12 @@ sudo systemctl start NetworkManager
 
 ---
 
-**2. Configurer une IP statique `192.168.1.50/24` avec gateway `192.168.1.1` et DNS `8.8.8.8` sur l interface principale.**
+**2. Configurer une IP statique `192.168.1.50/24` avec gateway `192.168.1.1` et DNS `8.8.8.8`.**
 
 <details>
 <summary>Voir la reponse</summary>
 
-Ubuntu (ens3) :
+Ubuntu :
 ```bash
 nmcli connection modify ens3 ipv4.method manual
 nmcli connection modify ens3 ipv4.addresses 192.168.1.50/24
@@ -161,7 +303,7 @@ nmcli connection modify ens3 ipv4.dns 8.8.8.8
 nmcli connection up ens3
 ```
 
-Fedora (enp0s3) :
+Fedora :
 ```bash
 nmcli connection modify enp0s3 ipv4.method manual
 nmcli connection modify enp0s3 ipv4.addresses 192.168.1.50/24
@@ -210,115 +352,7 @@ nmcli connection up enp0s3
 
 ---
 
-**5. Renouveler le bail DHCP.**
-
-<details>
-<summary>Voir la reponse</summary>
-
-Ubuntu :
-```bash
-nmcli device reapply ens3
-```
-
-Fedora :
-```bash
-nmcli device reapply enp0s3
-```
-
-</details>
-
----
-
-## TP n°3 — Configuration IP via Fichiers (Moyen)
-
-**Objectif :** Configurer une IP statique permanente via les fichiers de configuration.
-
----
-
-**1. Sur Ubuntu, creer le fichier Netplan avec une IP statique `10.0.0.10/24`, gateway `10.0.0.1`, DNS `1.1.1.1`.**
-
-<details>
-<summary>Voir la reponse</summary>
-
-```bash
-sudo nano /etc/netplan/01-netcfg.yaml
-```
-
-```yaml
-network:
-  version: 2
-  ethernets:
-    ens3:
-      dhcp4: no
-      addresses:
-        - 10.0.0.10/24
-      gateway4: 10.0.0.1
-      nameservers:
-        addresses:
-          - 1.1.1.1
-```
-
-</details>
-
----
-
-**2. Corriger les permissions du fichier Netplan et appliquer la configuration.**
-
-<details>
-<summary>Voir la reponse</summary>
-
-```bash
-sudo chmod 600 /etc/netplan/01-netcfg.yaml
-sudo netplan generate
-sudo netplan apply
-```
-
-</details>
-
----
-
-**3. Sur Fedora, afficher le contenu du fichier de configuration reseau.**
-
-<details>
-<summary>Voir la reponse</summary>
-
-```bash
-more /etc/sysconfig/network-scripts/ifcfg-enp0s3
-```
-
-</details>
-
----
-
-**4. Sur Fedora, editer le fichier pour configurer une IP statique `10.0.0.10`, masque `255.255.255.0`, gateway `10.0.0.1`.**
-
-<details>
-<summary>Voir la reponse</summary>
-
-```bash
-sudo nano /etc/sysconfig/network-scripts/ifcfg-enp0s3
-```
-
-```
-DEVICE=enp0s3
-BOOTPROTO=static
-IPADDR=10.0.0.10
-NETMASK=255.255.255.0
-GATEWAY=10.0.0.1
-DNS1=1.1.1.1
-ONBOOT=yes
-```
-
-```bash
-sudo chmod 600 /etc/sysconfig/network-scripts/ifcfg-enp0s3
-sudo systemctl restart NetworkManager
-```
-
-</details>
-
----
-
-**5. Configurer une IP temporaire `10.0.0.20/24` sur l interface sans modifier les fichiers.**
+**5. Configurer une IP temporaire `10.0.0.20/24` sans modifier les fichiers.**
 
 <details>
 <summary>Voir la reponse</summary>
@@ -337,7 +371,7 @@ sudo ip addr add 10.0.0.20/24 dev enp0s3
 
 ---
 
-**6. Supprimer la configuration IP temporaire ajoutee.**
+**6. Supprimer la configuration IP temporaire.**
 
 <details>
 <summary>Voir la reponse</summary>
@@ -356,9 +390,24 @@ sudo ip addr flush dev enp0s3
 
 ---
 
-## TP n°4 — Gestion des Services et Packages (Moyen)
+**7. Verifier que le fichier Netplan a les bonnes permissions sur Ubuntu.**
 
-**Objectif :** Installer, demarrer et gerer des services Linux.
+<details>
+<summary>Voir la reponse</summary>
+
+```bash
+ls -l /etc/netplan/
+sudo chmod 600 /etc/netplan/01-netcfg.yaml
+sudo netplan apply
+```
+
+</details>
+
+---
+
+## TP n°4 — Gestion des Packages et Services (Moyen)
+
+**Objectif :** Installer et gerer des packages et services.
 
 ---
 
@@ -402,26 +451,7 @@ sudo systemctl start sshd
 
 ---
 
-**3. Verifier que le service SSH est actif.**
-
-<details>
-<summary>Voir la reponse</summary>
-
-Ubuntu :
-```bash
-systemctl status ssh
-```
-
-Fedora :
-```bash
-systemctl status sshd
-```
-
-</details>
-
----
-
-**4. Installer nmap et verifier que le port 22 est ouvert sur le serveur local.**
+**3. Installer nmap et verifier que le port 22 est ouvert.**
 
 <details>
 <summary>Voir la reponse</summary>
@@ -442,20 +472,7 @@ nmap -p 22 127.0.0.1
 
 ---
 
-**5. Sur Fedora, verifier si le package `dhcp` est installe.**
-
-<details>
-<summary>Voir la reponse</summary>
-
-```bash
-rpm -q dhcp
-```
-
-</details>
-
----
-
-**6. Lister tous les packages installes et filtrer ceux qui contiennent `ssh`.**
+**4. Lister tous les packages installes et filtrer ceux qui contiennent `ssh`.**
 
 <details>
 <summary>Voir la reponse</summary>
@@ -474,7 +491,35 @@ rpm -qa | grep ssh
 
 ---
 
-**7. Redemarrer le service SSH apres modification de la configuration.**
+**5. Sur Fedora, verifier si le package `dhcp` est installe.**
+
+<details>
+<summary>Voir la reponse</summary>
+
+```bash
+rpm -q dhcp
+```
+
+</details>
+
+---
+
+**6. Afficher les ports en ecoute sur le systeme.**
+
+<details>
+<summary>Voir la reponse</summary>
+
+```bash
+netstat -tulnp
+# ou
+ss -tulnp
+```
+
+</details>
+
+---
+
+**7. Redemarrer le service SSH et verifier son etat.**
 
 <details>
 <summary>Voir la reponse</summary>
@@ -495,9 +540,126 @@ systemctl status sshd
 
 ---
 
-## TP n°5 — SSH et Authentification par Cles (Moyen-Difficile)
+## TP n°5 — Gestion des Utilisateurs et Groupes (Moyen-Difficile)
 
-**Objectif :** Configurer l authentification SSH par cles RSA.
+**Objectif :** Creer et gerer des utilisateurs, groupes et mots de passe.
+
+---
+
+**1. Creer un utilisateur `stagiaire`.**
+
+<details>
+<summary>Voir la reponse</summary>
+
+Ubuntu :
+```bash
+adduser stagiaire
+```
+
+Fedora :
+```bash
+useradd stagiaire
+passwd stagiaire
+```
+
+</details>
+
+---
+
+**2. Changer le mot de passe de `stagiaire`.**
+
+<details>
+<summary>Voir la reponse</summary>
+
+```bash
+passwd stagiaire
+```
+
+</details>
+
+---
+
+**3. Forcer `stagiaire` a changer son mot de passe a la prochaine connexion.**
+
+<details>
+<summary>Voir la reponse</summary>
+
+```bash
+passwd -e stagiaire
+```
+
+</details>
+
+---
+
+**4. Creer un groupe `formation` et ajouter `stagiaire` a ce groupe.**
+
+<details>
+<summary>Voir la reponse</summary>
+
+```bash
+groupadd formation
+usermod -aG formation stagiaire
+```
+
+</details>
+
+---
+
+**5. Ajouter `stagiaire` au groupe sudo (Ubuntu) ou wheel (Fedora).**
+
+<details>
+<summary>Voir la reponse</summary>
+
+Ubuntu :
+```bash
+usermod -aG sudo stagiaire
+```
+
+Fedora :
+```bash
+usermod -aG wheel stagiaire
+```
+
+</details>
+
+---
+
+**6. Verifier les groupes et l UID de `stagiaire`.**
+
+<details>
+<summary>Voir la reponse</summary>
+
+```bash
+id stagiaire
+groups stagiaire
+grep stagiaire /etc/passwd
+```
+
+</details>
+
+---
+
+**7. Retirer `stagiaire` du groupe `formation` puis supprimer l utilisateur avec son repertoire home.**
+
+<details>
+<summary>Voir la reponse</summary>
+
+```bash
+# Retirer du groupe
+gpasswd -d stagiaire formation
+
+# Supprimer l utilisateur et son home
+userdel -r stagiaire
+```
+
+</details>
+
+---
+
+## TP n°6 — SSH et Authentification par Cles (Difficile)
+
+**Objectif :** Configurer l authentification SSH par cles RSA et securiser le serveur.
 
 ---
 
@@ -510,15 +672,15 @@ systemctl status sshd
 ssh-keygen -t rsa -b 4096
 ```
 
-Les cles sont generees dans :
-- `~/.ssh/id_rsa` — cle privee
+Cles generees dans :
+- `~/.ssh/id_rsa` — cle privee (ne jamais partager)
 - `~/.ssh/id_rsa.pub` — cle publique
 
 </details>
 
 ---
 
-**2. Copier la cle publique vers un serveur distant `192.168.1.100` avec l utilisateur `omar`.**
+**2. Copier la cle publique vers un serveur distant `192.168.1.100`.**
 
 <details>
 <summary>Voir la reponse</summary>
@@ -544,25 +706,16 @@ ssh omar@192.168.1.100
 
 ---
 
-**4. Copier un fichier local vers le serveur distant via SCP.**
+**4. Copier un fichier vers le serveur et recuperer un fichier depuis le serveur via SCP.**
 
 <details>
 <summary>Voir la reponse</summary>
 
 ```bash
+# Envoyer
 scp fichier.txt omar@192.168.1.100:/home/omar/
-```
 
-</details>
-
----
-
-**5. Copier un fichier depuis le serveur vers la machine locale.**
-
-<details>
-<summary>Voir la reponse</summary>
-
-```bash
+# Recevoir
 scp omar@192.168.1.100:/home/omar/fichier.txt /tmp/
 ```
 
@@ -570,7 +723,7 @@ scp omar@192.168.1.100:/home/omar/fichier.txt /tmp/
 
 ---
 
-**6. Securiser SSH en interdisant la connexion directe en root.**
+**5. Securiser SSH en interdisant la connexion directe en root.**
 
 <details>
 <summary>Voir la reponse</summary>
@@ -579,7 +732,6 @@ scp omar@192.168.1.100:/home/omar/fichier.txt /tmp/
 sudo nano /etc/ssh/sshd_config
 ```
 
-Modifier ou ajouter :
 ```
 PermitRootLogin no
 PasswordAuthentication yes
@@ -599,7 +751,7 @@ sudo systemctl restart sshd
 
 ---
 
-**7. Verifier que le port 22 est en ecoute sur le serveur.**
+**6. Verifier que le port 22 est en ecoute.**
 
 <details>
 <summary>Voir la reponse</summary>
@@ -614,136 +766,21 @@ ss -tulnp | grep 22
 
 ---
 
-## TP n°6 — Gestion Utilisateurs et Diagnostic Reseau (Difficile)
-
-**Objectif :** Gerer les utilisateurs et effectuer un diagnostic reseau complet.
-
----
-
-**1. Creer un utilisateur `stagiaire` avec un mot de passe.**
+**7. Consulter les logs SSH pour voir les connexions recentes.**
 
 <details>
 <summary>Voir la reponse</summary>
 
 Ubuntu :
 ```bash
-adduser stagiaire
+journalctl -u ssh -n 30
+# ou
+grep sshd /var/log/auth.log | tail -20
 ```
 
 Fedora :
 ```bash
-useradd stagiaire
-passwd stagiaire
-```
-
-</details>
-
----
-
-**2. Ajouter `stagiaire` au groupe sudo (Ubuntu) ou wheel (Fedora).**
-
-<details>
-<summary>Voir la reponse</summary>
-
-Ubuntu :
-```bash
-usermod -aG sudo stagiaire
-```
-
-Fedora :
-```bash
-usermod -aG wheel stagiaire
-```
-
-</details>
-
----
-
-**3. Creer un groupe `formation` et ajouter `stagiaire` a ce groupe.**
-
-<details>
-<summary>Voir la reponse</summary>
-
-```bash
-groupadd formation
-usermod -aG formation stagiaire
-```
-
-</details>
-
----
-
-**4. Verifier les groupes de l utilisateur `stagiaire`.**
-
-<details>
-<summary>Voir la reponse</summary>
-
-```bash
-id stagiaire
-groups stagiaire
-```
-
-</details>
-
----
-
-**5. Effectuer un diagnostic reseau complet : afficher IP, table ARP, table de routage et sockets actifs.**
-
-<details>
-<summary>Voir la reponse</summary>
-
-```bash
-# Adresses IP
-ip a
-
-# Table ARP
-arp -a
-# ou
-ip neigh
-
-# Table de routage
-ip route
-# ou
-route -n
-# ou
-netstat -nr
-
-# Sockets actifs
-netstat -an
-
-# Applications qui ouvrent un port
-netstat -anp
-
-# Ports en ecoute
-netstat -tulnp
-```
-
-</details>
-
----
-
-**6. Scanner les ports ouverts sur la machine locale.**
-
-<details>
-<summary>Voir la reponse</summary>
-
-```bash
-nmap -sT 127.0.0.1
-```
-
-</details>
-
----
-
-**7. Afficher les statistiques des interfaces reseau et identifier l interface active.**
-
-<details>
-<summary>Voir la reponse</summary>
-
-```bash
-netstat -i
-# ou
-ip -s link
+journalctl -u sshd -n 30
 ```
 
 </details>
@@ -752,9 +789,9 @@ ip -s link
 
 ## TP n°7 — Scenario Reel Complet (Difficile)
 
-**Objectif :** Configurer un serveur Linux complet pour une entreprise `OFPPT`.
+**Objectif :** Configurer un serveur Linux complet pour l entreprise `OFPPT`.
 
-**Contexte :** Tu es administrateur systeme. Tu dois preparer un serveur Linux pour l entreprise OFPPT avec les parametres suivants :
+**Contexte :** Tu es administrateur systeme. Tu dois preparer un serveur Linux avec les parametres suivants :
 
 | Parametre | Valeur |
 |-----------|--------|
@@ -763,6 +800,7 @@ ip -s link
 | Gateway | `192.168.10.254` |
 | DNS | `192.168.10.1` |
 | Utilisateur admin | `adminofppt` |
+| Groupe | `it-team` |
 
 ---
 
@@ -773,7 +811,6 @@ ip -s link
 
 ```bash
 hostnamectl set-hostname srv-ofppt.ofppt.local
-
 sudo nano /etc/hosts
 ```
 
@@ -781,14 +818,13 @@ Ajouter :
 ```
 127.0.0.1   localhost
 127.0.1.1   srv-ofppt.ofppt.local srv-ofppt
-192.168.10.1 srv-ofppt.ofppt.local srv-ofppt
 ```
 
 </details>
 
 ---
 
-**2. Configurer l IP statique via nmcli selon le tableau.**
+**2. Configurer l IP statique via nmcli.**
 
 <details>
 <summary>Voir la reponse</summary>
@@ -815,29 +851,29 @@ nmcli connection up enp0s3
 
 ---
 
-**3. Creer l utilisateur `adminofppt` et l ajouter au groupe sudo/wheel.**
+**3. Creer le groupe `it-team` et l utilisateur `adminofppt`.**
 
 <details>
 <summary>Voir la reponse</summary>
 
-Ubuntu :
 ```bash
-adduser adminofppt
-usermod -aG sudo adminofppt
-```
+groupadd it-team
 
-Fedora :
-```bash
+# Ubuntu
+adduser adminofppt
+usermod -aG sudo,it-team adminofppt
+
+# Fedora
 useradd adminofppt
 passwd adminofppt
-usermod -aG wheel adminofppt
+usermod -aG wheel,it-team adminofppt
 ```
 
 </details>
 
 ---
 
-**4. Installer et activer SSH sur le serveur.**
+**4. Installer, activer et securiser SSH.**
 
 <details>
 <summary>Voir la reponse</summary>
@@ -856,15 +892,7 @@ sudo systemctl enable sshd
 sudo systemctl start sshd
 ```
 
-</details>
-
----
-
-**5. Securiser SSH en interdisant la connexion root.**
-
-<details>
-<summary>Voir la reponse</summary>
-
+Securisation :
 ```bash
 sudo nano /etc/ssh/sshd_config
 ```
@@ -874,49 +902,17 @@ PermitRootLogin no
 PasswordAuthentication yes
 ```
 
-Ubuntu : `sudo systemctl restart ssh`
-Fedora : `sudo systemctl restart sshd`
-
 </details>
 
 ---
 
-**6. Verifier que tout est correctement configure : IP, SSH, utilisateur.**
+**5. Generer une cle RSA et configurer l authentification sans mot de passe.**
 
 <details>
 <summary>Voir la reponse</summary>
 
 ```bash
-# Verification IP
-ip a
-ip route
-cat /etc/resolv.conf
-
-# Verification SSH
-systemctl status ssh   # Ubuntu
-systemctl status sshd  # Fedora
-nmap -p 22 127.0.0.1
-
-# Verification utilisateur
-id adminofppt
-groups adminofppt
-```
-
-</details>
-
----
-
-**7. Tester la connexion SSH depuis un autre poste vers le serveur avec l utilisateur `adminofppt`.**
-
-<details>
-<summary>Voir la reponse</summary>
-
-```bash
-ssh adminofppt@192.168.10.1
-```
-
-Si la cle SSH est configuree :
-```bash
+ssh-keygen -t rsa -b 4096
 ssh-copy-id adminofppt@192.168.10.1
 ssh adminofppt@192.168.10.1
 ```
@@ -925,9 +921,61 @@ ssh adminofppt@192.168.10.1
 
 ---
 
-:::info Quiz disponible
+**6. Verifier tous les services actifs et les ports en ecoute.**
 
-Testez vos connaissances sur cette lecon :
+<details>
+<summary>Voir la reponse</summary>
+
+```bash
+# Services actifs
+systemctl list-units --type=service --state=running
+
+# Ports en ecoute
+netstat -tulnp
+# ou
+ss -tulnp
+
+# Port 22 specifiquement
+nmap -p 22 127.0.0.1
+```
+
+</details>
+
+---
+
+**7. Verification finale complete — IP, utilisateur, SSH, logs.**
+
+<details>
+<summary>Voir la reponse</summary>
+
+```bash
+# IP et reseau
+ip a
+ip route
+cat /etc/resolv.conf
+
+# Utilisateur
+id adminofppt
+groups adminofppt
+
+# SSH actif
+systemctl status ssh      # Ubuntu
+systemctl status sshd     # Fedora
+
+# Logs recents
+journalctl -u ssh -n 10   # Ubuntu
+journalctl -u sshd -n 10  # Fedora
+
+# Hostname
+hostname -f
+```
+
+</details>
+
+---
+
+:::info Testez vos connaissances sur cette lecon
+
 [Faire le quiz →](/quizzes/linux/ConfigurationDeBaseLinuxServer)
 
 :::
