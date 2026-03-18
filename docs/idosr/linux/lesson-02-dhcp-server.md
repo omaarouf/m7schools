@@ -308,6 +308,60 @@ tail -f /var/log/messages
 </TabItem>
 </Tabs>
 
+### Client DHCP — dhclient
+---
+
+Le client DHCP permet a une machine de demander automatiquement une adresse IP aupres d un serveur DHCP.
+
+#### Installation
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+```bash
+sudo apt install isc-dhcp-client -y
+```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+```bash
+sudo dnf install dhcp-client -y
+```
+
+</TabItem>
+</Tabs>
+
+#### Commandes dhclient
+```bash
+# Demander une adresse IP via DHCP
+sudo dhclient ens33
+
+# Liberer l adresse IP actuelle
+sudo dhclient -r ens33
+
+# Liberer puis renouveler (renouvellement complet)
+sudo dhclient -r ens33 && sudo dhclient ens33
+
+# Afficher les baux obtenus cote client
+cat /var/lib/dhcp/dhclient.leases
+```
+
+#### Verification cote client
+```bash
+# Verifier l IP obtenue
+ip a
+
+# Verifier la passerelle recue
+ip route
+
+# Verifier le DNS recu
+cat /etc/resolv.conf
+
+# Tester la connectivite vers le serveur DHCP
+ping 192.168.10.1
+
+# Tester la connectivite vers Internet
+ping 8.8.8.8
+```
 ---
 
 ## 7. Diagnostic — Le client ne reçoit pas d IP
@@ -475,20 +529,7 @@ tail -f /var/log/messages          # Surveiller les logs en direct
 
 ---
 
-:::info Testez vos connaissances sur cette lecon
-
-<Tabs>
-  <TabItem value="quizzes" label="Quizzes">
-
-[Faire le quiz ](/quizzes/linux/quizzDhcp)
-
-
-  </TabItem>
-  <TabItem value="tp" label="TP">
-
- [Faire les TP ](/TP/linux/tp-DHCP)
-
-  </TabItem>
-</Tabs>
-
-:::
+## Pour aller plus loin
+ 
+- [Quiz ](/quizzes/linux/quizzDhcp) — testez vos connaissances sur ce cours
+- [TP ](/TP/linux/tp-DHCP) — mise en pratique guidee

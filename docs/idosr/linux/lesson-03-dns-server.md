@@ -691,23 +691,7 @@ dig @127.0.0.1 -x 192.168.10.2
 
 ---
 
-
-
-
-:::info Testez vos connaissances sur cette lecon
-
-<Tabs>
-  <TabItem value="quizzes" label="Quizzes">
-
-[Faire le quiz ](/quizzes/linux/quizzDns)
-
-
-  </TabItem>
-  <TabItem value="tp" label="TP">
-
- [Faire les TP ](/TP/linux/tp-DNS)
-
-  </TabItem>
-</Tabs>
-
-:::
+## Pour aller plus loin
+ 
+- [Quiz ](/quizzes/linux/quizzDns) — testez vos connaissances sur ce cours
+- [TP ](/TP/linux/tp-DNS) — mise en pratique guidee

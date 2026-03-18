@@ -682,23 +682,7 @@ cat /proc/ioports            # Affiche les ports d'entree/sortie utilises
 
 
 
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-:::info Testez vos connaissances sur cette lecon
-
-<Tabs>
-  <TabItem value="quizzes" label="Quizzes">
-
-[Faire le quiz](/quizzes/linux/quizz-00-les-commandes-de-base)
-
-  </TabItem>
-  <TabItem value="tp" label="TP">
-
-[Faire les TP](/TP/linux/tp-lesson-00)
-
-  </TabItem>
-</Tabs>
-
-:::
+## Pour aller plus loin
+ 
+- [Quiz ](/quizzes/linux/quizz-00-les-commandes-de-base) — testez vos connaissances sur ce cours
+- [TP ](/TP/linux/tp-lesson-00) — mise en pratique guidee

@@ -265,3 +265,11 @@ table tr:nth-child(even) {
 [data-theme='dark'] ::-webkit-scrollbar-thumb {
   background: rgba(77, 127, 255, 0.4);
 }
+
+/* ============================================================
+   my custom styles
+   ============================================================ */
+
+span.theme-last-updated {
+  display: none;
+}

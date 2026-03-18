@@ -755,19 +755,7 @@ user1 : x : 1001 : 1001 : Description : /home/user1 : /bin/bash
 
 
 
-:::info Testez vos connaissances sur cette lecon
-
-<Tabs>
-  <TabItem value="quizzes" label="Quizzes">
-
-[Faire le quiz →](/quizzes/linux/ConfigurationDeBaseLinuxServer)
-
-  </TabItem>
-  <TabItem value="tp" label="TP">
-
-[Faire les TP →](/TP/linux/TpLinuxServer)
-
-  </TabItem>
-</Tabs>
-
-:::
+## Pour aller plus loin
+ 
+- [Quiz ](/quizzes/linux/ConfigurationDeBaseLinuxServer) — testez vos connaissances sur ce cours
+- [TP ](/TP/linux/TpLinuxServer) — mise en pratique guidee
