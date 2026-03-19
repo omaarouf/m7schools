@@ -47,6 +47,8 @@ const config = {
   plugins: [
     [
       "@cmfcmf/docusaurus-search-local",
+      '@docusaurus/plugin-vercel-analytics',
+
       {
         language: "fr",
         indexBlog: false,
