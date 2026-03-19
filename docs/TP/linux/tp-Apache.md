@@ -20,9 +20,10 @@ import TabItem from '@theme/TabItem';
 
 ## Partie 1 — Installation et verification
 
-### Exercice 1.1 : Installer Apache
+**1.1 Installez Apache sur le serveur et verifiez que le service fonctionne correctement.**
 
-Installez Apache sur le serveur et verifiez que le service fonctionne correctement.
+<details>
+<summary>Voir la reponse</summary>
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
@@ -67,7 +68,14 @@ sudo systemctl status httpd
 La commande `status` doit afficher `active (running)` en vert.
 :::
 
-### Exercice 1.2 : Tester Apache en local
+</details>
+
+---
+
+**1.2 Testez Apache en local.**
+
+<details>
+<summary>Voir la reponse</summary>
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
@@ -87,10 +95,17 @@ curl http://localhost
 </Tabs>
 
 :::info Resultat attendu
-Vous devez voir le code HTML de la page de test par defaut d'Apache (`<title>Apache2 Ubuntu Default Page</title>` ou similaire).
+Vous devez voir le code HTML de la page de test par defaut d'Apache.
 :::
 
-### Exercice 1.3 : Ouvrir les ports dans le pare-feu
+</details>
+
+---
+
+**1.3 Ouvrez les ports HTTP et HTTPS dans le pare-feu.**
+
+<details>
+<summary>Voir la reponse</summary>
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
@@ -114,20 +129,22 @@ sudo firewall-cmd --list-services
 </TabItem>
 </Tabs>
 
+</details>
+
 ---
 
 ## Partie 2 — Premier site web (methode simple)
 
-### Exercice 2.1 : Creer la structure du site
+**2.1 Creez le dossier `/var/www/ofppt` et une page d'accueil `index.html`.**
+
+<details>
+<summary>Voir la reponse</summary>
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
 
 ```bash
-# Creer le dossier du site
 sudo mkdir -p /var/www/ofppt
-
-# Creer la page d'accueil
 sudo nano /var/www/ofppt/index.html
 ```
 
@@ -135,17 +152,12 @@ sudo nano /var/www/ofppt/index.html
 <TabItem value="fedora" label="Fedora / Red Hat">
 
 ```bash
-# Creer le dossier du site
 sudo mkdir -p /var/www/ofppt
-
-# Creer la page d'accueil
 sudo nano /var/www/ofppt/index.html
 ```
 
 </TabItem>
 </Tabs>
-
-Contenu du fichier `index.html` :
 
 ```html title="/var/www/ofppt/index.html"
 <html>
@@ -159,7 +171,14 @@ Contenu du fichier `index.html` :
 </html>
 ```
 
-### Exercice 2.2 : Configurer les permissions
+</details>
+
+---
+
+**2.2 Configurez les permissions du dossier `/var/www/ofppt`.**
+
+<details>
+<summary>Voir la reponse</summary>
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
@@ -180,7 +199,14 @@ sudo chmod -R 755 /var/www/ofppt
 </TabItem>
 </Tabs>
 
-### Exercice 2.3 : Creer le fichier VirtualHost
+</details>
+
+---
+
+**2.3 Creez le fichier VirtualHost pour le site `www.ofppt.local`.**
+
+<details>
+<summary>Voir la reponse</summary>
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
@@ -229,22 +255,22 @@ Listen 192.168.1.1:80
 </TabItem>
 </Tabs>
 
-### Exercice 2.4 : Activer le site et recharger Apache
+</details>
+
+---
+
+**2.4 Activez le site et rechargez Apache.**
+
+<details>
+<summary>Voir la reponse</summary>
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
 
 ```bash
-# Desactiver le site par defaut
 sudo a2dissite 000-default.conf
-
-# Activer le site ofppt
 sudo a2ensite ofppt.conf
-
-# Tester la configuration
 sudo apachectl configtest
-
-# Recharger Apache
 sudo systemctl reload apache2
 ```
 
@@ -252,10 +278,7 @@ sudo systemctl reload apache2
 <TabItem value="fedora" label="Fedora / Red Hat">
 
 ```bash
-# Tester la configuration
 sudo apachectl configtest
-
-# Recharger Apache
 sudo systemctl restart httpd
 ```
 
@@ -266,42 +289,52 @@ sudo systemctl restart httpd
 `apachectl configtest` doit afficher `Syntax OK`.
 :::
 
+</details>
+
 ---
 
 ## Partie 3 — Configuration DNS
 
-### Exercice 3.1 : Ajouter l'enregistrement DNS
+**3.1 Ajoutez un enregistrement A et un enregistrement CNAME dans la zone Bind9 pour `ofppt.local`.**
 
-Ajoutez un enregistrement A dans votre zone DNS Bind9 pour que `www.ofppt.local` pointe vers `192.168.1.1`.
+<details>
+<summary>Voir la reponse</summary>
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
-
 ```bash
 sudo nano /var/cache/bind/db.ofppt.local
 ```
 
 </TabItem>
 <TabItem value="fedora" label="Fedora / Red Hat">
-
 ```bash
 sudo nano /var/named/db.ofppt.local
 ```
 
 </TabItem>
 </Tabs>
-
-Ajoutez la ligne suivante dans la zone :
-
 ```dns
-www    IN    A    192.168.1.1
+ofppt    IN    A        192.168.1.1
+www      IN    CNAME    ofppt.ofppt.local.
 ```
 
-### Exercice 3.2 : Verifier et redemarrer DNS
+:::info Difference entre A et CNAME
+- **A** : associe un nom a une adresse IP directement (`ofppt → 192.168.1.1`)
+- **CNAME** : associe un nom a un autre nom (`www → ofppt.ofppt.local`), c'est un alias. Le client suit le CNAME jusqu'a trouver l'enregistrement A.
+:::
+
+</details>
+
+---
+
+**3.2 Verifiez la syntaxe de la zone et redemarrez DNS.**
+
+<details>
+<summary>Voir la reponse</summary>
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
-
 ```bash
 sudo named-checkzone ofppt.local /var/cache/bind/db.ofppt.local
 sudo systemctl restart bind9
@@ -309,7 +342,6 @@ sudo systemctl restart bind9
 
 </TabItem>
 <TabItem value="fedora" label="Fedora / Red Hat">
-
 ```bash
 sudo named-checkzone ofppt.local /var/named/db.ofppt.local
 sudo systemctl restart named
@@ -318,41 +350,47 @@ sudo systemctl restart named
 </TabItem>
 </Tabs>
 
-### Exercice 3.3 : Tester depuis le client
+</details>
 
-Depuis la machine cliente, verifiez la resolution DNS puis accedez au site :
+---
 
+**3.3 Testez la resolution DNS et l'acces HTTP depuis le client.**
+
+<details>
+<summary>Voir la reponse</summary>
 ```bash
-# Tester la resolution DNS
+# Tester l'enregistrement A
+nslookup ofppt.ofppt.local
+
+# Tester le CNAME
 nslookup www.ofppt.local
 
-# Tester l'acces HTTP
+# Tester l'acces HTTP via les deux noms
+curl http://ofppt.ofppt.local
 curl http://www.ofppt.local
 ```
 
-Ouvrez aussi un navigateur et accedez a `http://www.ofppt.local`.
-
 :::info Resultat attendu
-Vous devez voir la page HTML creee dans l'exercice 2.1.
+Les deux commandes `curl` doivent retourner la meme page HTML. `nslookup www.ofppt.local` doit afficher que `www` est un alias de `ofppt.ofppt.local`.
 :::
+
+</details>
+
 
 ---
 
 ## Partie 4 — Sites virtuels (Name-based)
 
-Vous allez creer deux sites virtuels differencies par le nom de domaine sur la meme IP et le meme port 80.
+**4.1 Creez les dossiers et pages d'accueil pour `site1` et `site2`.**
 
-### Exercice 4.1 : Creer les dossiers et pages d'accueil
+<details>
+<summary>Voir la reponse</summary>
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
 
 ```bash
-# Creer les dossiers
-sudo mkdir -p /var/www/site1
-sudo mkdir -p /var/www/site2
-
-# Page d'accueil site1
+sudo mkdir -p /var/www/site1 /var/www/site2
 sudo nano /var/www/site1/index.html
 ```
 
@@ -360,11 +398,7 @@ sudo nano /var/www/site1/index.html
 <TabItem value="fedora" label="Fedora / Red Hat">
 
 ```bash
-# Creer les dossiers
-sudo mkdir -p /var/www/site1
-sudo mkdir -p /var/www/site2
-
-# Page d'accueil site1
+sudo mkdir -p /var/www/site1 /var/www/site2
 sudo nano /var/www/site1/index.html
 ```
 
@@ -406,7 +440,14 @@ sudo nano /var/www/site2/index.html
 </html>
 ```
 
-### Exercice 4.2 : Configurer les permissions
+</details>
+
+---
+
+**4.2 Configurez les permissions pour `site1` et `site2`.**
+
+<details>
+<summary>Voir la reponse</summary>
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
@@ -427,7 +468,14 @@ sudo chmod -R 755 /var/www/site1 /var/www/site2
 </TabItem>
 </Tabs>
 
-### Exercice 4.3 : Creer les fichiers VirtualHost
+</details>
+
+---
+
+**4.3 Creez les fichiers VirtualHost pour `site1` et `site2`.**
+
+<details>
+<summary>Voir la reponse</summary>
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
@@ -510,7 +558,14 @@ sudo nano /etc/httpd/conf.d/site2.conf
 </TabItem>
 </Tabs>
 
-### Exercice 4.4 : Activer les sites et recharger Apache
+</details>
+
+---
+
+**4.4 Activez les deux sites et rechargez Apache.**
+
+<details>
+<summary>Voir la reponse</summary>
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
@@ -533,7 +588,14 @@ sudo systemctl restart httpd
 </TabItem>
 </Tabs>
 
-### Exercice 4.5 : Ajouter les enregistrements DNS
+</details>
+
+---
+
+**4.5 Ajoutez les enregistrements DNS pour `site1` et `site2`.**
+
+<details>
+<summary>Voir la reponse</summary>
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
@@ -574,7 +636,14 @@ sudo systemctl restart named
 </TabItem>
 </Tabs>
 
-### Exercice 4.6 : Tester les deux sites depuis le client
+</details>
+
+---
+
+**4.6 Testez les deux sites depuis le client.**
+
+<details>
+<summary>Voir la reponse</summary>
 
 ```bash
 curl http://www.site1.local
@@ -582,16 +651,19 @@ curl http://www.site2.local
 ```
 
 :::info Resultat attendu
-Chaque commande doit retourner la page HTML du site correspondant. Le contenu doit etre different entre site1 et site2.
+Chaque commande doit retourner la page HTML du site correspondant avec un contenu different.
 :::
+
+</details>
 
 ---
 
 ## Partie 5 — Consultation des journaux
 
-### Exercice 5.1 : Lire le journal des acces
+**5.1 Consultez le journal des acces de `site1` et `site2`.**
 
-Apres avoir accede aux sites depuis le client, consultez les journaux :
+<details>
+<summary>Voir la reponse</summary>
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
@@ -616,9 +688,14 @@ sudo tail -20 /var/log/httpd/site2_access.log
 Vous devez voir les requetes HTTP avec l'IP du client, la date, l'URL demandee et le code de reponse **200**.
 :::
 
-### Exercice 5.2 : Provoquer une erreur 403
+</details>
 
-Modifiez les permissions pour provoquer une erreur 403, observez le journal, puis restaurez les permissions correctes.
+---
+
+**5.2 Provoquez une erreur 403 sur `site1`, observez le journal, puis restaurez les permissions.**
+
+<details>
+<summary>Voir la reponse</summary>
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
@@ -657,18 +734,20 @@ sudo chmod 755 /var/www/site1
 </TabItem>
 </Tabs>
 
+</details>
+
 ---
 
 ## Partie 6 — Exercice EFM Casablanca 2023
 
 > Vous etes l'administrateur d'un reseau qui comporte un serveur WEB (`ServeurWEB`) et son client (`ClientWEB`). Vous avez la tache de configurer le serveur WEB ainsi que son client pour pouvoir charger une page `index.html`.
 
-### Exercice 6.1 : Configurer les adresses IP des deux machines (2pts)
+**6.1 Configurez les adresses IP des deux machines. (2pts)**
+- Serveur WEB : `10.10.0.1/29`
+- Client WEB : `10.10.0.2/29`
 
-Configurez les adresses IP suivantes en utilisant la ligne de commande :
-
-- **Serveur WEB** : `10.10.0.1/29`
-- **Client WEB** : `10.10.0.2/29`
+<details>
+<summary>Voir la reponse</summary>
 
 **Sur le serveur WEB :**
 
@@ -679,8 +758,6 @@ Configurez les adresses IP suivantes en utilisant la ligne de commande :
 sudo nmcli connection modify eth0 ipv4.addresses 10.10.0.1/29
 sudo nmcli connection modify eth0 ipv4.method manual
 sudo nmcli connection up eth0
-
-# Verifier
 ip addr show eth0
 ```
 
@@ -691,8 +768,6 @@ ip addr show eth0
 sudo nmcli connection modify eth0 ipv4.addresses 10.10.0.1/29
 sudo nmcli connection modify eth0 ipv4.method manual
 sudo nmcli connection up eth0
-
-# Verifier
 ip addr show eth0
 ```
 
@@ -708,8 +783,6 @@ ip addr show eth0
 sudo nmcli connection modify eth0 ipv4.addresses 10.10.0.2/29
 sudo nmcli connection modify eth0 ipv4.method manual
 sudo nmcli connection up eth0
-
-# Verifier
 ip addr show eth0
 ```
 
@@ -720,33 +793,34 @@ ip addr show eth0
 sudo nmcli connection modify eth0 ipv4.addresses 10.10.0.2/29
 sudo nmcli connection modify eth0 ipv4.method manual
 sudo nmcli connection up eth0
-
-# Verifier
 ip addr show eth0
 ```
 
 </TabItem>
 </Tabs>
 
-:::tip Verifier la connectivite entre les deux machines
-Depuis le client, pingez le serveur pour confirmer que les deux machines communiquent :
-
 ```bash
+# Verifier la connectivite depuis le client
 ping 10.10.0.1
 ```
-:::
 
-### Exercice 6.2 : Verifier l'existence du package Apache (3pts)
+</details>
+
+---
+
+**6.2 Verifiez l'existence du package du serveur WEB. (3pts)**
+
+<details>
+<summary>Voir la reponse</summary>
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
 
 ```bash
-# Verifier si apache2 est installe
 dpkg -l | grep apache2
 ```
 
-Si le paquet n'est pas installe, la commande ne retourne rien. Dans ce cas, installez-le :
+Si non installe :
 
 ```bash
 sudo apt update
@@ -757,11 +831,10 @@ sudo apt install apache2 -y
 <TabItem value="fedora" label="Fedora / Red Hat">
 
 ```bash
-# Verifier si httpd est installe
 rpm -qa | grep httpd
 ```
 
-Si le paquet n'est pas installe, la commande ne retourne rien. Dans ce cas, installez-le :
+Si non installe :
 
 ```bash
 sudo dnf install httpd -y
@@ -770,9 +843,14 @@ sudo dnf install httpd -y
 </TabItem>
 </Tabs>
 
-### Exercice 6.3 : Creer le fichier index.html dans /var/www/html (3pts)
+</details>
 
-Le contenu de la page doit etre : **EFM 2022-2023**
+---
+
+**6.3 Creez le fichier `index.html` dans `/var/www/html` avec le contenu : EFM 2022-2023. (3pts)**
+
+<details>
+<summary>Voir la reponse</summary>
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
@@ -802,9 +880,14 @@ sudo nano /var/www/html/index.html
 </html>
 ```
 
-### Exercice 6.4 : Specifier l'adresse d'ecoute dans le fichier de configuration (3pts)
+</details>
 
-La ligne a ajouter dans le fichier de configuration pour specifier l'adresse d'ecoute au port 80 :
+---
+
+**6.4 Specifiez l'adresse d'ecoute au port 80 dans le fichier de configuration. (3pts)**
+
+<details>
+<summary>Voir la reponse</summary>
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
@@ -858,7 +941,14 @@ sudo systemctl restart httpd
 </TabItem>
 </Tabs>
 
-### Exercice 6.5 : Redemarrer le serveur WEB (3pts)
+</details>
+
+---
+
+**6.5 Redemarrez le serveur WEB. (3pts)**
+
+<details>
+<summary>Voir la reponse</summary>
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
@@ -879,19 +969,17 @@ sudo systemctl status httpd
 </TabItem>
 </Tabs>
 
-### Verification finale depuis le client
-
-Depuis la machine `ClientWEB`, accedez au site :
+**Verification finale depuis le client :**
 
 ```bash
 curl http://10.10.0.1
 ```
 
-Ou ouvrez un navigateur et accedez a `http://10.10.0.1`.
-
 :::info Resultat attendu
 La page doit afficher le contenu **EFM 2022-2023**.
 :::
+
+</details>
 
 ---
 
@@ -910,5 +998,5 @@ La page doit afficher le contenu **EFM 2022-2023**.
 
 ## Pour aller plus loin
 
-- [Cours Apache](/idosr/linux/lesson-07) — revoir les notions theoriques
-- [Quiz Apache](/quizzes/linux/quizzApache) — tester vos connaissances
+- [Cours Apache](/docs/linux/lesson-07) — revoir les notions theoriques
+- [Quiz Apache](/docs/quizzes/linux/quizzApache) — tester vos connaissances

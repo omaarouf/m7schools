@@ -68,14 +68,14 @@ const questions = [
     correct: 1,
     explanation: "FAUX. Le code 403 signifie 'Acces refuse' (probleme de permissions). C'est le code 404 qui signifie 'fichier introuvable'.",
   },
-  {
-    id: 9,
-    type: "vf",
-    question: "Les adresses IP ajoutees avec nmcli persistent apres un redemarrage du systeme ?",
-    options: ["Vrai", "Faux"],
-    correct: 0,
-    explanation: "VRAI. Contrairement a ifconfig qui est temporaire, nmcli enregistre la configuration de maniere permanente.",
-  },
+{
+  id: 9,
+  type: "vf",
+  question: "La commande 'systemctl reload apache2' recharge la configuration sans interrompre les connexions actives ?",
+  options: ["Vrai", "Faux"],
+  correct: 0,
+  explanation: "VRAI. reload relit les fichiers de configuration a chaud. Contrairement a restart qui coupe et redemarree le service en interrompant les connexions en cours.",
+},
   {
     id: 10,
     type: "vf",
@@ -87,19 +87,19 @@ const questions = [
 
   // ─── Section 2 : QCM (30 questions) ──────────────────────────────────────
 
-  {
-    id: 11,
-    type: "qcm",
-    question: "Quelle est l'origine officielle du nom 'Apache' selon l'Apache Software Foundation ?",
-    options: [
-      "Un acronyme signifiant 'Advanced Patch Configuration Engine'",
-      "Un hommage au peuple autochtone americain Apache",
-      "Le nom du developpeur principal du projet",
-      "L'expression 'a patchy server' signifiant un serveur raistole",
-    ],
-    correct: 1,
-    explanation: "L'Apache Software Foundation indique que le nom est un hommage au peuple autochtone americain Apache. L'explication 'a patchy server' figurait dans l'ancienne FAQ mais a ete retiree en 2002.",
-  },
+{
+  id: 11,
+  type: "qcm",
+  question: "Quelle est la procedure complete et dans le bon ordre pour creer un site virtuel Apache fonctionnel ?",
+  options: [
+    "Creer le VirtualHost → Installer Apache → Creer les fichiers du site → Activer le site → Configurer le DNS",
+    "Installer Apache → Creer les fichiers du site → Definir les permissions → Creer le VirtualHost → Activer le site → Configurer le DNS",
+    "Configurer le DNS → Installer Apache → Creer le VirtualHost → Creer les fichiers du site → Activer le site",
+    "Installer Apache → Creer le VirtualHost → Activer le site → Creer les fichiers du site → Configurer le DNS",
+  ],
+  correct: 1,
+  explanation: "L'ordre correct est : (1) Installer Apache et demarrer le service, (2) Creer le dossier du site et index.html, (3) Definir les permissions chown/chmod, (4) Creer le fichier VirtualHost dans sites-available/, (5) Activer avec a2ensite et recharger Apache, (6) Ajouter l'enregistrement A dans Bind9.",
+},
   {
     id: 12,
     type: "qcm",
@@ -129,7 +129,7 @@ const questions = [
   {
     id: 14,
     type: "qcm",
-    question: "Quel dossier contient les fichiers de configuration des sites desactives sur Ubuntu ?",
+    question: "Quel dossier contient les fichiers de configuration des sites sur Ubuntu ?",
     options: [
       "/etc/apache2/sites-enabled/",
       "/etc/apache2/sites-available/",

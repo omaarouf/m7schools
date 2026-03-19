@@ -45,7 +45,7 @@ Client (navigateur)  ──── requete HTTP ────►  Serveur Apache
 |---|---|
 | `/etc/apache2/apache2.conf` | Configuration principale |
 | `/etc/apache2/sites-available/` | Virtual hosts disponibles |
-| `/etc/apache2/sites-enabled/` | Virtual hosts actifs (symlinks) |
+| `/etc/apache2/sites-enabled/` | Virtual hosts actifs (liens symbolique) |
 | `/etc/apache2/mods-enabled/` | Modules actives |
 | `/var/www/html/` | Repertoire web par defaut |
 | `/var/log/apache2/access.log` | Logs d'acces |
@@ -279,11 +279,16 @@ sudo systemctl restart httpd
 
 ### Etape 6 : Configurer le DNS
 
-Ajoutez un enregistrement A dans votre zone DNS Bind9 qui pointe `site1.ofppt.local` vers l'IP du serveur, puis redemarrez Bind9 
-
-``` bash
-site1   IN      A       192.168.1.10
+Ajoutez un enregistrement A dans votre zone DNS Bind9 qui pointe `site1.ofppt.local` vers l'IP du serveur, puis un enregistrement CNAME pour `www.site1.ofppt.local`.
+```dns
+site1    IN    A        192.168.1.10
+www      IN    CNAME    site1.ofppt.local.
 ```
+
+:::info Difference entre A et CNAME
+- **A** : associe un nom a une adresse IP directement (`site1 → 192.168.1.10`)
+- **CNAME** : associe un nom a un autre nom (`www → site1.ofppt.local`), c'est un alias. Le client suit le CNAME jusqu'a trouver l'enregistrement A.
+:::
 ### Etape 7 : Ouverture des ports dans le pare-feu
 
 Pour que le serveur web soit accessible depuis les machines clientes, il faut ouvrir les ports 80 et 443 dans le pare-feu.

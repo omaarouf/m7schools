@@ -13,6 +13,13 @@ import TabItem from '@theme/TabItem';
 
 ## 1. Presentation
 
+Le but principal de LVM (Logical Volume Manager) sous Linux est d'offrir une gestion flexible
+et dynamique de l'espace de stockage, dépassant les limites du partitionnement classique.
+
+Il permet de redimensionner, créer ou déplacer des partitions (volumes logiques) à chaud
+sans interrompre le système, tout en agrégeant plusieurs disques physiques en un seul grand
+espace de stockage (groupe de volumes)
+
 LVM est un **outil kernel** — il n'y a pas de demon principal. Le service `lvm2-monitor` assure uniquement la surveillance.
 
 ### 1.1 Installation
@@ -43,9 +50,9 @@ sudo dnf install lvm2 -y
 
 ---
 
-## 2. Ordre Obligatoire de Creation
+## 2. Ordre Obligatoire de Creation 
 
-:::danger Ordre OBLIGATOIRE — ne jamais inverser
+:::info ``` PVLMM ```
 ```
 PV  →  VG  →  LV  →  mkfs  →  mount
 ```
@@ -262,6 +269,7 @@ sudo xfs_growfs /mnt/data
 </TabItem>
 </Tabs>
 
+
 :::tip Extension a chaud
 Avec **ext4** et **XFS**, l'extension peut se faire **sans demonter** le volume. C'est l'un des grands avantages de LVM en production.
 :::
@@ -417,6 +425,65 @@ sudo pvremove /dev/sdb /dev/sdc
 ---
 
 ## 8. Commandes de Reference
+
+### 8.1 Commandes de Verification et Diagnostic
+
+Apres chaque operation LVM, il est important de verifier l'etat du systeme. Voici les commandes essentielles.
+
+#### Verifier les disques et partitions disponibles
+
+
+```bash
+# Afficher tous les disques et leurs partitions (vue arborescente)
+lsblk
+
+# Afficher avec la taille des systemes de fichiers
+lsblk -f
+
+# Afficher uniquement les disques sans partitions LVM
+lsblk -o NAME,SIZE,TYPE,MOUNTPOINT
+```
+
+
+
+#### Verifier l'espace disque utilise
+
+```bash
+# Afficher l'espace utilise sur tous les volumes montes
+df
+
+# Afficher en format lisible (Go, Mo)
+df -h
+
+# Afficher uniquement un point de montage specifique
+df -h /mnt/data
+
+# Afficher le type de systeme de fichiers
+df -hT
+```
+
+#### Verifier l'espace utilise dans un dossier
+
+```bash
+# Taille totale d'un dossier
+du -sh /mnt/data
+
+# Taille de chaque sous-dossier
+du -h /mnt/data
+
+# Taille des 10 dossiers les plus lourds
+du -h /mnt/data | sort -rh | head -10
+```
+
+### 8.2 Resume 
+| Commande | Usage |
+|---|---|
+| `lsblk` | Voir tous les disques et leur organisation |
+| `lsblk -f` | Voir le type de systeme de fichiers de chaque partition |
+| `df -h` | Voir l'espace utilise/disponible sur les volumes montes |
+| `df -hT` | Idem avec le type de systeme de fichiers |
+| `du -sh /dossier` | Voir la taille totale d'un dossier specifique |
+
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
