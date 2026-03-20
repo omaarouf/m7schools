@@ -292,11 +292,11 @@ umount → e2fsck → resize2fs → lvreduce → mount
 # 1. Demonter le volume
 sudo umount /mnt/data
 
-# 2. Verifier le systeme de fichiers
+# 2. Verifier le systeme de fichiers   `e2fsck = ext2 file system check`
 sudo e2fsck -f /dev/NomVG/NomLV
 
-# 3. Reduire le systeme de fichiers
-sudo resize2fs /dev/NomVG/NomLV 30G
+# 3. Reduire le systeme de fichiers    `resize2fs = resize ext2 file system`
+sudo resize2fs /dev/NomVG/NomLV 30G  
 
 # 4. Reduire le volume logique
 sudo lvreduce -L 30G /dev/NomVG/NomLV
@@ -343,13 +343,18 @@ Un snapshot est une **copie instantanee** de l'etat d'un volume a un moment donn
 
 ```bash
 # Creer un snapshot (10G d'espace pour stocker les differences)
+
 sudo lvcreate --size 10G --snapshot --name snap1 /dev/NomVG/NomLV
 
-# Restaurer depuis un snapshot (le LV doit etre demonte)
+# Vérifier
+sudo lvs
+
+# Restaurer
 sudo umount /mnt/data
 sudo lvconvert --merge /dev/NomVG/snap1
+sudo mount /dev/NomVG/NomLV /mnt/data
 
-# Supprimer un snapshot
+# OU supprimer sans restaurer
 sudo lvremove /dev/NomVG/snap1
 ```
 
