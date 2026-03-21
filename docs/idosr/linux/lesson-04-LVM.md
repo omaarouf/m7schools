@@ -174,6 +174,10 @@ sudo lvscan
 
 ### 3.4 Formater et monter
 
+monter c'est associer un disque (ou une partition) a un dossier, ce qui decide par quel chemin on va y acceder.
+` /dev/sdb  ──── mount ────►  /mnt/data `
+Apres ca, tout ce qu'on ecrit dans /mnt/data va physiquement sur /dev/sdb.
+
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
 
@@ -228,6 +232,17 @@ sudo nano /etc/fstab
 </TabItem>
 </Tabs>
 
+:::info Regle simple
+
+pour les volumes LVM on utilise toujours 0 2 c'est la valeur standard pour tout volume qui n'est pas /
+
+/ (racine) → toujours 0 1
+
+Tous les autres volumes → 0 2
+
+Ne jamais verifier → 0 0
+:::
+
 ---
 
 ## 4. Etendre un VG et un LV
@@ -278,7 +293,7 @@ Avec **ext4** et **XFS**, l'extension peut se faire **sans demonter** le volume.
 
 ## 5. Reduire un LV
 
-:::danger Ordre OBLIGATOIRE pour la reduction — ext4 uniquement
+:::danger Ordre OBLIGATOIRE pour la reduction 
 ```
 umount → e2fsck → resize2fs → lvreduce → mount
 ```

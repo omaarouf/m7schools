@@ -1,10 +1,7 @@
 ---
-id: quiz-networking
-title: Quiz Reseau
-sidebar_label: Quiz Reseau
+id: windows
+title: windows
 ---
-
-# Quiz Reseau
 
 import styles from '@site/src/css/custom.css';
  

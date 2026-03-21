@@ -6,19 +6,17 @@ sidebar_label: Quiz Windows
 
 # Quiz Windows
 
-## Question 1
+import styles from '@site/src/css/custom.css';
+ 
+<div style={{textAlign: 'center', padding: '60px 20px'}}>
+ 
+<h1 style={{fontSize: '4rem', fontWeight: '800', color: 'var(--ifm-color-primary)', marginBottom: '0.5rem'}}>
+  Coming Soon ...
+</h1>
 
-Quelle couche du modele OSI gere la transmission physique des donnees ?
+ 
+<br/><br/>
+ 
 
-- [ ] A. Couche Application
-- [ ] B. Couche Transport
-- [x] C. Couche Physique
-- [ ] D. Couche Reseau
-
-## Question 2
-
-Placeholder - ajouter vos questions ici.
-
----
-
-*Resultat: X/10*
+ 
+</div>

@@ -13,19 +13,74 @@ const sidebars = {
       label: 'Conception Reseau',
       collapsed: true,
       items: [
+        // Intro
         'idosr/networking/intro',
-        'idosr/networking/lesson-01',
-        'idosr/networking/lesson-02',
-        'idosr/networking/lesson-03',
-        'idosr/networking/lesson-04',
-        
-        'idosr/networking/lesson-06',
-        'idosr/networking/lesson-07',
-        'idosr/networking/lesson-08',
-        'idosr/networking/lesson-09',
-        'idosr/networking/lesson-10',
-        'idosr/networking/lesson-11',
-        'idosr/networking/lesson-05',
+
+        // Groupe 0
+        {
+          type: 'category',
+          label: 'Configuration de Base',
+          items: [
+            'idosr/networking/configuration-de-base/switch',
+            'idosr/networking/configuration-de-base/router',
+          ],
+        },
+
+        // Groupe 1
+        {
+          type: 'category',
+          label: 'Switching',
+          items: [
+            'idosr/networking/switching/vlans',
+            'idosr/networking/switching/stp',
+            'idosr/networking/switching/etherchannel',
+          ],
+        },
+
+        // Groupe 2
+        {
+          type: 'category',
+          label: 'Routage',
+          items: [
+            'idosr/networking/routing/routage-statique',
+            'idosr/networking/routing/rip',
+            'idosr/networking/routing/ospf',
+            'idosr/networking/routing/eigrp',
+            'idosr/networking/routing/bgp',
+          ],
+        },
+
+        // Groupe 3
+        {
+          type: 'category',
+          label: 'Securite',
+          items: [
+            'idosr/networking/securite/port-security',
+            'idosr/networking/securite/acl',
+          ],
+        },
+
+        // Groupe 4
+        {
+          type: 'category',
+          label: 'Gestion & Monitoring',
+          items: [
+            'idosr/networking/gestion-monitoring/gestion-reseau',
+          ],
+        },
+
+        // Groupe 5
+        {
+          type: 'category',
+          label: 'Services Reseau',
+          items: [
+            'idosr/networking/services-reseau/hsrp',
+            'idosr/networking/services-reseau/dhcp',
+            'idosr/networking/services-reseau/nat',
+            'idosr/networking/services-reseau/voip',
+            'idosr/networking/services-reseau/vpn',
+          ],
+        },
       ],
     },
     {
@@ -122,7 +177,7 @@ const sidebars = {
       label: 'Conception Reseau',
       collapsed: true,
       items: [
-        'TP/linux/tp-lesson-00',
+        'TP/networking/conception-reseau',
       ],
     },
     {
@@ -130,7 +185,7 @@ const sidebars = {
       label: 'Administration Windows',
       collapsed: true,
       items: [
-        'TP/linux/tp-lesson-00',
+        'TP/windows/windows',
       ],
     },
     {
