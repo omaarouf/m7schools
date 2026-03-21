@@ -2,238 +2,554 @@
 id: lesson-06
 title: RAID LOGICIEL – mdadm
 ---
----
 
-# RAID Logiciel — mdadm
 
-> **Objectif :** Créer, surveiller et gérer des arrays RAID logiciels sous Linux avec `mdadm`, et assurer leur persistance au redémarrage.
 
----
 
-## 1. Présentation
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-`mdadm` est l'outil standard pour gérer le **RAID logiciel** sous Linux. Le service `mdmonitor` assure la surveillance des arrays en arrière-plan.
+> Comprendre les niveaux RAID et configurer un RAID logiciel sous Linux avec l'outil mdadm pour assurer la redondance et la tolerance aux pannes du stockage.
 
-### 1.1 Installation
+## 1. Qu'est-ce que le RAID ?
 
-| Distribution | Commande |
-|-------------|----------|
-| **Ubuntu Server** | `sudo apt install mdadm -y` |
-| **Fedora** | `sudo dnf install mdadm -y` |
+Le RAID (Redundant Array of Independent Disks) est un ensemble de techniques de virtualisation du stockage permettant de repartir des donnees sur plusieurs disques durs afin d'ameliorer soit les performances, soit la securite ou la tolerance aux pannes.
 
-```bash
-# Activer la surveillance au démarrage
-sudo systemctl enable mdmonitor
-```
+### Niveaux RAID principaux
 
-### 1.2 Fichiers principaux
+| Niveau | Nom | Disques min | Pannes tolerees | Espace utile | Usage typique |
+|---|---|---|---|---|---|
+| **RAID 0** | Striping | 2 | 0 | 100% (N x taille) | Performances — pas de redondance |
+| **RAID 1** | Mirroring | 2 | 1 | 50% (1 x taille) | Redondance — serveurs critiques |
+| **RAID 5** | Striping + parite | 3 | 1 | (N-1) x taille | Equilibre perfs / redondance |
+| **RAID 6** | Double parite | 4 | 2 | (N-2) x taille | Haute disponibilite |
+| **RAID 10** | Mirror + Stripe | 4 | 1/miroir | N/2 x taille | Perfs + redondance — bases de donnees |
 
-| Fichier | Rôle |
-|---------|------|
-| `/etc/mdadm/mdadm.conf` | Configuration persistante RAID (Ubuntu) |
-| `/etc/mdadm.conf` | Configuration persistante RAID (Fedora) |
-| `/proc/mdstat` | Etat en temps réel de tous les arrays RAID |
-
----
-
-## 2. Niveaux RAID
-
-| RAID | Type | Disques min | Tolérance panne | Espace utile |
-|------|------|-------------|----------------|--------------|
-| **RAID 0** | Striping — performances | 2 | 0 (aucune) | N x taille |
-| **RAID 1** | Mirroring — redondance | 2 | 1 disque | 1 x taille |
-| **RAID 5** | Striping + parité | 3 | 1 disque | (N-1) x taille |
-| **RAID 6** | Double parité | 4 | 2 disques | (N-2) x taille |
-| **RAID 10** | Mirror + Stripe | 4 | 1 par miroir | N/2 x taille |
-
-:::tip Choisir le bon niveau RAID
-- **RAID 0** : performances maximales, zéro tolérance aux pannes — uniquement pour données non critiques
-- **RAID 1** : protection simple, idéal pour les OS et données critiques
-- **RAID 5** : bon compromis espace/redondance — le plus utilisé en production
-- **RAID 6** : comme RAID 5 mais supporte 2 pannes simultanées
-- **RAID 10** : performances + redondance — nécessite 4 disques minimum
+:::info Lecture de /proc/mdstat
+- `[UU]` : toutes les disques sains
+- `[U_]` : 1 disque en panne
+- `[S]` : spare (disque de reserve)
 :::
 
 ---
 
-## 3. Créer un Array RAID
+## 2. Le disque Spare (Hot Spare)
 
-```bash
-# RAID 1 avec 2 disques
-sudo mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sdb /dev/sdc
+Un disque Spare est un disque de reserve branche au systeme mais inactif en temps normal. En cas de panne d'un disque actif, le systeme :
 
-# RAID 5 avec 3 disques + 1 spare (disque de secours)
-sudo mdadm --create /dev/md0 --level=5 --raid-devices=3 /dev/sdb /dev/sdc /dev/sdd --spare-devices=1 /dev/sde
+1. **Detecte** la panne automatiquement
+2. **Active** le disque Spare immediatement
+3. **Reconstruit** les donnees manquantes depuis les autres disques
 
-# Créer avec un disque manquant (à reconstruire plus tard)
-sudo mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sdb missing
-```
-
-:::info Disque spare
-Un **spare** est un disque de secours en attente. En cas de panne d'un disque actif, `mdadm` déclenche automatiquement la reconstruction sur le spare sans intervention manuelle.
+:::tip Avantage majeur
+Sans Spare, le systeme reste vulnerable jusqu'a l'intervention humaine. Avec un Spare, la reparation commence instantanement, meme a 3h du matin.
 :::
 
 ---
 
-## 4. Surveiller un Array
+## 3. Presentation de mdadm
+
+`mdadm` (Multiple Device ADMinistrator) est l'outil standard sous Linux pour creer, gerer et surveiller des systemes RAID logiciel. Il utilise le processeur de la machine pour piloter les disques via le noyau Linux — sans carte RAID materielle.
+
+**Fonctions principales :**
+- **Create** : grouper plusieurs disques en un volume RAID
+- **Manage** : ajouter/retirer des disques a chaud
+- **Monitor** : surveiller en arriere-plan et alerter en cas de panne
+- **Grow** : agrandir la grappe RAID sans eteindre le systeme
+
+### Installation et activation
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
 
 ```bash
-# Etat rapide de tous les arrays
-cat /proc/mdstat
-
-# Surveillance en temps réel
-watch cat /proc/mdstat
-
-# Détails complets d'un array
-sudo mdadm --detail /dev/md0
-```
-
-**Lecture de `/proc/mdstat` :**
-
-| Indicateur | Signification |
-|-----------|---------------|
-| `[UU]` | Tous les disques sont sains |
-| `[U_]` | Un disque est en panne |
-| `[S]` | Disque spare en attente |
-| `resync` | Reconstruction en cours |
-
----
-
-## 5. Gérer les Disques
-
-```bash
-# Ajouter un disque (spare ou remplacement)
-sudo mdadm --manage /dev/md0 --add /dev/sde
-
-# Marquer un disque comme défaillant
-sudo mdadm --manage /dev/md0 --fail /dev/sdc
-
-# Retirer un disque (doit être marqué défaillant d'abord)
-sudo mdadm --manage /dev/md0 --remove /dev/sdc
-
-# Arrêter un array
-sudo mdadm --stop /dev/md0
-
-# Réassembler un array arrêté
-sudo mdadm --assemble /dev/md0 /dev/sdb /dev/sdc
-```
-
-:::warning Procédure de remplacement d'un disque
-1. `--fail` pour marquer le disque défaillant
-2. `--remove` pour le retirer logiquement
-3. Remplacer physiquement le disque
-4. `--add` pour ajouter le nouveau disque
-5. La reconstruction démarre automatiquement
-:::
-
----
-
-## 6. Etendre un Array RAID
-
-```bash
-# 1. Ajouter le nouveau disque à l'array
-sudo mdadm --manage --add /dev/sde /dev/md0
-
-# 2. Augmenter le nombre de disques actifs
-sudo mdadm --grow /dev/md0 --raid-devices=4
-
-# 3. Etendre le système de fichiers
-sudo resize2fs /dev/md0
-```
-
----
-
-## 7. Rendre le RAID Persistant
-
-Sans cette étape, l'array RAID ne sera pas reconnu au redémarrage.
-
-**Ubuntu Server :**
-```bash
-sudo mdadm --detail --scan | tee -a /etc/mdadm/mdadm.conf
-sudo update-initramfs -u
-```
-
-**Fedora :**
-```bash
-sudo mdadm --detail --scan | tee -a /etc/mdadm.conf
-sudo dracut --force
-```
-
-:::danger Ne pas oublier cette étape
-Sans `update-initramfs` (Ubuntu) ou `dracut --force` (Fedora), le RAID **ne sera pas monté au démarrage** même si la configuration est correcte dans `mdadm.conf`.
-:::
-
----
-
-## 8. Formater, Monter et fstab
-
-```bash
-# Formater l'array
-sudo mkfs.ext4 /dev/md0
-
-# Créer le point de montage et monter
-sudo mkdir /mnt/raid
-sudo mount /dev/md0 /mnt/raid
-```
-
-**Montage permanent dans `/etc/fstab` :**
-
-```
-/dev/md0   /mnt/raid   ext4   defaults   0 2
-```
-
----
-
-## 9. Procédure Complète — Exemple RAID 5
-
-```bash
-# 1. Installer mdadm
+sudo apt update
 sudo apt install mdadm -y
 
-# 2. Créer l'array RAID 5 avec 3 disques + 1 spare
-sudo mdadm --create /dev/md0 --level=5 --raid-devices=3 /dev/sdb /dev/sdc /dev/sdd --spare-devices=1 /dev/sde
+sudo systemctl enable mdmonitor
+sudo systemctl start mdmonitor
+```
 
-# 3. Vérifier la reconstruction (attendre [UUU])
-watch cat /proc/mdstat
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
 
-# 4. Formater et monter
-sudo mkfs.ext4 /dev/md0
-sudo mkdir /mnt/raid
-sudo mount /dev/md0 /mnt/raid
+```bash
+sudo dnf install mdadm -y
 
-# 5. Rendre persistant
-sudo mdadm --detail --scan | tee -a /etc/mdadm/mdadm.conf
-sudo update-initramfs -u
+sudo systemctl enable mdmonitor
+sudo systemctl start mdmonitor
+```
 
-# 6. Ajouter dans fstab
-echo "/dev/md0   /mnt/raid   ext4   defaults   0 2" | sudo tee -a /etc/fstab
+</TabItem>
+</Tabs>
+
+---
+
+## 4. Verification des disques
+
+Avant de creer un RAID, identifier les disques disponibles :
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
+```bash
+# Lister tous les disques
+sudo fdisk -l
+
+# Vue arborescente
+lsblk
+```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+# Lister tous les disques
+sudo fdisk -l
+
+# Vue arborescente
+lsblk
+```
+
+</TabItem>
+</Tabs>
+
+Exemple de sortie `fdisk -l` :
+```
+Disque /dev/sdb : 8 GiB, 8589934592 octets, 16777216 secteurs
+Disque /dev/sdc : 8 GiB, 8589934592 octets, 16777216 secteurs
+Disque /dev/sdd : 8 GiB, 8589934592 octets, 16777216 secteurs
 ```
 
 ---
 
-## 10. Commandes de Référence
+## 5. Creer un RAID
+
+### RAID 1 (Mirroring — 2 disques)
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
 
 ```bash
-# --- Création ---
-sudo mdadm --create /dev/md0 --level=X --raid-devices=N /dev/sdX ...
-
-# --- Surveillance ---
-cat /proc/mdstat
-sudo mdadm --detail /dev/md0
-sudo mdadm --query /dev/sdb           # infos sur un disque membre
-
-# --- Gestion ---
-sudo mdadm --manage /dev/md0 --add /dev/sdX       # ajouter
-sudo mdadm --manage /dev/md0 --fail /dev/sdX      # marquer défaillant
-sudo mdadm --manage /dev/md0 --remove /dev/sdX    # retirer
-sudo mdadm --stop /dev/md0                         # arrêter
-sudo mdadm --assemble /dev/md0 /dev/sdX ...        # réassembler
-
-# --- Extension ---
-sudo mdadm --grow /dev/md0 --raid-devices=N
-
-# --- Persistance ---
-sudo mdadm --detail --scan | tee -a /etc/mdadm/mdadm.conf
-sudo update-initramfs -u    # Ubuntu
-sudo dracut --force         # Fedora
+sudo mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sdb /dev/sdc
 ```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+sudo mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sdb /dev/sdc
+```
+
+</TabItem>
+</Tabs>
+
+### RAID 5 (Striping + parite — 3 disques minimum)
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
+```bash
+sudo mdadm --create /dev/md0 --level=5 --raid-devices=3 /dev/sdb /dev/sdc /dev/sdd
+```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+sudo mdadm --create /dev/md0 --level=5 --raid-devices=3 /dev/sdb /dev/sdc /dev/sdd
+```
+
+</TabItem>
+</Tabs>
+
+### Creer un RAID avec un disque manquant
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
+```bash
+# RAID 1 avec un seul disque au depart
+sudo mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sdb missing
+
+# Ajouter le second disque plus tard
+sudo mdadm --manage /dev/md0 --add /dev/sdc
+```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+# RAID 1 avec un seul disque au depart
+sudo mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sdb missing
+
+# Ajouter le second disque plus tard
+sudo mdadm --manage /dev/md0 --add /dev/sdc
+```
+
+</TabItem>
+</Tabs>
+
+:::info Synchronisation initiale
+Apres la creation, le RAID se synchronise. Surveiller la progression avec :
+```bash
+watch cat /proc/mdstat
+```
+Attendre que la synchronisation soit a 100% avant de continuer.
+:::
+
+---
+
+## 6. Formater et monter le volume RAID
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
+```bash
+# Formater en ext4
+sudo mkfs.ext4 /dev/md0
+
+# Creer le point de montage
+sudo mkdir /mnt/raid
+
+# Monter le volume
+sudo mount /dev/md0 /mnt/raid
+
+# Verifier
+df -h /mnt/raid
+```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+# Formater en xfs (defaut Fedora)
+sudo mkfs.xfs /dev/md0
+
+# Creer le point de montage
+sudo mkdir /mnt/raid
+
+# Monter le volume
+sudo mount /dev/md0 /mnt/raid
+
+# Verifier
+df -h /mnt/raid
+```
+
+</TabItem>
+</Tabs>
+
+:::warning XFS sur Fedora
+Le systeme de fichiers XFS (defaut sur Fedora/RHEL) ne peut PAS etre reduit — contrairement a ext4. Prendre en compte cette contrainte lors du dimensionnement.
+:::
+
+---
+
+## 7. Gestion des disques
+
+### Ajouter un disque (Spare)
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
+```bash
+sudo mdadm --manage /dev/md0 --add /dev/sdd
+
+# Verifier — le nouveau disque apparait en (S) = Spare
+cat /proc/mdstat
+```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+sudo mdadm --manage /dev/md0 --add /dev/sdd
+
+# Verifier — le nouveau disque apparait en (S) = Spare
+cat /proc/mdstat
+```
+
+</TabItem>
+</Tabs>
+
+### Simuler la panne d'un disque
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
+```bash
+# Marquer un disque comme defaillant
+sudo mdadm --manage /dev/md0 --fail /dev/sdc
+
+# Verifier l'etat degrade
+sudo mdadm --detail /dev/md0
+```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+# Marquer un disque comme defaillant
+sudo mdadm --manage /dev/md0 --fail /dev/sdc
+
+# Verifier l'etat degrade
+sudo mdadm --detail /dev/md0
+```
+
+</TabItem>
+</Tabs>
+
+### Retirer un disque defaillant
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
+```bash
+# En une commande
+sudo mdadm --manage /dev/md0 --fail /dev/sdc --remove /dev/sdc
+
+# Ou en deux etapes
+sudo mdadm --manage /dev/md0 --fail /dev/sdc
+sudo mdadm --manage /dev/md0 --remove /dev/sdc
+```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+# En une commande
+sudo mdadm --manage /dev/md0 --fail /dev/sdc --remove /dev/sdc
+
+# Ou en deux etapes
+sudo mdadm --manage /dev/md0 --fail /dev/sdc
+sudo mdadm --manage /dev/md0 --remove /dev/sdc
+```
+
+</TabItem>
+</Tabs>
+
+:::info Reconstruction automatique
+En RAID 5, quand un disque tombe en panne et qu'un Spare est disponible, la reconstruction demarre automatiquement. Le Spare prend la place du disque defaillant.
+:::
+
+---
+
+## 8. Arreter et reassembler un RAID
+
+### Arreter le RAID
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
+```bash
+# Demonter d'abord
+sudo umount /dev/md0
+
+# Arreter le RAID
+sudo mdadm --stop /dev/md0
+```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+# Demonter d'abord
+sudo umount /dev/md0
+
+# Arreter le RAID
+sudo mdadm --stop /dev/md0
+```
+
+</TabItem>
+</Tabs>
+
+### Reassembler un RAID degrade
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
+```bash
+# Reassembler avec les disques survivants (ex: RAID 5 avec sdb, sdd, sde)
+sudo mdadm --assemble /dev/md0 /dev/sdb /dev/sdd /dev/sde
+
+# Ou en mode force (avec un seul disque survivant)
+sudo mdadm --assemble --run /dev/md0 /dev/sdc --force
+```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+# Reassembler avec les disques survivants
+sudo mdadm --assemble /dev/md0 /dev/sdb /dev/sdd /dev/sde
+
+# Ou en mode force
+sudo mdadm --assemble --run /dev/md0 /dev/sdc --force
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+## 9. Agrandir un RAID
+
+Pour agrandir un RAID 5 de 3 a 4 disques actifs :
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
+```bash
+# 1. Ajouter le nouveau disque (devient Spare)
+sudo mdadm --manage /dev/md0 --add /dev/sde
+
+# 2. Etendre le RAID au 4eme disque
+sudo mdadm --grow /dev/md0 --raid-devices=4
+
+# 3. Surveiller la reconstruction
+watch cat /proc/mdstat
+
+# 4. Etendre le systeme de fichiers (ext4 — a chaud)
+sudo resize2fs /dev/md0
+
+# 5. Verifier le nouvel espace
+df -h /mnt/raid
+```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+# 1. Ajouter le nouveau disque (devient Spare)
+sudo mdadm --manage /dev/md0 --add /dev/sde
+
+# 2. Etendre le RAID au 4eme disque
+sudo mdadm --grow /dev/md0 --raid-devices=4
+
+# 3. Surveiller la reconstruction
+watch cat /proc/mdstat
+
+# 4. Etendre le systeme de fichiers (xfs — a chaud)
+sudo xfs_growfs /mnt/raid
+
+# 5. Verifier le nouvel espace
+df -h /mnt/raid
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+## 10. Persistance de la configuration
+
+:::danger Etape obligatoire
+Sans cette etape, le RAID ne se remontera pas correctement apres un redemarrage.
+:::
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
+```bash
+# Sauvegarder la configuration RAID
+sudo mdadm --detail --scan | sudo tee -a /etc/mdadm/mdadm.conf
+
+# Mettre a jour l'initramfs
+sudo update-initramfs -u
+
+# Ajouter le montage automatique dans /etc/fstab
+echo '/dev/md0 /mnt/raid ext4 defaults 0 2' | sudo tee -a /etc/fstab
+```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+# Sauvegarder la configuration RAID
+sudo mdadm --detail --scan | sudo tee -a /etc/mdadm.conf
+
+# Regenerer le dracut initramfs
+sudo dracut --force
+
+# Ajouter le montage automatique dans /etc/fstab
+echo '/dev/md0 /mnt/raid xfs defaults 0 2' | sudo tee -a /etc/fstab
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+## 11. Accelerer la synchronisation
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
+```bash
+# Vitesse maximale : 100 MB/s
+echo 1000000 > /proc/sys/dev/raid/speed_limit_max
+
+# Vitesse minimale : 10 MB/s
+echo 100000 > /proc/sys/dev/raid/speed_limit_min
+```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+# Vitesse maximale : 100 MB/s
+echo 1000000 > /proc/sys/dev/raid/speed_limit_max
+
+# Vitesse minimale : 10 MB/s
+echo 100000 > /proc/sys/dev/raid/speed_limit_min
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+## 12. Verification
+
+| Commande | Description |
+|---|---|
+| `cat /proc/mdstat` | Etat global de tous les RAID en temps reel |
+| `sudo mdadm --detail /dev/md0` | Details complets d'un RAID specifique |
+| `sudo mdadm --detail --scan` | Scanner tous les RAID disponibles |
+| `lsblk` | Vue arborescente des disques et volumes |
+| `df -h /mnt/raid` | Espace utilise sur le volume monte |
+| `watch cat /proc/mdstat` | Surveiller la synchronisation en direct |
+
+### Lecture de `mdadm --detail`
+
+```
+/dev/md0:
+           Version : 1.2
+     Creation Time : Mon Mar 20 10:00:00 2026
+        Raid Level : raid5
+        Array Size : 16760832 (15.99 GiB 17.16 GB)
+     Used Dev Size : 8380416 (7.99 GiB 8.58 GB)
+      Raid Devices : 3
+     Total Devices : 4
+       Persistence : Superblock is persistent
+
+             State : clean
+    Active Devices : 3
+   Working Devices : 4
+    Failed Devices : 0
+     Spare Devices : 1
+
+    Number   Major   Minor   RaidDevice State
+       0       8      16        0      active sync   /dev/sdb
+       1       8      32        1      active sync   /dev/sdc
+       3       8      48        2      active sync   /dev/sdd
+       4       8      64        -      spare         /dev/sde
+```
+
+| Champ | Description |
+|---|---|
+| `State: clean` | RAID sain et operationnel |
+| `State: degraded` | Un disque manquant — RAID vulnerable |
+| `active sync` | Disque actif et synchronise |
+| `spare` | Disque de reserve en attente |
+| `faulty` | Disque marque defaillant |
