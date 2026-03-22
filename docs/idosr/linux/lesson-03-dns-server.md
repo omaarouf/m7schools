@@ -186,6 +186,20 @@ sudo dnf install bind bind-utils -y
 <TabItem value="ubuntu" label="Ubuntu / Debian">
 
 Editer `/etc/bind/named.conf.options` :
+qui Contient les paramètres globaux du serveur DNS
+**Rôle**
+
+Configure le comportement général :
+
+récursion
+
+DNS externes (forwarders)
+
+sécurité
+
+interfaces d’écoute
+
+👉 Ne contient pas de zones
 
 ```bash
 sudo nano /etc/bind/named.conf.options
@@ -242,22 +256,53 @@ options {
 <TabItem value="ubuntu" label="Ubuntu / Debian">
 
 Editer `/etc/bind/named.conf.local` :
+Qui Contient la déclaration des zones DNS
 
+**Rôle**
+
+Définir :
+
+zones directes
+
+zones inverses
+
+fichiers de zone
+
+C’est ici qu’on travaille sur les domaines
+:::info
+Les options suivantes concernent une zone spécifique :
+
+Autoriser mise à jour dynamique
+
+Autoriser transfert
+
+Activer notification
+
+Donc elles vont dans :
 ```bash
 sudo nano /etc/bind/named.conf.local
 ```
+:::
 
 ```bash
 # Zone directe
 zone "ofppt.local" {
     type master;
     file "/etc/bind/db.ofppt.local";
+
+    allow-update { 10.10.0.30; };   # DHCP
+    allow-transfer { 10.10.0.30; }; # serveur secondaire
+    notify yes;                     # notification
 };
 
 # Zone inverse
 zone "10.168.192.in-addr.arpa" {
     type master;
     file "/etc/bind/db.192.168.10";
+
+    allow-update { 10.10.0.30; };
+    allow-transfer { 10.10.0.30; };
+    notify yes;
 };
 ```
 
@@ -275,6 +320,10 @@ sudo nano /etc/named.conf
 zone "ofppt.local" {
     type master;
     file "/var/named/db.ofppt.local";
+
+    allow-update { 10.10.0.30; };   # DHCP
+    allow-transfer { 10.10.0.30; }; # serveur secondaire
+    notify yes;                     # notification
 };
 
 # Zone inverse

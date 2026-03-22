@@ -369,7 +369,7 @@ La bonne pratique est de creer **un fichier par site** et de declarer les ports 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
 
-```apache title="/etc/apache2/ports.conf"
+```apache title="/etc/apache2/apache2.conf ou ports.conf "
 Listen 80
 Listen 8080
 ```
@@ -377,7 +377,7 @@ Listen 8080
 </TabItem>
 <TabItem value="fedora" label="Fedora / Red Hat">
 
-```apache title="/etc/httpd/conf.d/ports.conf"
+```apache title="/etc/httpd/conf/httpd.conf ou ports.conf"
 Listen 80
 Listen 8080
 ```

@@ -205,6 +205,32 @@ const sidebars = {
       ],
     },  
   ],
+  EfmsSidebar: [
+    {
+    type: 'doc',
+    id: 'EFMs/efms-intro',
+    label: 'EFMs',
+    },
+    {
+      type: 'category',
+      label: 'EFMs Linux',
+      collapsed: true,
+      items: [
+        'EFMs/linux/TTA-2022-2023-v1',
+        'EFMs/linux/SOUSS-MASSA-2022-2023-v1',
+        'EFMs/linux/RSK-2022-2023-v1',
+        'EFMs/linux/RSK-2022-2023-v2',
+        'EFMs/linux/BMK-2024-v2',
+        'EFMs/linux/BMK-2024-v1',
+        'EFMs/linux/BMK-2022-2023',
+        'EFMs/linux/CASA-2022-2023-v1',
+
+
+
+
+      ],
+    },  
+  ],
 
 };
 

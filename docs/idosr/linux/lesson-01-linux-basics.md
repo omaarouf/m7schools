@@ -214,6 +214,8 @@ nmcli connection modify enp0s3 ipv4.gateway 172.16.1.1
 nmcli connection modify enp0s3 ipv4.dns 8.8.8.8
 nmcli connection up enp0s3
 ```
+
+
 ### Permissions (important)
 
 Si les permissions sont trop ouvertes, Netplan affiche un avertissement et refuse d'appliquer la configuration :
@@ -223,6 +225,55 @@ sudo netplan apply
 ```
 </TabItem>
 </Tabs>
+
+:::info Notes importantes 
+
+nmcli fonctionne uniquement si les interfaces sont gérées (managed)
+
+` nmcli device status `
+
+Si tu vois unmanaged → ça ne marchera pas
+
+Sur Ubuntu, il faut vérifier Netplan.yml :
+
+` renderer: NetworkManager `
+
+nmcli utilise le nom de la connexion, pas toujours l’interface
+
+nmcli connection show
+
+Toujours utiliser sudo pour modifier :
+
+sudo nmcli ...
+
+:::
+
+```bash
+nmcli device status
+DEVICE  TYPE      STATE                   CONNECTION
+ens33   ethernet  connected               netplan-ens33
+ens38   ethernet  connected               netplan-ens38
+lo      loopback  connected (externally)  lo
+ens37   ethernet  disconnected            --
+
+sudo nmcli conn mod netplan-ens37 ipv4.method manual ipv4.addresses 192.168.7.41/24
+
+nmcli device status
+DEVICE  TYPE      STATE                   CONNECTION
+ens33   ethernet  connected               netplan-ens33
+ens37   ethernet  connected               netplan-ens37
+ens38   ethernet  connected               netplan-ens38
+lo      loopback  connected (externally)  lo
+
+nmcli connection show
+NAME                UUID                                  TYPE      DEVICE
+netplan-ens33       14f59568-5076-387a-aef6-10adfcca2e26  ethernet  ens33
+netplan-ens37       c5c3b18d-e2d7-3b94-9c87-573e6c0c29bc  ethernet  ens37
+netplan-ens38       194e9097-a8b9-3628-b800-448687b3d6ae  ethernet  ens38
+lo                  25211f61-473b-4659-8a04-4945b5fffbba  loopback  lo
+Wired connection 1  3ff52ac5-dc9d-3a89-ae8a-47fc0387f847  ethernet  --
+
+```
 
 ### Configurer en DHCP
 

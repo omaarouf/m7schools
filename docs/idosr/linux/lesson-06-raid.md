@@ -4,8 +4,6 @@ title: RAID LOGICIEL – mdadm
 ---
 
 
-
-
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -23,13 +21,8 @@ Le RAID (Redundant Array of Independent Disks) est un ensemble de techniques de 
 | **RAID 1** | Mirroring | 2 | 1 | 50% (1 x taille) | Redondance — serveurs critiques |
 | **RAID 5** | Striping + parite | 3 | 1 | (N-1) x taille | Equilibre perfs / redondance |
 | **RAID 6** | Double parite | 4 | 2 | (N-2) x taille | Haute disponibilite |
-| **RAID 10** | Mirror + Stripe | 4 | 1/miroir | N/2 x taille | Perfs + redondance — bases de donnees |
 
-:::info Lecture de /proc/mdstat
-- `[UU]` : toutes les disques sains
-- `[U_]` : 1 disque en panne
-- `[S]` : spare (disque de reserve)
-:::
+
 
 ---
 
@@ -49,8 +42,7 @@ Sans Spare, le systeme reste vulnerable jusqu'a l'intervention humaine. Avec un 
 
 ## 3. Presentation de mdadm
 
-`mdadm` (Multiple Device ADMinistrator) est l'outil standard sous Linux pour creer, gerer et surveiller des systemes RAID logiciel. Il utilise le processeur de la machine pour piloter les disques via le noyau Linux — sans carte RAID materielle.
-
+`mdadm` (Multiple Device ADMinistrator) est l'outil standard sous Linux pour creer, gerer et surveiller des systemes RAID logiciel. 
 **Fonctions principales :**
 - **Create** : grouper plusieurs disques en un volume RAID
 - **Manage** : ajouter/retirer des disques a chaud

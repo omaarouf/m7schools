@@ -91,6 +91,12 @@ const config = {
           label: 'TP',
         },
         {
+          type: 'docSidebar',
+          sidebarId: 'EfmsSidebar',
+          position: 'left',
+          label: 'EFMs',
+        },
+        {
           href: 'https://github.com/omaarouf/M7Schools',
           label: 'GitHub',
           position: 'right',
