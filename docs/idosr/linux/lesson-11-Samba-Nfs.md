@@ -4,329 +4,465 @@ title:  Samba et nfs
 ---
 
 
-# Samba et NFS — Partage de Fichiers Réseau
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-> **Objectif :** Configurer le partage de fichiers entre Linux et Windows avec Samba, et entre systèmes Linux avec NFS.
+# Samba et NFS — Partage de fichiers réseau
 
 ---
 
-## Partie 1 — Samba (Partage Windows/Linux)
+## Partie 1 — Samba
 
-### 1.1 Démons et Installation
+### 1. Installation
 
-| Démon | Ubuntu | Fedora | Rôle |
-|-------|--------|--------|------|
-| Partage fichiers | `smbd` | `smb` | Partage fichiers et imprimantes |
-| NetBIOS | `nmbd` | `nmb` | Résolution de noms NetBIOS |
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
 
-| Distribution | Commande |
-|-------------|----------|
-| **Ubuntu Server** | `sudo apt install samba samba-common-bin -y` |
-| **Fedora** | `sudo dnf install samba samba-client samba-common -y` |
+```bash
+sudo apt install samba -y
+```
 
-### 1.2 Fichiers principaux
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+sudo dnf install samba samba-client -y
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+### 2. Fichiers de configuration
 
 | Fichier | Rôle |
 |---------|------|
-| `/etc/samba/smb.conf` | Fichier de configuration principal |
-| `/var/lib/samba/private/` | Fichiers privés Samba (TDB, secrets) |
+| `/etc/samba/smb.conf` | Configuration principale |
+| `/var/lib/samba/private/passdb.tdb` | Base de données des mots de passe Samba |
 | `/var/log/samba/` | Logs Samba |
-| `/etc/samba/smbpasswd` | Base de données des mots de passe Samba |
 
 ---
 
-### 1.3 Configuration — `/etc/samba/smb.conf`
+### 3. Configuration principale
+
+Éditer `/etc/samba/smb.conf` :
 
 ```bash
-sudo nano /etc/samba/smb.conf
-```
-
-```ini title="/etc/samba/smb.conf"
-# Section globale
 [global]
-    workgroup = WORKGROUP
-    server string = Serveur Samba
-    security = user
-    map to guest = bad user
+   workgroup = WORKGROUP
+   server string = Serveur Samba
+   security = user
+   map to guest = bad user
 
-# Partage public (accessible à tous)
+# Partage avec authentification
+[data]
+   path = /srv/samba/data
+   browseable = yes
+   writable = yes
+   valid users = @sambausers
+   create mask = 0660
+   directory mask = 0770
+
+# Partage public (sans mot de passe)
 [public]
-    comment = Partage Public
-    path = /srv/samba/public
-    browseable = yes
-    public = yes
-    read only = no
-    create mask = 0777
-
-# Partage privé (utilisateurs spécifiques)
-[prive]
-    comment = Partage Privé
-    path = /srv/samba/prive
-    browseable = yes
-    valid users = said, samira
-    read only = no
-    create mask = 0660
-```
-
-**Paramètres importants :**
-
-| Paramètre | Valeur | Description |
-|-----------|--------|-------------|
-| `security` | `user` / `share` | `user` = droits par utilisateur, `share` = droits communs |
-| `path` | `/chemin` | Chemin du dossier partagé |
-| `browseable` | `yes` / `no` | Visible dans le voisinage réseau |
-| `public` | `yes` / `no` | Accessible à tous sans mot de passe |
-| `valid users` | `said samira` | Utilisateurs autorisés |
-| `invalid users` | `root` | Utilisateurs interdits |
-| `read only` | `yes` / `no` | Lecture seule |
-| `writeable` | `yes` / `no` | Lecture et écriture |
-| `create mask` | `0644` | Permissions des fichiers créés |
-
----
-
-### 1.4 Gestion des Utilisateurs Samba
-
-:::warning Un utilisateur Samba doit exister dans Linux ET dans Samba
-Créer d'abord le compte Linux avec `adduser`, puis l'ajouter à Samba avec `smbpasswd -a`.
-:::
-
-```bash
-# Ajouter un utilisateur Samba
-sudo smbpasswd -a said
-
-# Activer un compte
-sudo smbpasswd -e said
-
-# Désactiver un compte
-sudo smbpasswd -d said
-
-# Supprimer un compte
-sudo smbpasswd -x said
-
-# Lister tous les utilisateurs Samba
-sudo pdbedit -L
+   path = /srv/samba/public
+   browseable = yes
+   writable = no
+   guest ok = yes
 ```
 
 ---
 
-### 1.5 Démarrer et Tester
+### 4. Créer un utilisateur Samba
 
-| Action | Ubuntu | Fedora |
-|--------|--------|--------|
-| Démarrer | `sudo systemctl start smbd nmbd` | `sudo systemctl start smb nmb` |
-| Activer | `sudo systemctl enable smbd nmbd` | `sudo systemctl enable smb nmb` |
-| Statut | `sudo systemctl status smbd` | `sudo systemctl status smb` |
+L'utilisateur doit d'abord exister en tant qu'utilisateur Linux.
 
 ```bash
-# Vérifier la syntaxe de smb.conf
-sudo testparm
+sudo useradd -M -s /sbin/nologin sambauser  # Créer un utilisateur sans home ni shell
+sudo smbpasswd -a sambauser                 # Ajouter à Samba et définir le mot de passe
+sudo smbpasswd -e sambauser                 # Activer le compte
+sudo smbpasswd -d sambauser                 # Désactiver le compte
+sudo smbpasswd -x sambauser                 # Supprimer le compte Samba
 ```
 
-**Fedora uniquement — SELinux :**
+---
+
+### 5. Démarrage du service
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
 ```bash
+sudo systemctl enable --now smbd nmbd
+sudo systemctl restart smbd nmbd
+```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+sudo systemctl enable --now smb
+sudo systemctl restart smb
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+### 6. Vérifier la syntaxe et les erreurs
+
+```bash
+testparm                          # Vérifier la syntaxe de smb.conf
+testparm -s                       # Afficher la config finale sans commentaires
+smbclient -L localhost -N         # Lister les partages disponibles localement
+```
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
+```bash
+journalctl -u samba -f            # Logs en temps réel
+```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+journalctl -u smb -f              # Logs en temps réel
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+### 7. Tester la connexion depuis un client Linux
+
+```bash
+smbclient //192.168.1.1/data -U sambauser
+```
+
+---
+
+### 8. Pare-feu
+
+Samba utilise les ports 139 et 445 :
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
+```bash
+sudo ufw allow 139/tcp
+sudo ufw allow 445/tcp
+sudo ufw allow 137/udp
+sudo ufw allow 138/udp
+```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+sudo firewall-cmd --add-service=samba --permanent
+sudo firewall-cmd --reload
+```
+
+</TabItem>
+</Tabs>
+
+---
+### Resume
+```bash
+# ─── 1. Installation ───────────────────────────────────────────────────────────
+sudo apt install samba smbclient cifs-utils -y
+
+# ─── 2. Créer l'utilisateur Linux ──────────────────────────────────────────────
+sudo useradd -M -s /sbin/nologin sambauser
+sudo smbpasswd -a sambauser        # Définir le mot de passe Samba
+sudo smbpasswd -e sambauser        # Activer le compte
+
+# ─── 3. Créer les dossiers de partage ──────────────────────────────────────────
+sudo mkdir -p /srv/samba/data
+sudo mkdir -p /srv/samba/public
+sudo chown -R sambauser:sambauser /srv/samba/data
+sudo chmod 0770 /srv/samba/data
+sudo chmod 0775 /srv/samba/public
+
+# ─── 4. Configurer smb.conf ────────────────────────────────────────────────────
+sudo nano /etc/samba/smb.conf
+# Ajouter à la fin :
+#
+# [data]
+#    path = /srv/samba/data
+#    browseable = yes
+#    writable = yes
+#    valid users = sambauser
+#    create mask = 0660
+#    directory mask = 0770
+#
+# [public]
+#    path = /srv/samba/public
+#    browseable = yes
+#    writable = no
+#    guest ok = yes
+
+# ─── 5. Vérifier la syntaxe ────────────────────────────────────────────────────
+testparm
+
+# ─── 6. Démarrer les services ──────────────────────────────────────────────────
+sudo systemctl enable --now smbd nmbd
+sudo systemctl restart smbd nmbd
+
+# ─── 7. Tester en local ────────────────────────────────────────────────────────
+smbclient -L localhost -N
+smbclient //localhost/data -U sambauser
+
+# ─── 8. Tester depuis un client Linux ──────────────────────────────────────────
+sudo mkdir -p /mnt/samba
+sudo mount -t cifs //192.168.7.41/data /mnt/samba -o username=sambauser
+
+# ─── 9. Tester depuis Windows ──────────────────────────────────────────────────
+# Explorateur : \\192.168.7.41\data
+# PowerShell  :
+# net use Z: \\192.168.7.41\data /user:sambauser
+
+```
+
+---
+### 9. SELinux sur Red Hat
+
+Sur Red Hat/Rocky, SELinux peut bloquer Samba même si la configuration est correcte :
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
+```bash
+# SELinux non applicable sur Ubuntu/Debian
+# AppArmor est utilisé à la place — aucune action requise pour Samba
+```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+sudo setsebool -P samba_enable_home_dirs on
 sudo setsebool -P samba_export_all_rw on
 ```
 
----
-
-### 1.6 Accès Client Linux
-
-```bash
-# Lister les partages disponibles sur un serveur
-smbclient -L //192.168.1.10 -U said
-
-# Se connecter à un partage interactif
-smbclient //192.168.1.10/public -U said
-
-# Monter un partage Samba
-sudo mount -t cifs //192.168.1.10/public /mnt/samba -o user=said,password=P@ss
-```
-
-**Montage permanent dans `/etc/fstab` :**
-
-```fstab title="/etc/fstab"
-//192.168.1.10/public  /mnt/samba  cifs  credentials=/etc/samba/.smbcredentials  0 0
-```
-
-```bash title="/etc/samba/.smbcredentials"
-username=said
-password=P@ss
-```
-
-```bash
-# Sécuriser le fichier credentials
-sudo chmod 600 /etc/samba/.smbcredentials
-```
-
-:::tip Fichier credentials
-Ne jamais mettre le mot de passe en clair dans `/etc/fstab`. Utiliser un fichier `.smbcredentials` avec les permissions `600`.
-:::
+</TabItem>
+</Tabs>
 
 ---
 
 ## Partie 2 — NFS (Network File System)
 
-NFS est le protocole de partage de fichiers natif entre systèmes Linux/Unix.
+### 1. Installation
 
-### 2.1 Démons
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
 
-| Démon | Port | Rôle |
-|-------|------|------|
-| `portmap` / `rpcbind` | 111 TCP/UDP | Gère les services RPC |
-| `rpc.mountd` | dynamique | Gère les demandes de montage |
-| `rpc.nfsd` | 2049 | Exécute les requêtes NFS (lecture/écriture) |
+```bash
+# Serveur
+sudo apt install nfs-kernel-server -y
 
-### 2.2 Installation
+# Client
+sudo apt install nfs-common -y
+```
 
-| Distribution | Serveur | Client |
-|-------------|---------|--------|
-| **Ubuntu** | `sudo apt install nfs-kernel-server -y` | `sudo apt install nfs-common -y` |
-| **Fedora** | `sudo dnf install nfs-utils -y` | (inclus dans nfs-utils) |
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
 
-### 2.3 Fichiers principaux
+```bash
+# Serveur
+sudo dnf install nfs-utils -y
+
+# Client
+sudo dnf install nfs-utils -y
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+### 2. Fichiers de configuration
 
 | Fichier | Rôle |
 |---------|------|
-| `/etc/exports` | Config serveur — répertoires partagés, clients et droits |
-| `/etc/fstab` | Montages automatiques côté client |
-| `/etc/rpc` | Correspondance numéro RPC ↔ application (NFS=100003) |
-| `/var/lib/nfs/etab` | Table des exports actifs (auto-générée) |
-| `/var/lib/nfs/rmtab` | Table des clients actuellement montés |
+| `/etc/exports` | Définition des partages NFS |
+| `/var/lib/nfs/etab` | Table interne des exports actifs |
+| `/etc/fstab` | Montages persistants côté client |
 
 ---
 
-### 2.4 Configuration Serveur — `/etc/exports`
+### 3. Configurer les partages
+
+Éditer `/etc/exports` :
 
 ```bash
-# Créer le répertoire partagé
-sudo mkdir -p /srv/nfs/public
-sudo chmod 777 /srv/nfs/public
+# Syntaxe : <répertoire> <client>(<options>)
 
-sudo nano /etc/exports
+/srv/data    192.168.1.0/24(rw,sync,no_subtree_check)
+/srv/public  *(ro,sync,no_subtree_check)
+/srv/admin   192.168.1.10(rw,sync,no_root_squash)
 ```
-
-```bash title="/etc/exports"
-# Syntaxe : /chemin  client(options)
-
-# Accès par hôtes spécifiques avec droits différents
-/home/coursLinux   client1(rw)  client2(ro)
-
-# Accès en lecture seule pour tout le monde
-/doc               *(ro)
-
-# Accès réseau complet avec options recommandées
-/srv/nfs/public    192.168.1.0/24(rw,sync,no_subtree_check)
-
-# Avec protection root
-/home              192.168.1.0/24(rw,sync,no_subtree_check,root_squash)
-```
-
-**Options d'exports :**
 
 | Option | Description |
 |--------|-------------|
-| `rw` | Lecture + écriture |
+| `rw` | Lecture et écriture |
 | `ro` | Lecture seule |
-| `sync` | Ecriture disque avant acquittement — recommandé en production |
-| `no_subtree_check` | Désactiver la vérification de sous-arborescence — meilleures performances |
-| `root_squash` | root client → `nobody` (défaut — sécurisé) |
-| `no_root_squash` | root client garde ses droits root sur le serveur |
+| `sync` | Écriture synchrone, plus sûr |
+| `no_subtree_check` | Désactive la vérification de sous-arborescence, améliore les performances |
+| `no_root_squash` | Le root client garde ses privilèges root sur le partage |
+| `root_squash` | Le root client est mappé sur nobody (défaut, plus sûr) |
 
-:::warning root_squash vs no_root_squash
-Par défaut, `root_squash` est actif — le root du client est mappé sur `nobody`. Ne jamais utiliser `no_root_squash` en production sauf cas très spécifique, cela donne un accès root complet au serveur depuis le client.
+---
+
+### 4. Commandes côté serveur
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
+
+```bash
+sudo systemctl enable --now nfs-kernel-server  # Démarrer le serveur NFS
+sudo exportfs -a                               # Appliquer /etc/exports sans redémarrer
+sudo exportfs -r                               # Recharger et re-exporter
+sudo exportfs -v                               # Afficher les partages actifs
+showmount -e localhost                         # Lister les partages exportés
+```
+
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+sudo systemctl enable --now nfs-server         # Démarrer le serveur NFS
+sudo exportfs -a                               # Appliquer /etc/exports sans redémarrer
+sudo exportfs -r                               # Recharger et re-exporter
+sudo exportfs -v                               # Afficher les partages actifs
+showmount -e localhost                         # Lister les partages exportés
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+### 5. Commandes côté client
+
+```bash
+showmount -e 192.168.1.1                              # Lister les partages disponibles
+sudo mount -t nfs 192.168.1.1:/srv/data /mnt/data     # Monter un partage manuellement
+sudo umount /mnt/data                                 # Démonter
+```
+
+---
+
+### 6. Montage persistant — /etc/fstab
+
+```bash
+192.168.1.1:/srv/data  /mnt/data  nfs  defaults,_netdev  0  0
+```
+
+:::info `_netdev`
+L'option `_netdev` indique au système d'attendre que le réseau soit disponible avant de monter le partage au démarrage.
 :::
 
 ---
 
-### 2.5 Démarrer le Service Serveur
+### 7. Vérifier la syntaxe et les erreurs
 
-| Action | Ubuntu | Fedora |
-|--------|--------|--------|
-| Démarrer | `sudo systemctl start nfs-kernel-server` | `sudo systemctl start rpcbind && sudo systemctl start nfs-server` |
-| Activer | `sudo systemctl enable nfs-kernel-server` | `sudo systemctl enable nfs-server` |
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
 
 ```bash
-# Recharger les exports sans coupure
-sudo exportfs -ra
-
-# Voir les exports actifs
-sudo exportfs -v
+sudo exportfs -v                        # Vérifier les exports actifs
+journalctl -u nfs-kernel-server -f      # Logs en temps réel
+showmount -e localhost                  # Confirmer que les partages sont bien exportés
 ```
 
-**Fedora uniquement — SELinux :**
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
 ```bash
-sudo setsebool -P nfs_export_all_rw on
+sudo exportfs -v                        # Vérifier les exports actifs
+journalctl -u nfs-server -f             # Logs en temps réel
+showmount -e localhost                  # Confirmer que les partages sont bien exportés
 ```
+
+</TabItem>
+</Tabs>
 
 ---
 
-### 2.6 Configuration Client
+### 8. Pare-feu
+
+NFS utilise le port 2049 :
+
+<Tabs groupId="linux-distros">
+<TabItem value="ubuntu" label="Ubuntu / Debian">
 
 ```bash
-# Voir les partages disponibles sur un serveur
-showmount -e 192.168.1.10
+sudo ufw allow 2049/tcp
+sudo ufw allow 2049/udp
+```
 
-# Créer le point de montage
+</TabItem>
+<TabItem value="fedora" label="Fedora / Red Hat">
+
+```bash
+sudo firewall-cmd --add-service=nfs --permanent
+sudo firewall-cmd --reload
+```
+
+</TabItem>
+</Tabs>
+
+
+### Resume
+
+```bash
+# ─── 1. Installation ───────────────────────────────────────────────────────────
+sudo apt install nfs-kernel-server -y          # Serveur
+sudo apt install nfs-common -y                 # Client
+
+# ─── 2. Créer les dossiers de partage ──────────────────────────────────────────
+sudo mkdir -p /srv/nfs/data
+sudo mkdir -p /srv/nfs/public
+sudo chown -R nobody:nogroup /srv/nfs/data
+sudo chown -R nobody:nogroup /srv/nfs/public
+sudo chmod 0770 /srv/nfs/data
+sudo chmod 0775 /srv/nfs/public
+
+# ─── 3. Configurer /etc/exports ────────────────────────────────────────────────
+sudo nano /etc/exports
+# Ajouter :
+#
+# /srv/nfs/data    192.168.7.0/24(rw,sync,no_subtree_check)
+# /srv/nfs/public  *(ro,sync,no_subtree_check)
+
+# ─── 4. Appliquer les exports ──────────────────────────────────────────────────
+sudo exportfs -a
+sudo exportfs -v                               # Vérifier les partages actifs
+
+# ─── 5. Démarrer le service ────────────────────────────────────────────────────
+sudo systemctl enable --now nfs-kernel-server
+sudo systemctl restart nfs-kernel-server
+
+# ─── 6. Vérifier les partages exportés ────────────────────────────────────────
+showmount -e localhost
+
+# ─── 7. Tester depuis un client Linux ──────────────────────────────────────────
+sudo apt install nfs-common -y                 # Sur le client
+showmount -e 192.168.7.41                      # Lister les partages disponibles
 sudo mkdir -p /mnt/nfs
+sudo mount -t nfs 192.168.7.41:/srv/nfs/data /mnt/nfs
+df -h | grep nfs                               # Vérifier le montage
 
-# Monter le partage
-sudo mount -t nfs 192.168.1.10:/srv/nfs/public /mnt/nfs
+# ─── 8. Montage persistant /etc/fstab (client) ────────────────────────────────
+# Ajouter dans /etc/fstab :
+# 192.168.7.41:/srv/nfs/data  /mnt/nfs  nfs  defaults,_netdev  0  0
 
-# Montage avec options de performance
-sudo mount -t nfs -o rsize=1024,wsize=1024 server1:/Formation /Trainning
-
-# Démonter
+# ─── 9. Démonter ───────────────────────────────────────────────────────────────
 sudo umount /mnt/nfs
-```
-
-**Montage permanent dans `/etc/fstab` :**
-
-```fstab title="/etc/fstab"
-192.168.1.10:/srv/nfs/public  /mnt/nfs   nfs  defaults,_netdev  0 0
-Server1:/formation             /Trainning  nfs  rsize=1024,wsize=1024  0 0
-```
-
-```bash
-# Monter depuis fstab sans redémarrer
-sudo mount /mnt/nfs
-```
-
-:::danger `_netdev` obligatoire dans fstab pour NFS
-Sans `_netdev`, le système peut **bloquer au démarrage** si le réseau n'est pas encore disponible quand fstab est traité. C'est une erreur courante qui rend le système non démarrable.
-:::
-
----
-
-## 3. Samba vs NFS — Comparaison
-
-| Critère | Samba | NFS |
-|---------|-------|-----|
-| **Compatibilité** | Linux + Windows + macOS | Linux / Unix uniquement |
-| **Protocole** | SMB/CIFS | NFS (RPC) |
-| **Authentification** | Par utilisateur (smbpasswd) | Par adresse IP / réseau |
-| **Usage typique** | Environnements mixtes Windows/Linux | Serveurs Linux uniquement |
-| **Performance** | Bonne | Excellente (moins d'overhead) |
-
----
-
-## 4. Commandes de Référence
-
-```bash
-# --- Samba ---
-sudo testparm                          # vérifier smb.conf
-sudo smbpasswd -a <user>               # ajouter utilisateur
-sudo pdbedit -L                        # lister utilisateurs
-smbclient -L //<ip> -U <user>         # lister partages
-sudo systemctl restart smbd nmbd       # Ubuntu
-sudo systemctl restart smb nmb        # Fedora
-
-# --- NFS Serveur ---
-sudo exportfs -ra                      # recharger exports
-sudo exportfs -v                       # voir exports actifs
-showmount -e <ip>                      # voir partages d'un serveur
-
-# --- NFS Client ---
-sudo mount -t nfs <ip>:/chemin /mnt   # monter
-sudo umount /mnt                       # démonter
-sudo mount -a                          # monter tout fstab
 ```

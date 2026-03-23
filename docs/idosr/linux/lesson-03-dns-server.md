@@ -619,7 +619,7 @@ subnet 192.168.7.0 netmask 255.255.255.0 {
     range 192.168.7.100 192.168.7.200;
     option routers 192.168.7.1;
     ddns-domainname "ofppt.local.";          # Zone directe à mettre à jour (A record)
-    ddns-rev-domainname "in-addr.arpa.";     # Zone inverse à mettre à jour (PTR record)
+    ddns-rev-domainname "10.168.192.in-addr.arpa.";     # Zone inverse à mettre à jour (PTR record)
 }
 ```
 ### freeze & thaw
