@@ -45,6 +45,37 @@ zone "ofppt.local" IN {
 
 Le fichier de zone contient les differents **enregistrements de ressources DNS**. Il indique a `named` comment resoudre un nom, une adresse ou un alias.
 
+### Enregistrement SOA
+
+Start of Authority — c'est le premier enregistrement d'une zone DNS.
+Il indique qui fait autorité sur la zone et contient :
+
+le serveur DNS principal de la zone
+l'email de l'administrateur
+le numéro de série (pour la synchronisation avec les DNS secondaires)
+les timers : refresh, retry, expire, TTL minimum
+
+
+En résumé :  ` c'est la carte d'identité de la zone DNS. `
+
+```dns
+@  IN  SOA  ns1.ofppt.local. admin.ofppt.local. (
+              2024010101 ; Serial
+              3600       ; Refresh
+              1800       ; Retry
+              604800     ; Expire
+              86400 )    ; Minimum TTL
+```
+
+| Parametre | Signification | Utilite |
+|-----------|--------------|---------|
+| `Serial` | Numero de version de la zone | Permet aux serveurs secondaires de savoir si la zone a change |
+| `Refresh` | Temps avant que le slave verifie les mises a jour | Synchronisation master vers slave |
+| `Retry` | Delai avant de reessayer si le master ne repond pas | Eviter les erreurs temporaires |
+| `Expire` | Duree max pendant laquelle le slave garde la zone sans contact | Securite |
+| `Minimum TTL` | Duree minimale de cache des reponses negatives | Gestion du cache DNS |
+
+
 ### Enregistrement A
 
 Associe un nom d hote a une adresse IPv4.
@@ -100,35 +131,6 @@ mail IN  A       192.168.10.5
 
 > **Pourquoi MX + A ensemble ?** Le MX indique quel serveur gere les emails, mais pour lui envoyer les messages il faut connaitre son adresse IP. L enregistrement A associe fournit cette adresse.
 
-### Enregistrement SRV
-
-Indique un service reseau offert par un hote.
-
-```dns
-_ldap._tcp.ofppt.local.  IN  SRV  0 0 389 dc1.ofppt.local.
-```
-
-### Enregistrement SOA
-
-Start of Authority — specifie le serveur DNS ayant priorite pour repondre aux requetes. Il est obligatoire dans chaque fichier de zone.
-
-```dns
-@  IN  SOA  ns1.ofppt.local. admin.ofppt.local. (
-              2024010101 ; Serial
-              3600       ; Refresh
-              1800       ; Retry
-              604800     ; Expire
-              86400 )    ; Minimum TTL
-```
-
-| Parametre | Signification | Utilite |
-|-----------|--------------|---------|
-| `Serial` | Numero de version de la zone | Permet aux serveurs secondaires de savoir si la zone a change |
-| `Refresh` | Temps avant que le slave verifie les mises a jour | Synchronisation master vers slave |
-| `Retry` | Delai avant de reessayer si le master ne repond pas | Eviter les erreurs temporaires |
-| `Expire` | Duree max pendant laquelle le slave garde la zone sans contact | Securite |
-| `Minimum TTL` | Duree minimale de cache des reponses negatives | Gestion du cache DNS |
-
 ---
 
 ## 3. Installation
@@ -165,6 +167,8 @@ sudo dnf install bind bind-utils -y
 | `/etc/bind/named.conf.local` | Declaration des zones |
 | `/etc/bind/` ou `/var/cache/bind/` | Fichiers de zones |
 | `/var/log/syslog` | Logs du service DNS |
+| `/etc/resolv.conf` | Symlink vers systemd-resolved, généré automatiquement (nameserver) |
+| `/etc/systemd/resolved.conf` | Configuration du DNS système (DNS= et Domains=) |
 
 </TabItem>
 <TabItem value="fedora" label="Fedora / Red Hat">
@@ -174,6 +178,8 @@ sudo dnf install bind bind-utils -y
 | `/etc/named.conf` | Configuration principale (options + zones integres) |
 | `/var/named/` | Fichiers de zones |
 | `journalctl -u named` | Logs du service DNS |
+| `/etc/resolv.conf` | Symlink vers systemd-resolved, généré automatiquement (nameserver) |
+| `/etc/systemd/resolved.conf` | Configuration du DNS système (DNS= et Domains=) |
 
 </TabItem>
 </Tabs>
@@ -187,19 +193,16 @@ sudo dnf install bind bind-utils -y
 
 Editer `/etc/bind/named.conf.options` :
 qui Contient les paramètres globaux du serveur DNS
+
 **Rôle**
 
 Configure le comportement général :
 
-récursion
-
-DNS externes (forwarders)
-
-sécurité
-
-interfaces d’écoute
-
-👉 Ne contient pas de zones
+- Récursion
+- DNS externes (forwarders)
+- Sécurité
+- Interfaces d'écoute
+- Ne contient pas de zones
 
 ```bash
 sudo nano /etc/bind/named.conf.options
@@ -338,15 +341,6 @@ zone "10.168.192.in-addr.arpa" {
 
 ### Explication d une declaration de zone complete
 
-```bash
-zone "ofppt.local" IN {
-    type master;
-    file "ofppt.local.db";
-    allow-update { 10.10.0.30; };
-    allow-transfer { 10.10.0.30; };
-    notify yes;
-};
-```
 
 | Directive | Role |
 |-----------|------|
@@ -583,7 +577,7 @@ sudo nano /etc/bind/named.conf.local
 ```bash
 zone "ofppt.local" {
     type master;
-    file "/etc/bind/db.ofppt.local";
+    file "/var/cache/bind/db.ofppt.local";
     allow-update { any; };
 };
 ```
@@ -613,20 +607,38 @@ sudo nano /etc/dhcp/dhcpd.conf
 ```
 
 ```bash
-ddns-updates on;
-ddns-update-style interim;
-ignore client-updates;
+ddns-updates on;           # Active la mise à jour dynamique du DNS
+ddns-update-style interim; # Style de mise à jour (interim = standard moderne)
+ignore client-updates;     # Le serveur DHCP gère les mises à jour, pas le client
 
 zone ofppt.local. {
-    primary 127.0.0.1;
+    primary 127.0.0.1;     # Adresse du serveur BIND qui recevra les mises à jour
 }
 
 subnet 192.168.7.0 netmask 255.255.255.0 {
     range 192.168.7.100 192.168.7.200;
     option routers 192.168.7.1;
-    ddns-domainname "ofppt.local.";
-    ddns-rev-domainname "in-addr.arpa.";
+    ddns-domainname "ofppt.local.";          # Zone directe à mettre à jour (A record)
+    ddns-rev-domainname "in-addr.arpa.";     # Zone inverse à mettre à jour (PTR record)
 }
+```
+### freeze & thaw
+```bash
+# Geler la zone (arrêter les mises à jour dynamiques)
+sudo rndc freeze efm.ofppt
+sudo rndc freeze 7.168.192.in-addr.arpa
+
+# Permissions et propriétaire
+sudo chown bind:bind /var/cache/bind/*
+sudo chmod 644 /var/cache/bind/*
+
+# Vérifier les enregistrements sauvegardés
+cat /var/cache/bind/db.efm.ofppt
+cat /var/cache/bind/db.192.168.7
+
+# Dégeler la zone (reprendre les mises à jour dynamiques)
+sudo rndc thaw efm.ofppt
+sudo rndc thaw 7.168.192.in-addr.arpa
 ```
 
 ### Configuration DDNS avec cle TSIG (securise)
