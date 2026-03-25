@@ -465,4 +465,5 @@ df -h | grep nfs                               # Vérifier le montage
 
 # ─── 9. Démonter ───────────────────────────────────────────────────────────────
 sudo umount /mnt/nfs
+
 ```
