@@ -2,12 +2,13 @@
 
 const sidebars = {
 
-  couresSidebar: [
+  coursSidebar: [
     {
       type: 'doc',
       id: 'intro',
       label: 'Home',
     },
+    
     {
       type: 'category',
       label: 'Conception Reseau',
