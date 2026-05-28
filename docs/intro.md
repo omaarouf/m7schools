@@ -11,7 +11,7 @@ slug: /
 
 **M7Schools** est une plateforme educative dediee aux etudiants OFPPT qui souhaitent apprendre, pratiquer et maitriser les technologies informatiques essentielles : reseaux, administration systemes et administration serveurs.
 
-Creee par **Omar Maarouf**, cette plateforme regroupe des **cours structures, des exercices pratiques et des quiz interactifs** pour faciliter l apprentissage et la pratique.
+Cette plateforme regroupe des **cours structures, des exercices pratiques et des quiz interactifs** pour faciliter l apprentissage et la pratique.
 
 ---
 

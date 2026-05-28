@@ -809,4 +809,4 @@ user1 : x : 1001 : 1001 : Description : /home/user1 : /bin/bash
 ## Pour aller plus loin
  
 - [Quiz ](/quizzes/linux/ConfigurationDeBaseLinuxServer) - testez vos connaissances sur ce cours
-- [TP ](/TP/linux/TpLinuxServer) - mise en pratique guidee
+- [TP Configuration de base](/TP/linux/tp-Configuration-de-base) - mise en pratique guidee

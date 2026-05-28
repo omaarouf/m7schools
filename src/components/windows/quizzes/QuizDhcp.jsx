@@ -165,6 +165,113 @@ const questions = [
     correct: 1,
     explanation: "`-DnsDomain 'contoso.com'` configure l'option 15 (DNS Domain Name) qui sera distribuee aux clients DHCP.",
   },
+
+  // ── IPv6 ─────────────────────────────────────────────────────────────────
+  {
+    id: 21, type: "vf",
+    question: "`Add-DhcpServerv6Scope` requiert le parametre `-PrefixLength` en plus de `-StartRange` et `-EndRange` ?",
+    options: ["Vrai", "Faux"], correct: 0,
+    explanation: "VRAI. Pour IPv6, `-PrefixLength` (ex: `64`) est obligatoire car il remplace le masque de sous-reseau (`-SubnetMask`) utilise en IPv4.",
+  },
+  {
+    id: 22, type: "vf",
+    question: "Pour une reservation DHCPv6, le client est identifie par son adresse MAC via `-ClientId` comme en IPv4 ?",
+    options: ["Vrai", "Faux"], correct: 1,
+    explanation: "FAUX. En DHCPv6, le client est identifie par son **DUID** (DHCP Unique Identifier), pas par l'adresse MAC. Le format du `-ClientId` est different : `00:03:00:01:AA:BB:CC:DD:EE:FF`.",
+  },
+  {
+    id: 23, type: "qcm",
+    question: "Quelle commande cree une etendue DHCPv6 active de `2001:db8::1` a `2001:db8::ffff` avec un prefixe /64 ?",
+    options: [
+      "Add-DhcpServerv6Scope -Name 'IPv6' -StartRange 2001:db8::1 -EndRange 2001:db8::ffff -SubnetMask 64 -State Active",
+      "Add-DhcpServerv6Scope -Name 'IPv6' -StartRange 2001:db8::1 -EndRange 2001:db8::ffff -PrefixLength 64 -State Active",
+      "New-DhcpServerv6Scope -Prefix 2001:db8::/64 -State Active",
+      "Add-DhcpServerv6Scope -Network 2001:db8::/64 -State Active",
+    ],
+    correct: 1,
+    explanation: "`Add-DhcpServerv6Scope` avec `-PrefixLength 64` est la syntaxe correcte. `-SubnetMask` n'existe pas pour IPv6.",
+  },
+  {
+    id: 24, type: "qcm",
+    question: "Comment supprimer une reservation DHCPv6 ?",
+    options: [
+      "Remove-DhcpServerv6Reservation -ScopeId 2001:db8::/64 -IPAddress 2001:db8::100",
+      "Remove-DhcpServerv6Reservation -ScopeId 2001:db8::/64 -ClientId '00:03:00:01:AA:BB:CC:DD:EE:FF'",
+      "Delete-DhcpServerv6Reservation -Prefix 2001:db8:: -ClientId '...'",
+      "Remove-DhcpServerv6Lease -ScopeId 2001:db8::/64 -ClientId '...'",
+    ],
+    correct: 1,
+    explanation: "`Remove-DhcpServerv6Reservation` utilise `-ScopeId` et `-ClientId` (DUID). En IPv6, on supprime par identifiant client, pas par adresse IP.",
+  },
+  {
+    id: 25, type: "qcm",
+    question: "Quelle commande configure le serveur DNS distribue aux clients via DHCPv6 ?",
+    options: [
+      "Set-DhcpServerv6OptionValue -ScopeId 2001:db8:: -DnsServer 2001:db8::53",
+      "Set-DhcpServerv6OptionValue -ScopeId 2001:db8:: -OptionId 6 -Value 2001:db8::53",
+      "Add-DhcpServerv6Option -ScopeId 2001:db8:: -DNS 2001:db8::53",
+      "Set-DhcpServerv6DnsServer -ScopeId 2001:db8:: -Address 2001:db8::53",
+    ],
+    correct: 0,
+    explanation: "`Set-DhcpServerv6OptionValue` avec `-DnsServer` configure le serveur DNS pour les clients IPv6. Le `-ScopeId` est l'adresse reseau du scope (sans le prefixe).",
+  },
+
+  // ── Maitrise des commandes ────────────────────────────────────────────────
+  {
+    id: 26, type: "qcm",
+    question: "Quelle commande affiche le taux de saturation (IPs libres vs occupees) d'une etendue ?",
+    options: [
+      "Get-DhcpServerv4Scope -ScopeId 192.168.1.0 -Statistics",
+      "Get-DhcpServerv4ScopeStatistics -ScopeId 192.168.1.0",
+      "Show-DhcpServerv4Usage -ScopeId 192.168.1.0",
+      "Get-DhcpServerv4Lease -ScopeId 192.168.1.0 -Count",
+    ],
+    correct: 1,
+    explanation: "`Get-DhcpServerv4ScopeStatistics -ScopeId` retourne les statistiques d'utilisation : nombre d'adresses totales, utilisees, libres et en cours d'utilisation.",
+  },
+  {
+    id: 27, type: "qcm",
+    question: "Completer la commande : `Add-DhcpServerv4ExclusionRange ___ 192.168.1.0 -StartRange 192.168.1.1 -EndRange 192.168.1.10`",
+    options: ["-ScopeId", "-NetworkId", "-Scope", "-Range"],
+    correct: 0,
+    explanation: "Le parametre `-ScopeId` identifie l'etendue a laquelle appartient la plage d'exclusion. Il prend l'adresse reseau (Network ID).",
+  },
+  {
+    id: 28, type: "qcm",
+    question: "Quelle commande liste toutes les etendues IPv4 configurees sur le serveur ?",
+    options: [
+      "Get-DhcpServerv4Scope -All",
+      "Get-DhcpServerv4Scope",
+      "Show-DhcpServerv4Scope",
+      "Get-DhcpServerv4Scope -List",
+    ],
+    correct: 1,
+    explanation: "`Get-DhcpServerv4Scope` sans parametre liste toutes les etendues. `-ScopeId` est optionnel pour filtrer une etendue specifique.",
+  },
+  {
+    id: 29, type: "qcm",
+    question: "Comment modifier uniquement le nom d'une etendue existante (ScopeId 192.168.2.0) en 'LAN-RDC' ?",
+    options: [
+      "Rename-DhcpServerv4Scope -ScopeId 192.168.2.0 -Name 'LAN-RDC'",
+      "Set-DhcpServerv4Scope -ScopeId 192.168.2.0 -Name 'LAN-RDC'",
+      "Edit-DhcpServerv4Scope -ScopeId 192.168.2.0 -NewName 'LAN-RDC'",
+      "Update-DhcpServerv4Scope -ScopeId 192.168.2.0 -Name 'LAN-RDC'",
+    ],
+    correct: 1,
+    explanation: "`Set-DhcpServerv4Scope` modifie les proprietes d'une etendue existante. `-ScopeId` identifie l'etendue, `-Name` definit le nouveau nom.",
+  },
+  {
+    id: 30, type: "qcm",
+    question: "Quelle ligne manque dans cette reservation : `Add-DhcpServerv4Reservation -ScopeId 192.168.1.0 -IPAddress 192.168.1.50 -Description 'Imprimante'` ?",
+    options: [
+      "-MacAddress 'AA-BB-CC-DD-EE-FF'",
+      "-ClientId 'AA-BB-CC-DD-EE-FF'",
+      "-HardwareAddress 'AA:BB:CC:DD:EE:FF'",
+      "-DeviceId 'AA-BB-CC-DD-EE-FF'",
+    ],
+    correct: 1,
+    explanation: "`-ClientId` est obligatoire pour une reservation. Il prend l'adresse MAC du client au format `AA-BB-CC-DD-EE-FF` pour lier l'IP a cet equipement specifique.",
+  },
 ];
 
 export default function QuizDhcp() {

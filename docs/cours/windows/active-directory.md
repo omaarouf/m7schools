@@ -32,43 +32,22 @@ Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
 ```powershell
 Install-ADDSForest `
     -DomainName "contoso.com" `
-    -DomainNetbiosName "CONTOSO" `
+    -InstallDns `
     -ForestMode 2022 `
     -DomainMode 2022 `
-    -InstallDns `
     -SafeModeAdministratorPassword (ConvertTo-SecureString "Pass123!" -AsPlainText -Force)
 ```
 
 | Parametre | Statut | Description |
 |---|---|---|
 | `-DomainName` | Obligatoire | Nom du domaine |
-| `-DomainNetbiosName` | Obligatoire | Nom NetBIOS (max 15 caracteres) |
+| `-InstallDns` | Recommandé | Installe et configure DNS |
 | `-ForestMode` | Recommandé | Niveau fonctionnel foret (2016, 2019, 2022) |
 | `-DomainMode` | Recommandé | Niveau fonctionnel domaine |
-| `-InstallDns` | Recommandé | Installe et configure DNS |
-| `-SafeModeAdministratorPassword` | Obligatoire | Mot de passe DSRM |
+| `-SafeModeAdministratorPassword` | Recommandé | Mot de passe DSRM |
 
-#### Domaine enfant
 
-```powershell
-Install-ADDSDomain `
-    -NewDomainName "child" `
-    -ParentDomainName "contoso.com" `
-    -DomainType ChildDomain `
-    -InstallDns `
-    -Credential (Get-Credential CONTOSO\Administrator) `
-    -SafeModeAdministratorPassword (ConvertTo-SecureString "Pass123!" -AsPlainText -Force)
-```
 
-#### Controleur supplementaire (domaine existant)
-
-```powershell
-Install-ADDSDomainController `
-    -DomainName "contoso.com" `
-    -InstallDns `
-    -Credential (Get-Credential CONTOSO\Administrator) `
-    -SafeModeAdministratorPassword (ConvertTo-SecureString "Pass123!" -AsPlainText -Force)
-```
 
 ---
 
@@ -136,6 +115,14 @@ Set-ADUser -Identity "jdoe" `
 ---
 
 ### `Get-ADUser` - Recuperer des utilisateurs
+
+| Parametre | Statut | Description | Exemple |
+|---|---|---|---|
+| `-Identity` | Optionnel | Utilisateur specifique (SamAccountName, DN, GUID, SID) | `"jdoe"` |
+| `-Filter` | Optionnel | Filtre LDAP ou PowerShell | `{Department -eq "IT"}` |
+| `-SearchBase` | Optionnel | OU ou commencer la recherche | `"OU=IT,DC=domain,DC=com"` |
+| `-SearchScope` | Optionnel | Profondeur de recherche : `Base`, `OneLevel`, `Subtree` | `OneLevel` |
+| `-Properties` | Optionnel | Attributs a retourner (`*` = tous) | `@("Title","Department","Manager")` |
 
 ```powershell
 # Utilisateur specifique avec tous ses attributs

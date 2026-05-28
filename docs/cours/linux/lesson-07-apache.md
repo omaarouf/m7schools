@@ -683,7 +683,7 @@ sudo tail -f /var/log/httpd/error_log
 ## Pour aller plus loin
  
 - [Quiz Apache](/quizzes/linux/quizzApache) - testez vos connaissances sur ce cours
-- [TP Apache](/TP/linux/tp-apache) - mise en pratique guidee
+- [TP Apache](/TP/linux/tp-Apache) - mise en pratique guidee
  
 
     
