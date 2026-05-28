@@ -181,7 +181,7 @@ const config = {
         de l industrie. Les exemples peuvent etre simplifies pour faciliter la comprehension.
       </p>
       <p style=”font-size: 12px; color: #666;”>
-        Copyright ${new Date().getFullYear()} M7Schools - Concu et developpe par Omar Maarouf - Construit avec Docusaurus.
+        Copyright ${new Date().getFullYear()} M7Schools  Concu et developpe par Omar Maarouf  Construit avec Docusaurus.
       </p>
     </div>
   `,
