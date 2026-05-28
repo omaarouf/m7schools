@@ -25,40 +25,26 @@ Creee par **Omar Maarouf**, cette plateforme regroupe des **cours structures, de
 
 ---
 
-## Parcours disponibles
+## Modules disponibles
 
-| Parcours | Contenu | Niveau |
-|---------|---------|-------|
-| **Conception Reseau** | Architecture reseau, VLAN, routage, services reseau | Intermediaire |
-| **Administration Windows** | Active Directory, DNS, DHCP, gestion des utilisateurs | Intermediaire |
-| **Administration Linux** | Commandes Linux, services, gestion des serveurs | Intermediaire |
+| Module | Description | Acces |
+|---|---|---|
+| **Conception Reseau** | VLANs, Routage, OSPF, ACL, NAT, VPN, HSRP... | [Commencer →](/cours/networking/intro) |
+| **Administration Windows** | PowerShell, Active Directory, DHCP, DNS, GPO... | [Commencer →](/cours/windows/intro) |
+| **Administration Linux** | Commandes de base, DHCP, DNS, Apache, LVM, RAID... | [Commencer →](/cours/linux/intro) |
 
 ---
 
 ## Ressources disponibles
 
 | Ressource | Description |
-|-----------|-------------|
-| **Cours** | Lecons detaillees avec exemples Ubuntu et Fedora |
-| **Quiz interactifs** |  questions par lecon avec correction immediate |
-| **Travaux Pratiques** |  TP progressifs par lecon du facile au difficile |
+|---|---|
+| **Cours** | Lecons detaillees avec commandes, tableaux et exemples pratiques |
+| **Quiz interactifs** | 20 questions par lecon (Vrai/Faux + QCM) avec correction immediate |
+| **Travaux Pratiques** | 5 a 7 TP progressifs par lecon, du plus simple au plus complexe |
+| **EFMs** | Examens de fin de module regionaux avec corriges |
 
 ---
-
-
-## Informations techniques
-
-| Technologie | Utilisation |
-|-------------|-------------|
-| **Docusaurus 3** | Framework de documentation |
-| **React** | Composants quiz interactifs |
-| **GitHub** | Gestion du code source |
-| **Vercel** | Hebergement et deploiement continu |
-| **Markdown / MDX** | Creation des cours et quiz |
-
----
-
-
 
 :::info Progression recommandee
 

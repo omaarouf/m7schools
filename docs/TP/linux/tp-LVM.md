@@ -666,5 +666,5 @@ Les trois commandes `pvs`, `vgs` et `lvs` ne doivent retourner aucun resultat - 
 
 ## Pour aller plus loin
 
-- [Cours LVM](/idosr/linux/lesson-04) - revoir les notions theoriques
+- [Cours LVM](/cours/linux/lesson-04) - revoir les notions theoriques
 - [Quiz LVM](/quizzes/linux/quizzLVM) - tester vos connaissances

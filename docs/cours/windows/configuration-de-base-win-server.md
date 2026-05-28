@@ -225,4 +225,11 @@ Remove-ADOrganizationalUnit `
 | Supprimer OU protegee | `Set-ADOrganizationalUnit ... -ProtectedFromAccidentalDeletion $false` puis `Remove-ADOrganizationalUnit` |
 
 ---
+:::info TP disponible
+
+Pratiquez sur machine virtuelle :
+[Faire les TP →](/TP/windows/tp-configuration-de-base)
+
+:::
+
 *Continuer avec la lecon suivante dans la barre laterale.*

@@ -1,4 +1,4 @@
-// @ts-check
+﻿// @ts-check
 // Note: type annotations allow type checking and IDE autocompletion
 
 const lightCodeTheme = require('prism-react-renderer').themes.github;
@@ -119,15 +119,15 @@ const config = {
       items: [
         {
           label: 'Conception Reseau',
-          to: '/idosr/networking/intro',
+          to: '/cours/networking/intro',
         },
         {
           label: 'Administration Windows',
-          to: '/idosr/windows/intro',
+          to: '/cours/windows/intro',
         },
         {
           label: 'Administration Linux',
-          to: '/idosr/linux/intro',
+          to: '/cours/linux/intro',
         },
 
       ],
@@ -207,7 +207,7 @@ const config = {
       mais nous ne pouvons pas garantir l exactitude totale du contenu.
       </p>
       <p style="font-size: 12px; color: #666;">
-        Copyright ${new Date().getFullYear()} M7Schools — Created by Omar Maarouf — Built with Docusaurus.
+        Copyright ${new Date().getFullYear()} M7Schools â€” Created by Omar Maarouf â€” Built with Docusaurus.
       </p>
     </div>
   `,

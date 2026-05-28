@@ -405,7 +405,7 @@ export default function ConfigurationDeBaseLinuxServer() {
     <QuizEngine
       questions={questions}
       title="Quiz - Configuration de Base Linux"
-      courseLink="/idosr/linux/lesson-01"
+      courseLink="/cours/linux/lesson-01"
     />
   );
 }

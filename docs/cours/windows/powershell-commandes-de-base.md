@@ -550,4 +550,18 @@ Executer ce script :
 ```
 
 
+:::info Quiz disponible
+
+Testez vos connaissances sur cette lecon :
+[Faire le quiz →](/quizzes/windows/quiz-powershell)
+
+:::
+
+:::info TP disponible
+
+Pratiquez sur machine virtuelle :
+[Faire les TP →](/TP/windows/tp-powershell)
+
+:::
+
 *Continuer avec la lecon suivante dans la barre laterale.*

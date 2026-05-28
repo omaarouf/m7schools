@@ -272,4 +272,18 @@ csvde -f "C:\Users_Filtered.csv" -l "cn,sAMAccountName,mail,displayName" -d "DC=
 - Utiliser `dsquery` pour rechercher des objets avant de les modifier ou les deplacer.
 
 ---
+:::info Quiz disponible
+
+Testez vos connaissances sur cette lecon :
+[Faire le quiz →](/quizzes/windows/quiz-active-directory)
+
+:::
+
+:::info TP disponible
+
+Pratiquez sur machine virtuelle :
+[Faire les TP →](/TP/windows/tp-active-directory)
+
+:::
+
 *Continuer avec la lecon suivante dans la barre laterale.*

@@ -92,7 +92,7 @@ const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5);
 // Props :
 //   questions  : array  - liste des questions (obligatoire)
 //   title      : string - titre affiche dans la barre sticky
-//   courseLink : string - lien vers le cours (ex: "/idosr/linux/lesson-01")
+//   courseLink : string - lien vers le cours (ex: "/cours/linux/lesson-01")
 // ============================================================
 export default function QuizEngine({ questions, title = "Quiz", courseLink }) {
 

@@ -32,15 +32,15 @@ Ce contenu est cree et maintenu par moi. Il peut contenir des erreurs ou necessi
 
 ## Contenu du module
 
-| Sujet |
-|-------|
-| Commandes de Base PowerShell |
-| Active Directory (AD DS) |
-| DNS & DHCP |
-| Group Policy (GPO) |
-| Services de Fichiers |
-| IIS Web Server |
-| Backup & Recovery |
+| Cours | Quiz | TP |
+|---|---|---|
+| [Commandes de Base PowerShell](/cours/windows/powershell-commandes-de-base) | [Quiz PowerShell](/quizzes/windows/quiz-powershell) | [TP PowerShell](/TP/windows/tp-powershell) |
+| [Configuration de Base Win Server](/cours/windows/configuration-de-base-win-server) | - | [TP Configuration](/TP/windows/tp-configuration-de-base) |
+| [Commandes AD CMD (DS)](/cours/windows/active-directory-cmd) | [Quiz Active Directory](/quizzes/windows/quiz-active-directory) | [TP Active Directory](/TP/windows/tp-active-directory) |
+| [Active Directory (AD DS)](/cours/windows/active-directory) | [Quiz Active Directory](/quizzes/windows/quiz-active-directory) | [TP Active Directory](/TP/windows/tp-active-directory) |
+| [DHCP](/cours/windows/dhcp) | [Quiz DHCP](/quizzes/windows/quiz-dhcp) | [TP DHCP](/TP/windows/tp-dhcp) |
+| [DNS](/cours/windows/dns) | [Quiz DNS](/quizzes/windows/quiz-dns) | [TP DNS](/TP/windows/tp-dns) |
+| [Group Policy (GPO)](/cours/windows/group-policy) | [Quiz GPO](/quizzes/windows/quiz-gpo) | [TP GPO](/TP/windows/tp-gpo) |
 
 ---
 
@@ -66,6 +66,6 @@ Toutes les demonstrations utilisent **PowerShell** en mode administrateur. Pour 
 
 ---
 
-> Commencer par **Lecon 00 - Commandes de Base PowerShell** dans la barre laterale.
+> Commencer par **Commandes de Base PowerShell** dans la barre laterale.
 
 > **Bon courage et bonne pratique**

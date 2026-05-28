@@ -482,7 +482,7 @@ export default function QuizzRaid() {
     <QuizEngine
       questions={questions}
       title="Quiz - RAID Logiciel avec mdadm"
-      courseLink="/idosr/linux/lesson-06"
+      courseLink="/cours/linux/lesson-06"
     />
   );
 }

@@ -464,7 +464,7 @@ export default function LinuxBasicsQuiz() {
     <QuizEngine
       questions={questions}
       title="Quiz - Commandes de Base Linux"
-      courseLink="/idosr/linux/lesson-00"
+      courseLink="/cours/linux/lesson-00"
     />
   );
 }

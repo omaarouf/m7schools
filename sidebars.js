@@ -1,4 +1,4 @@
-/** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
+﻿/** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
 
 const sidebars = {
 
@@ -15,15 +15,15 @@ const sidebars = {
       collapsed: true,
       items: [
         // Intro
-        'idosr/networking/intro',
+        'cours/networking/intro',
 
         // Groupe 0
         {
           type: 'category',
           label: 'Configuration de Base',
           items: [
-            'idosr/networking/configuration-de-base/switch',
-            'idosr/networking/configuration-de-base/router',
+            'cours/networking/configuration-de-base/switch',
+            'cours/networking/configuration-de-base/router',
           ],
         },
 
@@ -32,9 +32,9 @@ const sidebars = {
           type: 'category',
           label: 'Switching',
           items: [
-            'idosr/networking/switching/vlans',
-            'idosr/networking/switching/stp',
-            'idosr/networking/switching/etherchannel',
+            'cours/networking/switching/vlans',
+            'cours/networking/switching/stp',
+            'cours/networking/switching/etherchannel',
           ],
         },
 
@@ -43,11 +43,11 @@ const sidebars = {
           type: 'category',
           label: 'Routage',
           items: [
-            'idosr/networking/routing/routage-statique',
-            'idosr/networking/routing/rip',
-            'idosr/networking/routing/ospf',
-            'idosr/networking/routing/eigrp',
-            'idosr/networking/routing/bgp',
+            'cours/networking/routing/routage-statique',
+            'cours/networking/routing/rip',
+            'cours/networking/routing/ospf',
+            'cours/networking/routing/eigrp',
+            'cours/networking/routing/bgp',
           ],
         },
 
@@ -56,8 +56,8 @@ const sidebars = {
           type: 'category',
           label: 'Securite',
           items: [
-            'idosr/networking/securite/port-security',
-            'idosr/networking/securite/acl',
+            'cours/networking/securite/port-security',
+            'cours/networking/securite/acl',
           ],
         },
 
@@ -66,7 +66,7 @@ const sidebars = {
           type: 'category',
           label: 'Gestion & Monitoring',
           items: [
-            'idosr/networking/gestion-monitoring/gestion-reseau',
+            'cours/networking/gestion-monitoring/gestion-reseau',
           ],
         },
 
@@ -75,11 +75,11 @@ const sidebars = {
           type: 'category',
           label: 'Services Reseau',
           items: [
-            'idosr/networking/services-reseau/hsrp',
-            'idosr/networking/services-reseau/dhcp',
-            'idosr/networking/services-reseau/nat',
-            'idosr/networking/services-reseau/voip',
-            'idosr/networking/services-reseau/vpn',
+            'cours/networking/services-reseau/hsrp',
+            'cours/networking/services-reseau/dhcp',
+            'cours/networking/services-reseau/nat',
+            'cours/networking/services-reseau/voip',
+            'cours/networking/services-reseau/vpn',
           ],
         },
       ],
@@ -89,16 +89,18 @@ const sidebars = {
       label: 'Administration Windows',
       collapsed: true,
       items: [
-        'idosr/windows/intro',
-        'idosr/windows/powershell-commandes-de-base',
-        'idosr/windows/configuration-de-base-win-server',
-        'idosr/windows/active-directory-cmd',
-        'idosr/windows/active-directory',
-        'idosr/windows/dns-dhcp',
-        'idosr/windows/group-policy',
-        'idosr/windows/file-services',
-        'idosr/windows/iis-web-server',
-        'idosr/windows/backup-recovery',
+        'cours/windows/intro',
+        'cours/windows/powershell-commandes-de-base',
+        'cours/windows/configuration-de-base-win-server',
+        'cours/windows/active-directory-cmd',
+        'cours/windows/active-directory',
+        'cours/windows/dhcp',
+        'cours/windows/dns',
+        'cours/windows/group-policy',
+        //'cours/windows/file-services',
+        //'cours/windows/iis-web-server',
+        //'cours/windows/backup-recovery',
+        
       ],
     },
     {
@@ -106,20 +108,20 @@ const sidebars = {
       label: 'Administration Linux',
       collapsed: true,
       items: [
-        'idosr/linux/intro',
-        'idosr/linux/lesson-00',
-        'idosr/linux/lesson-01',
-        'idosr/linux/lesson-02',
-        'idosr/linux/lesson-03',
-        'idosr/linux/lesson-04',
-        'idosr/linux/lesson-05',
-        'idosr/linux/lesson-06',
-        'idosr/linux/lesson-07',
-        'idosr/linux/lesson-08',
-        'idosr/linux/lesson-09',
-        'idosr/linux/lesson-10',
-        'idosr/linux/lesson-11',
-        'idosr/linux/lesson-12',
+        'cours/linux/intro',
+        'cours/linux/lesson-00',
+        'cours/linux/lesson-01',
+        'cours/linux/lesson-02',
+        'cours/linux/lesson-03',
+        'cours/linux/lesson-04',
+        'cours/linux/lesson-05',
+        'cours/linux/lesson-06',
+        'cours/linux/lesson-07',
+        'cours/linux/lesson-08',
+        'cours/linux/lesson-09',
+        'cours/linux/lesson-10',
+        'cours/linux/lesson-11',
+        'cours/linux/lesson-12',
       ],
     },
   ],
@@ -145,7 +147,11 @@ const sidebars = {
       label: 'Administration Windows',
       collapsed: true,
       items: [
-        'quizzes/quiz-windows',
+        'quizzes/windows/quiz-powershell',
+        'quizzes/windows/quiz-active-directory',
+        'quizzes/windows/quiz-dhcp',
+        'quizzes/windows/quiz-dns',
+        'quizzes/windows/quiz-gpo',
       ],
     },
     {
@@ -188,7 +194,12 @@ const sidebars = {
       label: 'Administration Windows',
       collapsed: true,
       items: [
-        'TP/windows/windows',
+        'TP/windows/tp-powershell',
+        'TP/windows/tp-configuration-de-base',
+        'TP/windows/tp-active-directory',
+        'TP/windows/tp-dhcp',
+        'TP/windows/tp-dns',
+        'TP/windows/tp-gpo',
       ],
     },
     {
