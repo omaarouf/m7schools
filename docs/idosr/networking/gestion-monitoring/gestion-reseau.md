@@ -1,4 +1,4 @@
----
+﻿---
 id: gestion-reseau
 title: Gestion du Réseau
 sidebar_label: Gestion du Réseau
@@ -304,7 +304,7 @@ Switch# reload
 ```
 
 :::tip
-Configurer toujours une image de secours dans la sequence de boot — si l'image principale est corrompue, le switch basculera automatiquement sur l'image de backup.
+Configurer toujours une image de secours dans la sequence de boot - si l'image principale est corrompue, le switch basculera automatiquement sur l'image de backup.
 :::
 
 ---

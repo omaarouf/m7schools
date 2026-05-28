@@ -1,4 +1,4 @@
----
+﻿---
 id: routage-statique
 title: Routage Statique
 sidebar_label: Routage Statique
@@ -8,7 +8,7 @@ sidebar_label: Routage Statique
 
 ## 1. Principe du routage statique
 
-Une route statique est une entree manuelle dans la table de routage. Le routeur ne l'apprend pas dynamiquement — c'est l'administrateur qui la definit.
+Une route statique est une entree manuelle dans la table de routage. Le routeur ne l'apprend pas dynamiquement - c'est l'administrateur qui la definit.
 
 **Avantages :**
 - Simple a configurer sur de petits reseaux
@@ -37,7 +37,7 @@ Router(config)# ip route 192.168.2.0 255.255.255.0 serial 0/0/0
 ```
 
 :::info Next-hop vs Interface de sortie
-Sur une liaison point-a-point (Serial), les deux methodes fonctionnent. Sur une liaison Ethernet (multi-acces), toujours specifier le next-hop IP — sinon le routeur doit faire une resolution ARP pour chaque destination.
+Sur une liaison point-a-point (Serial), les deux methodes fonctionnent. Sur une liaison Ethernet (multi-acces), toujours specifier le next-hop IP - sinon le routeur doit faire une resolution ARP pour chaque destination.
 :::
 
 ---

@@ -1,4 +1,4 @@
----
+﻿---
 id: port-security
 title: Port-Security
 sidebar_label: Port-Security
@@ -42,7 +42,7 @@ Switch(config-if)# exit
 ```
 
 :::tip
-Configurer le maximum au strict necessaire — autoriser plus d'adresses que necessaire reduit l'efficacite de la securite.
+Configurer le maximum au strict necessaire - autoriser plus d'adresses que necessaire reduit l'efficacite de la securite.
 :::
 
 ---
@@ -79,7 +79,7 @@ Switch(config-if)# exit
 | Usage | MAC connues a l'avance | Deploiement rapide |
 
 :::tip
-La methode **sticky** est recommandee pour un deploiement rapide — le switch apprend les adresses lors de la premiere connexion et les retient.
+La methode **sticky** est recommandee pour un deploiement rapide - le switch apprend les adresses lors de la premiere connexion et les retient.
 :::
 
 ---
@@ -90,7 +90,7 @@ Quand une adresse MAC non autorisee est detectee, Port-Security reagit selon le 
 
 ### Mode Protect
 
-Ignore silencieusement les trames en violation — aucun journal, aucune notification.
+Ignore silencieusement les trames en violation - aucun journal, aucune notification.
 
 ```bash title="Mode protect"
 Switch(config)# interface fastethernet 0/1
@@ -100,7 +100,7 @@ Switch(config-if)# exit
 
 ### Mode Restrict
 
-Ignore les trames en violation et enregistre un message syslog — le port reste actif.
+Ignore les trames en violation et enregistre un message syslog - le port reste actif.
 
 ```bash title="Mode restrict"
 Switch(config)# interface fastethernet 0/1
@@ -171,7 +171,7 @@ Switch(config-if)# exit
 
 ---
 
-## 8. Configuration complete — Exemple
+## 8. Configuration complete - Exemple
 
 ```bash title="Configuration Port-Security complète sur un port"
 Switch(config)# interface fastethernet 0/1

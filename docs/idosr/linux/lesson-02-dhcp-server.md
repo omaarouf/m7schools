@@ -1,4 +1,4 @@
----
+﻿---
 id: lesson-02
 title: Serveur DHCP
 sidebar_label: Serveur DHCP
@@ -19,10 +19,10 @@ import TabItem from '@theme/TabItem';
 
 | Etape | Description |
 |-------|-------------|
-| **D** — Discover | Le client cherche un serveur DHCP (broadcast) |
-| **O** — Offer | Le serveur propose une adresse IP disponible |
-| **R** — Request | Le client demande officiellement l IP proposee |
-| **A** — Acknowledge | Le serveur confirme et attribue l IP |
+| **D** - Discover | Le client cherche un serveur DHCP (broadcast) |
+| **O** - Offer | Le serveur propose une adresse IP disponible |
+| **R** - Request | Le client demande officiellement l IP proposee |
+| **A** - Acknowledge | Le serveur confirme et attribue l IP |
 
 ---
 
@@ -171,8 +171,8 @@ subnet 192.168.10.0 netmask 255.255.255.0 {
 | `option routers` | Passerelle par defaut envoyee aux clients |
 | `option domain-name-servers` | DNS envoye aux clients |
 | `option domain-name` | Nom de domaine envoye aux clients |
-| `default-lease-time` | Duree du bail par defaut (en secondes) —  pendant laquelle un client conserve son IP sans la renouveler |
-| `max-lease-time` | Duree maximale du bail (en secondes) — plafond que le client ne peut pas depasser meme s il demande une duree plus longue |
+| `default-lease-time` | Duree du bail par defaut (en secondes) -  pendant laquelle un client conserve son IP sans la renouveler |
+| `max-lease-time` | Duree maximale du bail (en secondes) - plafond que le client ne peut pas depasser meme s il demande une duree plus longue |
 
 ### Reservation par adresse MAC
 
@@ -308,7 +308,7 @@ tail -f /var/log/messages
 </TabItem>
 </Tabs>
 
-### Client DHCP — dhclient
+### Client DHCP - dhclient
 ---
 
 Le client DHCP permet a une machine de demander automatiquement une adresse IP aupres d un serveur DHCP.
@@ -364,9 +364,9 @@ ping 8.8.8.8
 ```
 ---
 
-## 7. Diagnostic — Le client ne reçoit pas d IP
+## 7. Diagnostic - Le client ne reçoit pas d IP
 
-### Etape 1 — Verifier que le service fonctionne
+### Etape 1 - Verifier que le service fonctionne
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
@@ -387,7 +387,7 @@ systemctl status dhcpd
 
 Si `inactive` → probleme de configuration.
 
-### Etape 2 — Verifier l interface configuree
+### Etape 2 - Verifier l interface configuree
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
@@ -410,7 +410,7 @@ ip a
 
 Comparer l interface dans le fichier avec celle affichee par `ip a`. Une mauvaise interface signifie que DHCP n ecoute pas.
 
-### Etape 3 — Verifier la configuration subnet
+### Etape 3 - Verifier la configuration subnet
 
 - Meme reseau que l interface ?
 - Masque correct ?
@@ -422,11 +422,11 @@ Comparer l interface dans le fichier avec celle affichee par `ip a`. Une mauvais
 sudo dhcpd -t
 ```
 
-### Etape 4 — Verifier le pare-feu
+### Etape 4 - Verifier le pare-feu
 
 DHCP utilise :
-- **UDP 67** — serveur
-- **UDP 68** — client
+- **UDP 67** - serveur
+- **UDP 68** - client
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
@@ -453,7 +453,7 @@ sudo firewall-cmd --reload
 </TabItem>
 </Tabs>
 
-### Etape 5 — Verifier que le pool n est pas epuise
+### Etape 5 - Verifier que le pool n est pas epuise
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
@@ -474,7 +474,7 @@ cat /var/lib/dhcpd/dhcpd.leases
 
 Si toutes les IPs de la plage sont attribuees, le client ne recevra pas d IP.
 
-### Etape 6 — Verifier la connectivite L2
+### Etape 6 - Verifier la connectivite L2
 
 - Meme switch ?
 - Meme VLAN ?
@@ -531,5 +531,5 @@ tail -f /var/log/messages          # Surveiller les logs en direct
 
 ## Pour aller plus loin
  
-- [Quiz ](/quizzes/linux/quizzDhcp) — testez vos connaissances sur ce cours
-- [TP ](/TP/linux/tp-DHCP) — mise en pratique guidee
+- [Quiz ](/quizzes/linux/quizzDhcp) - testez vos connaissances sur ce cours
+- [TP ](/TP/linux/tp-DHCP) - mise en pratique guidee

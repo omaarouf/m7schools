@@ -1,4 +1,4 @@
----
+﻿---
 id: lesson-03
 title: Serveur DNS et DDNS
 sidebar_label: Serveur DNS et DDNS
@@ -13,7 +13,7 @@ import TabItem from '@theme/TabItem';
 
 ## 1. Systeme DNS
 
-**DNS = Domain Name System** — traduit les noms de domaine en adresses IP et vice-versa.
+**DNS = Domain Name System** - traduit les noms de domaine en adresses IP et vice-versa.
 
 ### Espace de noms et Zones
 
@@ -36,8 +36,8 @@ zone "ofppt.local" IN {
 | Type | Nom | Description |
 |------|-----|-------------|
 | `hint` | Caching only | Memorise uniquement les adresses des serveurs DNS. Repond aux requetes en indiquant les adresses mises en cache |
-| `master` | Primary master | Serveur DNS principal — base de donnees DNS en lecture et ecriture |
-| `slave` | Secondary master | Serveur DNS secondaire — base de donnees DNS en lecture seule, copiee depuis le master |
+| `master` | Primary master | Serveur DNS principal - base de donnees DNS en lecture et ecriture |
+| `slave` | Secondary master | Serveur DNS secondaire - base de donnees DNS en lecture seule, copiee depuis le master |
 
 ---
 
@@ -47,7 +47,7 @@ Le fichier de zone contient les differents **enregistrements de ressources DNS**
 
 ### Enregistrement SOA
 
-Start of Authority — c'est le premier enregistrement d'une zone DNS.
+Start of Authority - c'est le premier enregistrement d'une zone DNS.
 Il indique qui fait autorité sur la zone et contient :
 
 le serveur DNS principal de la zone
@@ -122,7 +122,7 @@ ns1  IN  A    192.168.10.1
 
 ### Enregistrement MX
 
-Specifie le serveur de messagerie du domaine. Le nombre indique la **priorite** — plus il est petit, plus le serveur est prioritaire.
+Specifie le serveur de messagerie du domaine. Le nombre indique la **priorite** - plus il est petit, plus le serveur est prioritaire.
 
 ```dns
 @    IN  MX  10  mail.ofppt.local.
@@ -496,7 +496,7 @@ sudo named-checkzone 10.168.192.in-addr.arpa /etc/bind/db.192.168.10
 sudo systemctl restart named
 sudo systemctl enable named
 
-# SELinux — autoriser BIND a ecrire les zones
+# SELinux - autoriser BIND a ecrire les zones
 sudo setsebool -P named_write_master_zones on
 
 # Verifier la configuration principale
@@ -528,7 +528,7 @@ dig @127.0.0.1 ofppt.local MX
 
 > `dig @127.0.0.1 www.ofppt.local` interroge le serveur DNS local (127.0.0.1) pour resoudre `www.ofppt.local`. C est l outil de diagnostic DNS recommande.
 
-### Pare-feu — autoriser DNS
+### Pare-feu - autoriser DNS
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
@@ -551,7 +551,7 @@ sudo firewall-cmd --reload
 
 ---
 
-## 10. DDNS — DNS Dynamique
+## 10. DDNS - DNS Dynamique
 
 Le DDNS permet au serveur DHCP de mettre a jour automatiquement les enregistrements DNS quand une adresse IP est attribuee a un client.
 
@@ -565,7 +565,7 @@ Le DDNS permet au serveur DHCP de mettre a jour automatiquement les enregistreme
 
 ### Configuration DDNS sans cle TSIG (simple)
 
-**Etape 1 — Zone DNS avec allow-update**
+**Etape 1 - Zone DNS avec allow-update**
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
@@ -600,7 +600,7 @@ zone "ofppt.local" {
 </TabItem>
 </Tabs>
 
-**Etape 2 — DHCP configure pour envoyer les mises a jour DNS**
+**Etape 2 - DHCP configure pour envoyer les mises a jour DNS**
 
 ```bash
 sudo nano /etc/dhcp/dhcpd.conf
@@ -692,7 +692,7 @@ sudo systemctl restart dhcpd
 
 ---
 
-## 11. Tableau de Reference — Commandes DNS
+## 11. Tableau de Reference - Commandes DNS
 
 | Commande | Description |
 |----------|-------------|
@@ -754,5 +754,5 @@ dig @127.0.0.1 -x 192.168.10.2
 
 ## Pour aller plus loin
  
-- [Quiz ](/quizzes/linux/quizzDns) — testez vos connaissances sur ce cours
-- [TP ](/TP/linux/tp-DNS) — mise en pratique guidee
+- [Quiz ](/quizzes/linux/quizzDns) - testez vos connaissances sur ce cours
+- [TP ](/TP/linux/tp-DNS) - mise en pratique guidee

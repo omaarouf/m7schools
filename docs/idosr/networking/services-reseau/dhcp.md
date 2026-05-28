@@ -1,4 +1,4 @@
----
+﻿---
 id: dhcp
 title: DHCP v4 & v6
 sidebar_label: DHCP v4 & v6
@@ -23,7 +23,7 @@ DHCP (Dynamic Host Configuration Protocol) attribue automatiquement aux hotes :
 
 ---
 
-## 2. DHCPv4 — Adresses exclues
+## 2. DHCPv4 - Adresses exclues
 
 Les adresses reservees (routeurs, serveurs, imprimantes) doivent etre exclues du pool avant sa creation.
 
@@ -33,12 +33,12 @@ Router(config)# ip dhcp excluded-address 192.168.1.254
 ```
 
 :::tip
-Toujours exclure les adresses avant de creer le pool — les adresses exclues s'appliquent globalement a tous les pools.
+Toujours exclure les adresses avant de creer le pool - les adresses exclues s'appliquent globalement a tous les pools.
 :::
 
 ---
 
-## 3. DHCPv4 — Creation du pool
+## 3. DHCPv4 - Creation du pool
 
 ```bash title="Créer un pool DHCP complet"
 Router(config)# ip dhcp pool LAN_POOL
@@ -76,7 +76,7 @@ Router(dhcp-config)# exit
 
 ---
 
-## 4. DHCPv4 — Relai DHCP (Helper Address)
+## 4. DHCPv4 - Relai DHCP (Helper Address)
 
 Quand le serveur DHCP est sur un reseau different des clients, le routeur doit relayer les requetes DHCP.
 
@@ -93,7 +93,7 @@ Router(config-if)# exit
 
 ---
 
-## 5. DHCPv6 — Routage IPv6
+## 5. DHCPv6 - Routage IPv6
 
 ```bash title="Activer le routage IPv6 (obligatoire)"
 Router(config)# ipv6 unicast-routing
@@ -101,7 +101,7 @@ Router(config)# ipv6 unicast-routing
 
 ---
 
-## 6. DHCPv6 — Mode SLAAC + Stateless
+## 6. DHCPv6 - Mode SLAAC + Stateless
 
 En mode stateless, les clients generent leur propre adresse IPv6 via SLAAC. DHCPv6 fournit uniquement les informations supplementaires (DNS, domaine).
 
@@ -112,7 +112,7 @@ Router(config-dhcpv6)# domain-name m7schools.local
 Router(config-dhcpv6)# exit
 ```
 
-```bash title="Appliquer sur l'interface — mode stateless"
+```bash title="Appliquer sur l'interface - mode stateless"
 Router(config)# interface gigabitethernet 0/0
 Router(config-if)# ipv6 address 2001:db8:1::1/64
 Router(config-if)# ipv6 nd other-config-flag
@@ -127,7 +127,7 @@ Le flag `O` (Other) dans les RA (Router Advertisement) indique aux clients d'uti
 
 ---
 
-## 7. DHCPv6 — Mode Stateful
+## 7. DHCPv6 - Mode Stateful
 
 En mode stateful, DHCPv6 attribue l'adresse IPv6 complete (comme DHCPv4).
 
@@ -139,7 +139,7 @@ Router(config-dhcpv6)# domain-name m7schools.local
 Router(config-dhcpv6)# exit
 ```
 
-```bash title="Appliquer sur l'interface — mode stateful"
+```bash title="Appliquer sur l'interface - mode stateful"
 Router(config)# interface gigabitethernet 0/0
 Router(config-if)# ipv6 address 2001:db8:1::1/64
 Router(config-if)# ipv6 nd managed-config-flag
@@ -150,7 +150,7 @@ Router(config-if)# exit
 ```
 
 :::info managed-config-flag
-Le flag `M` (Managed) dans les RA indique aux clients d'utiliser DHCPv6 pour obtenir leur adresse complete — SLAAC est desactive.
+Le flag `M` (Managed) dans les RA indique aux clients d'utiliser DHCPv6 pour obtenir leur adresse complete - SLAAC est desactive.
 :::
 
 ---

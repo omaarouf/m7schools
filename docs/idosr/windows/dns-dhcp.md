@@ -1,7 +1,7 @@
 ---
-id: lesson-02
-title: Lecon 02 - DNS-DHCP
-sidebar_label: Lecon 02
+id: dns-dhcp
+title: DNS & DHCP
+sidebar_label: DNS & DHCP
 ---
 
 # Lecon 02: DNS-DHCP

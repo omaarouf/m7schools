@@ -1,4 +1,4 @@
----
+﻿---
 id: lesson-10
 title:  Archifage et Compression 
 
@@ -8,13 +8,13 @@ title:  Archifage et Compression
 
 # Archivage et Compression
 
-> **Objectif :** Maîtriser les outils d'archivage et de compression sous Linux — `tar`, `gzip`, `bzip2`, `xz` et `zip` — pour sauvegarder, transférer et restaurer des données.
+> **Objectif :** Maîtriser les outils d'archivage et de compression sous Linux - `tar`, `gzip`, `bzip2`, `xz` et `zip` - pour sauvegarder, transférer et restaurer des données.
 
 ---
 
 ## 1. Présentation
 
-Il n'y a pas de démon — ce sont des **commandes utilisateur** : `tar`, `gzip`, `bzip2`, `zip`, `unzip`.
+Il n'y a pas de démon - ce sont des **commandes utilisateur** : `tar`, `gzip`, `bzip2`, `zip`, `unzip`.
 
 ### Formats disponibles
 
@@ -28,9 +28,9 @@ Il n'y a pas de démon — ce sont des **commandes utilisateur** : `tar`, `gzip`
 | `.zip` | Archive ZIP (compatible Windows) | `zip` / `unzip` |
 
 :::tip Quel format choisir ?
-- `.tar.gz` : le plus **rapide**, bon compromis — usage général
+- `.tar.gz` : le plus **rapide**, bon compromis - usage général
 - `.tar.bz2` : meilleure compression que gzip, plus lent
-- `.tar.xz` : **meilleure compression**, plus lent — idéal pour les distributions et gros fichiers
+- `.tar.xz` : **meilleure compression**, plus lent - idéal pour les distributions et gros fichiers
 - `.zip` : à utiliser uniquement pour **compatibilité Windows**
 :::
 
@@ -71,7 +71,7 @@ tar -zcvf archive.tar.gz /home/said/
 # Archive .tar.bz2 (bzip2)
 tar -jcvf archive.tar.bz2 /var/www/
 
-# Archive .tar.xz (xz — meilleure compression)
+# Archive .tar.xz (xz - meilleure compression)
 tar -Jcvf archive.tar.xz /var/www/
 ```
 
@@ -108,14 +108,14 @@ tar -zcvf /dev/rmt0 /home
 
 ---
 
-## 4. Compression seule — gzip et bzip2
+## 4. Compression seule - gzip et bzip2
 
 Ces outils compressent un **fichier unique** (pas un dossier). Pour les dossiers, utiliser `tar`.
 
 ```bash
 # Compresser un fichier
-gzip fichier.txt          # Crée fichier.txt.gz — supprime l'original
-bzip2 fichier.txt         # Crée fichier.txt.bz2 — supprime l'original
+gzip fichier.txt          # Crée fichier.txt.gz - supprime l'original
+bzip2 fichier.txt         # Crée fichier.txt.bz2 - supprime l'original
 
 # Décompresser
 gunzip fichier.txt.gz
@@ -135,7 +135,7 @@ bzip2 -k fichier.txt
 
 ---
 
-## 5. ZIP — Compatibilité Windows
+## 5. ZIP - Compatibilité Windows
 
 ```bash
 # Créer un zip (récursif pour les dossiers)

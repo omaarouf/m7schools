@@ -1,4 +1,4 @@
----
+﻿---
 id: acl
 title: Access Control Lists (ACL)
 sidebar_label: ACL
@@ -17,7 +17,7 @@ Une ACL est une liste de regles qui autorisent ou refusent le trafic reseau en f
 - Securisation des acces VTY (SSH/Telnet)
 
 :::warning Regle implicite
-Toute ACL se termine par un **deny any implicite** — tout trafic non explicitement autorise est bloque. Toujours ajouter une regle `permit any` si necessaire.
+Toute ACL se termine par un **deny any implicite** - tout trafic non explicitement autorise est bloque. Toujours ajouter une regle `permit any` si necessaire.
 :::
 
 ---
@@ -26,12 +26,12 @@ Toute ACL se termine par un **deny any implicite** — tout trafic non explicite
 
 | Type | Numero | Criteres de filtrage | Placement recommande |
 |---|---|---|---|
-| **Standard** | 1 — 99 | Adresse IP source uniquement | Pres de la destination |
-| **Etendue** | 100 — 199 | Source, destination, protocole, port | Pres de la source |
+| **Standard** | 1 - 99 | Adresse IP source uniquement | Pres de la destination |
+| **Etendue** | 100 - 199 | Source, destination, protocole, port | Pres de la source |
 
 :::tip Placement des ACL
-- **ACL standard** : placer pres de la **destination** (filtre uniquement sur la source — bloquer trop tot couperait tout le trafic)
-- **ACL etendue** : placer pres de la **source** (filtre precis — bloque le trafic le plus tot possible)
+- **ACL standard** : placer pres de la **destination** (filtre uniquement sur la source - bloquer trop tot couperait tout le trafic)
+- **ACL etendue** : placer pres de la **source** (filtre precis - bloque le trafic le plus tot possible)
 :::
 
 ---
@@ -53,8 +53,8 @@ Router(config-if)# exit
 :::info Masque inverse (wildcard)
 Le masque inverse est utilise dans les ACL pour definir les bits a ignorer :
 - `0.0.0.255` → les 24 premiers bits doivent correspondre (reseau /24)
-- `0.0.0.0` → tous les bits doivent correspondre (host unique) — equivalent de `host`
-- `255.255.255.255` → aucun bit ne doit correspondre — equivalent de `any`
+- `0.0.0.0` → tous les bits doivent correspondre (host unique) - equivalent de `host`
+- `255.255.255.255` → aucun bit ne doit correspondre - equivalent de `any`
 :::
 
 ---
@@ -202,5 +202,5 @@ Extended IP access list FILTRAGE_TRAFIC
 ```
 
 :::tip Compteurs de correspondances
-Les compteurs `(X matches)` indiquent combien de paquets ont correspondu a chaque regle — utile pour le diagnostic et la verification que les regles fonctionnent correctement.
+Les compteurs `(X matches)` indiquent combien de paquets ont correspondu a chaque regle - utile pour le diagnostic et la verification que les regles fonctionnent correctement.
 :::

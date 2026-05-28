@@ -1,4 +1,4 @@
----
+﻿---
 id: intro
 title: Accueil
 sidebar_label: Accueil
@@ -70,4 +70,4 @@ Creee par **Omar Maarouf**, cette plateforme regroupe des **cours structures, de
 
 > **Apprendre. Pratiquer. Maitriser.**
 >
-> — M7Schools, cree par Omar Maarouf
+> - M7Schools, cree par Omar Maarouf

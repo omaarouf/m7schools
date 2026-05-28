@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import QuizEngine from "@site/src/components/QuizEngine";
 
 const questions = [
@@ -475,7 +475,7 @@ const questions = [
       "LVM consomme moins d'espace disque",
     ],
     correct: 2,
-    explanation: "L'avantage principal de LVM est la flexibilite : on peut etendre ou reorganiser les volumes a chaud, sans interrompre le service ni perdre de donnees — impossible avec le partitionnement classique.",
+    explanation: "L'avantage principal de LVM est la flexibilite : on peut etendre ou reorganiser les volumes a chaud, sans interrompre le service ni perdre de donnees - impossible avec le partitionnement classique.",
   },
 ];
 
@@ -483,7 +483,7 @@ export default function QuizzLVM() {
   return (
     <QuizEngine
       questions={questions}
-      title="Quiz — LVM Gestion des Volumes Logiques"
+      title="Quiz - LVM Gestion des Volumes Logiques"
       courseLink="/docs/linux/lesson-04"
     />
   );

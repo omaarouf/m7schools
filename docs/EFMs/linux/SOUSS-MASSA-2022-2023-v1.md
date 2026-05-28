@@ -1,10 +1,10 @@
----
+﻿---
 id: SOUSS-MASSA-2022-2023-v1
-title: EFM —  Souss Massa 2023
-sidebar_label: Souss Massa 2023 — V1
+title: EFM -  Souss Massa 2023
+sidebar_label: Souss Massa 2023 - V1
 ---
 
-> **Module M203 — Administration d'un environnement Linux**
+> **Module M203 - Administration d'un environnement Linux**
 > Direction Régionale Souss Massa · Variante 1 · Barème : 40 pts · Durée : 02H00
 
 ---
@@ -20,9 +20,9 @@ sidebar_label: Souss Massa 2023 — V1
 
 ---
 
-## Partie Théorique (10 pts) — 2 pts par question
+## Partie Théorique (10 pts) - 2 pts par question
 
-### Question 1 — Directive DHCP (2 pts)
+### Question 1 - Directive DHCP (2 pts)
 
 Que signifie la directive suivante dans le fichier de configuration DHCP :
 
@@ -39,7 +39,7 @@ Cette directive indique aux clients DHCP l'**adresse IP du serveur DNS** à util
 
 ---
 
-### Question 2 — Bloc de réservation DHCP (2 pts)
+### Question 2 - Bloc de réservation DHCP (2 pts)
 
 Quel est le rôle des lignes suivantes dans le fichier de configuration DHCP ?
 
@@ -55,8 +55,8 @@ host poste1 {
 
 Il s'agit d'une **réservation DHCP statique** pour la machine `poste1` :
 
-- `hardware ethernet 00:1A:2B:3C:4D:5E` — identifie le client par son adresse MAC
-- `fixed-address 192.168.1.21` — adresse IP fixe qui lui sera toujours attribuée
+- `hardware ethernet 00:1A:2B:3C:4D:5E` - identifie le client par son adresse MAC
+- `fixed-address 192.168.1.21` - adresse IP fixe qui lui sera toujours attribuée
 
 Chaque fois que la machine avec cette adresse MAC demandera une IP, le serveur DHCP lui attribuera toujours `192.168.1.21`.
 
@@ -64,7 +64,7 @@ Chaque fois que la machine avec cette adresse MAC demandera une IP, le serveur D
 
 ---
 
-### Question 3 — Démarrer SAMBA (2 pts)
+### Question 3 - Démarrer SAMBA (2 pts)
 
 Donner la commande qui permet de démarrer le service SAMBA.
 
@@ -87,7 +87,7 @@ sudo systemctl enable smbd nmbd
 
 ---
 
-### Question 4 — Autoriser httpd dans le pare-feu (2 pts)
+### Question 4 - Autoriser httpd dans le pare-feu (2 pts)
 
 Donner la commande qui permet d'autoriser le service `httpd` dans le pare-feu Linux.
 
@@ -109,7 +109,7 @@ sudo ufw allow 443/tcp
 
 ---
 
-### Question 5 — Fichier de configuration NFS (2 pts)
+### Question 5 - Fichier de configuration NFS (2 pts)
 
 Donner le nom et le chemin du fichier de configuration du service NFS.
 
@@ -135,7 +135,7 @@ sudo systemctl restart nfs-server
 
 ---
 
-## Partie Pratique (30 pts) — 2 pts par question
+## Partie Pratique (30 pts) - 2 pts par question
 
 ### Configuration de base
 
@@ -355,10 +355,10 @@ Paramètres :
 $TTL 2D
 @   IN  SOA  srv1.smlinux.local.  admin.smlinux.local. (
             2023012301  ; Serial (AAAAMMJJ01)
-            28800       ; Refresh — 8 heures
-            7200        ; Retry — 2 heures
-            604800      ; Expire — 1 semaine
-            172800 )    ; Minimum TTL — 2 jours
+            28800       ; Refresh - 8 heures
+            7200        ; Retry - 2 heures
+            604800      ; Expire - 1 semaine
+            172800 )    ; Minimum TTL - 2 jours
 
 ; Serveurs de noms
     IN  NS      srv1.smlinux.local.

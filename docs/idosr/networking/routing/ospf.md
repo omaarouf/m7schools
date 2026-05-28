@@ -1,10 +1,10 @@
----
+﻿---
 id: ospf
 title: OSPF & OSPFv3
 sidebar_label: OSPF & OSPFv3
 ---
 
-> Configurer OSPF pour IPv4 et OSPFv3 pour IPv6 — un protocole de routage a etat de lien adapte aux reseaux d'entreprise de toute taille.
+> Configurer OSPF pour IPv4 et OSPFv3 pour IPv6 - un protocole de routage a etat de lien adapte aux reseaux d'entreprise de toute taille.
 
 ## 1. Presentation d'OSPF
 
@@ -39,14 +39,14 @@ Router(config-router)# exit
 ```
 
 :::tip
-Toujours configurer le Router-ID manuellement — cela evite les changements d'ID au redemarrage si une interface disparait.
+Toujours configurer le Router-ID manuellement - cela evite les changements d'ID au redemarrage si une interface disparait.
 :::
 
 ---
 
 ## 3. Activation OSPF et annonce des reseaux
 
-### Methode 1 — Commande network (classique)
+### Methode 1 - Commande network (classique)
 
 ```bash title="Activer OSPF et annoncer les réseaux"
 Router(config)# router ospf 1
@@ -64,7 +64,7 @@ Le masque inverse est l'inverse du masque de sous-reseau :
 - `/32` → `255.255.255.255` → wildcard `0.0.0.0`
 :::
 
-### Methode 2 — Activation sur interface
+### Methode 2 - Activation sur interface
 
 ```bash title="Activer OSPF directement sur une interface"
 Router(config)# interface gigabitethernet 0/0
@@ -99,7 +99,7 @@ Router(config-router)# exit
 ```
 
 :::warning
-Par defaut, la bande passante de reference est 100 Mbps — toutes les interfaces >= 100 Mbps ont le meme cout (1). Changer la reference a 1000 Mbps (1 Gbps) pour differencier FastEthernet, GigabitEthernet et 10GigabitEthernet.
+Par defaut, la bande passante de reference est 100 Mbps - toutes les interfaces >= 100 Mbps ont le meme cout (1). Changer la reference a 1000 Mbps (1 Gbps) pour differencier FastEthernet, GigabitEthernet et 10GigabitEthernet.
 Appliquer ce changement sur **tous** les routeurs OSPF du domaine.
 :::
 
@@ -120,7 +120,7 @@ Router(config-if)# exit
 ```
 
 :::info
-Sur un reseau point-to-point, OSPF ne fait pas d'election DR/BDR — la convergence est plus rapide.
+Sur un reseau point-to-point, OSPF ne fait pas d'election DR/BDR - la convergence est plus rapide.
 :::
 
 ---
@@ -135,7 +135,7 @@ Router(config-if)# exit
 ```
 
 :::warning
-Les intervalles Hello et Dead doivent etre identiques sur les deux routeurs d'une meme liaison — sinon la relation de voisinage ne s'etablit pas.
+Les intervalles Hello et Dead doivent etre identiques sur les deux routeurs d'une meme liaison - sinon la relation de voisinage ne s'etablit pas.
 :::
 
 ---
@@ -163,7 +163,7 @@ Router(config-router)# exit
 
 ---
 
-## 9. OSPFv3 — Configuration IPv6
+## 9. OSPFv3 - Configuration IPv6
 
 OSPFv3 est la version d'OSPF pour IPv6. La configuration s'effectue directement sur les interfaces.
 
@@ -252,8 +252,8 @@ Router# show ip ospf interface brief
 | `EXSTART` | Debut de l'echange de la LSDB |
 | `EXCHANGE` | Echange des DBD (Database Description) |
 | `LOADING` | Demande des LSA manquants |
-| `FULL` | Voisinage complet — synchronisation terminee |
+| `FULL` | Voisinage complet - synchronisation terminee |
 
 :::tip
-Un voisinage en etat `FULL` signifie que les deux routeurs ont la meme LSDB — le routage est operationnel.
+Un voisinage en etat `FULL` signifie que les deux routeurs ont la meme LSDB - le routage est operationnel.
 :::

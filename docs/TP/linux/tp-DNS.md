@@ -1,15 +1,15 @@
----
+﻿---
 id: tp-DNS
 title: DNS et DDNS
 ---
 
-# TP — Serveur DNS et DDNS
+# TP - Serveur DNS et DDNS
 
 7 travaux pratiques progressifs, du plus simple au plus complexe.
 
 ---
 
-## TP n°1 — Installation et Verification (Facile)
+## TP n°1 - Installation et Verification (Facile)
 
 **Objectif :** Installer BIND9 et verifier les fichiers de base.
 
@@ -157,7 +157,7 @@ sudo systemctl enable named
 
 ---
 
-## TP n°2 — Configuration des Options Globales (Facile-Moyen)
+## TP n°2 - Configuration des Options Globales (Facile-Moyen)
 
 **Objectif :** Configurer les options globales de BIND9.
 
@@ -302,7 +302,7 @@ nslookup localhost 127.0.0.1
 
 ---
 
-## TP n°3 — Zone Directe (Moyen)
+## TP n°3 - Zone Directe (Moyen)
 
 **Objectif :** Creer et configurer une zone DNS directe pour le domaine `ofppt.local`.
 
@@ -311,9 +311,9 @@ nslookup localhost 127.0.0.1
 | Parametre | Valeur |
 |-----------|--------|
 | Domaine | `ofppt.local` |
-| Serveur DNS | `ns1.ofppt.local` — IP `192.168.10.1` |
-| Serveur WEB | `web.ofppt.local` — IP `192.168.10.2` |
-| Serveur MAIL | `mail.ofppt.local` — IP `192.168.10.5` |
+| Serveur DNS | `ns1.ofppt.local` - IP `192.168.10.1` |
+| Serveur WEB | `web.ofppt.local` - IP `192.168.10.2` |
+| Serveur MAIL | `mail.ofppt.local` - IP `192.168.10.5` |
 | Alias www | pointe vers `web.ofppt.local` |
 
 ---
@@ -323,7 +323,7 @@ nslookup localhost 127.0.0.1
 <details>
 <summary>Voir la reponse</summary>
 
-Ubuntu — dans `/etc/bind/named.conf.local` :
+Ubuntu - dans `/etc/bind/named.conf.local` :
 ```bash
 zone "ofppt.local" {
     type master;
@@ -331,7 +331,7 @@ zone "ofppt.local" {
 };
 ```
 
-Fedora — dans `/etc/named.conf` :
+Fedora - dans `/etc/named.conf` :
 ```bash
 zone "ofppt.local" {
     type master;
@@ -458,7 +458,7 @@ dig @127.0.0.1 ofppt.local MX
 
 ---
 
-## TP n°4 — Zone Inverse (Moyen)
+## TP n°4 - Zone Inverse (Moyen)
 
 **Objectif :** Creer la zone inverse pour le reseau `192.168.10.0/24`.
 
@@ -469,7 +469,7 @@ dig @127.0.0.1 ofppt.local MX
 <details>
 <summary>Voir la reponse</summary>
 
-Ubuntu — dans `/etc/bind/named.conf.local` :
+Ubuntu - dans `/etc/bind/named.conf.local` :
 ```bash
 zone "10.168.192.in-addr.arpa" {
     type master;
@@ -477,7 +477,7 @@ zone "10.168.192.in-addr.arpa" {
 };
 ```
 
-Fedora — dans `/etc/named.conf` :
+Fedora - dans `/etc/named.conf` :
 ```bash
 zone "10.168.192.in-addr.arpa" {
     type master;
@@ -603,7 +603,7 @@ nslookup 192.168.10.2 127.0.0.1
 
 ---
 
-## TP n°5 — TP Examen : Zone efm.local (Moyen-Difficile)
+## TP n°5 - TP Examen : Zone efm.local (Moyen-Difficile)
 
 **Objectif :** Configurer un serveur DNS primaire pour la zone `efm.local` selon les specifications d examen.
 
@@ -617,8 +617,8 @@ nslookup 192.168.10.2 127.0.0.1
 | Mise a jour dynamique | autorisee pour `10.10.0.30` |
 | Transfert de zone | autorise vers `10.10.0.30` |
 | Notification | activee |
-| Serveur DNS | `ns1.efm.local` — IP `10.10.0.10` |
-| Serveur MAIL | `mail.efm.local` — IP `10.10.0.20` — priorite 30 |
+| Serveur DNS | `ns1.efm.local` - IP `10.10.0.10` |
+| Serveur MAIL | `mail.efm.local` - IP `10.10.0.20` - priorite 30 |
 
 ---
 
@@ -658,7 +658,7 @@ sudo dnf install bind bind-utils -y
 <details>
 <summary>Voir la reponse</summary>
 
-Ubuntu — dans `/etc/bind/named.conf.local` :
+Ubuntu - dans `/etc/bind/named.conf.local` :
 ```bash
 zone "efm.local" IN {
     type master;
@@ -669,7 +669,7 @@ zone "efm.local" IN {
 };
 ```
 
-Fedora — dans `/etc/named.conf` :
+Fedora - dans `/etc/named.conf` :
 ```bash
 zone "efm.local" IN {
     type master;
@@ -720,7 +720,7 @@ Les deux sont obligatoires ensemble.
 mail IN  A       10.10.0.20
 ```
 
-Le chiffre `30` est la priorite — plus il est petit, plus le serveur est prioritaire. L enregistrement `A` est necessaire pour resoudre l IP du serveur mail.
+Le chiffre `30` est la priorite - plus il est petit, plus le serveur est prioritaire. L enregistrement `A` est necessaire pour resoudre l IP du serveur mail.
 
 </details>
 
@@ -792,7 +792,7 @@ dig @127.0.0.1 efm.local NS
 
 ---
 
-## TP n°6 — DDNS — DNS Dynamique (Difficile)
+## TP n°6 - DDNS - DNS Dynamique (Difficile)
 
 **Objectif :** Configurer le DDNS pour que le serveur DHCP mette a jour automatiquement les enregistrements DNS.
 
@@ -803,7 +803,7 @@ dig @127.0.0.1 efm.local NS
 <details>
 <summary>Voir la reponse</summary>
 
-Ubuntu — dans `/etc/bind/named.conf.local` :
+Ubuntu - dans `/etc/bind/named.conf.local` :
 ```bash
 zone "ofppt.local" {
     type master;
@@ -812,7 +812,7 @@ zone "ofppt.local" {
 };
 ```
 
-Fedora — dans `/etc/named.conf` :
+Fedora - dans `/etc/named.conf` :
 ```bash
 zone "ofppt.local" {
     type master;
@@ -955,7 +955,7 @@ journalctl -u named | grep DDNS
 
 ---
 
-## TP n°7 — Scenario Reel Complet (Difficile)
+## TP n°7 - Scenario Reel Complet (Difficile)
 
 **Objectif :** Deployer un serveur DNS complet avec zone directe, zone inverse et DDNS pour l entreprise `OFPPT`.
 
@@ -967,7 +967,7 @@ journalctl -u named | grep DDNS
 | Serveur WEB | `web.ofppt.local` | `192.168.10.2` |
 | Serveur MAIL | `mail.ofppt.local` | `192.168.10.5` |
 | Serveur DHCP | `dhcp.ofppt.local` | `192.168.10.3` |
-| Alias www | pointe vers `web` | — |
+| Alias www | pointe vers `web` | - |
 
 ---
 
@@ -997,7 +997,7 @@ systemctl status named
 <details>
 <summary>Voir la reponse</summary>
 
-Ubuntu — `/etc/bind/named.conf.options` :
+Ubuntu - `/etc/bind/named.conf.options` :
 ```bash
 options {
     directory "/var/cache/bind";
@@ -1018,7 +1018,7 @@ options {
 <details>
 <summary>Voir la reponse</summary>
 
-Ubuntu — `/etc/bind/named.conf.local` :
+Ubuntu - `/etc/bind/named.conf.local` :
 ```bash
 zone "ofppt.local" {
     type master;

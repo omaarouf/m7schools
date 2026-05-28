@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import QuizEngine from "@site/src/components/QuizEngine";
 
 const questions = [
@@ -150,7 +150,7 @@ const questions = [
       "Le reseau est inaccessible",
     ],
     correct: 1,
-    explanation: "Une passerelle '0.0.0.0' signifie que le reseau est directement connecte a une interface du routeur — aucun routeur intermediaire n'est necessaire pour l'atteindre.",
+    explanation: "Une passerelle '0.0.0.0' signifie que le reseau est directement connecte a une interface du routeur - aucun routeur intermediaire n'est necessaire pour l'atteindre.",
   },
   {
     id: 16,
@@ -358,7 +358,7 @@ const questions = [
       "192.168.0.0/16",
     ],
     correct: 1,
-    explanation: "La route par defaut est '0.0.0.0/0' — elle correspond a toutes les destinations. Elle est utilisee quand aucune autre route plus specifique ne correspond au paquet a router.",
+    explanation: "La route par defaut est '0.0.0.0/0' - elle correspond a toutes les destinations. Elle est utilisee quand aucune autre route plus specifique ne correspond au paquet a router.",
   },
   {
     id: 32,
@@ -397,7 +397,7 @@ const questions = [
       "Parce qu'il necessite une licence commerciale",
     ],
     correct: 1,
-    explanation: "RIP est obsolete car il est limite a 15 sauts maximum, sa convergence peut prendre jusqu'a 180 secondes, et il envoie periodiquement sa table de routage complete — ce qui genere une charge reseau inutile. OSPF n'a pas ces limitations.",
+    explanation: "RIP est obsolete car il est limite a 15 sauts maximum, sa convergence peut prendre jusqu'a 180 secondes, et il envoie periodiquement sa table de routage complete - ce qui genere une charge reseau inutile. OSPF n'a pas ces limitations.",
   },
   {
     id: 35,
@@ -475,7 +475,7 @@ const questions = [
       "SNAT bloque les connexions, DNAT les autorise",
     ],
     correct: 1,
-    explanation: "SNAT (Source NAT) modifie l'IP source des paquets sortants — utile pour permettre au reseau local d'acceder a internet. DNAT (Destination NAT) modifie l'IP destination des paquets entrants — utile pour rediriger le trafic vers un serveur interne.",
+    explanation: "SNAT (Source NAT) modifie l'IP source des paquets sortants - utile pour permettre au reseau local d'acceder a internet. DNAT (Destination NAT) modifie l'IP destination des paquets entrants - utile pour rediriger le trafic vers un serveur interne.",
   },
 ];
 
@@ -483,7 +483,7 @@ export default function QuizzRoutage() {
   return (
     <QuizEngine
       questions={questions}
-      title="Quiz — Routage sous Linux"
+      title="Quiz - Routage sous Linux"
       courseLink="/docs/linux/lesson-08"
     />
   );

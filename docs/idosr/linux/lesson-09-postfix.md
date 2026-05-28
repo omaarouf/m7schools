@@ -1,4 +1,4 @@
----
+﻿---
 id: lesson-09
 title:  Serveur Mail Postfix
 sidebar_label: Serveur Mail Postfix
@@ -6,7 +6,7 @@ sidebar_label: Serveur Mail Postfix
 
 ---
 
-# Serveur Mail — Postfix + Dovecot
+# Serveur Mail - Postfix + Dovecot
 
 > **Objectif :** Installer, configurer et tester un serveur de messagerie complet avec Postfix (MTA) et Dovecot (SASL/IMAP), puis valider le tout via Telnet.
 
@@ -20,9 +20,9 @@ Un système de messagerie repose sur trois composants distincts :
 
 | Composant | Rôle | Exemples |
 |-----------|------|---------|
-| **MTA** — Mail Transfer Agent | Transporte les emails entre serveurs | Postfix, Sendmail |
-| **MDA** — Mail Delivery Agent | Livre l'email dans la boîte du destinataire | Courier, Procmail |
-| **MUA** — Mail User Agent | Application utilisée pour lire/envoyer | Outlook, Thunderbird |
+| **MTA** - Mail Transfer Agent | Transporte les emails entre serveurs | Postfix, Sendmail |
+| **MDA** - Mail Delivery Agent | Livre l'email dans la boîte du destinataire | Courier, Procmail |
+| **MUA** - Mail User Agent | Application utilisée pour lire/envoyer | Outlook, Thunderbird |
 
 ### 1.2 Flux d'un email
 
@@ -118,7 +118,7 @@ Tous les fichiers de configuration se trouvent dans `/etc/postfix/` :
 
 ---
 
-### 3.1 Fichier principal — `main.cf`
+### 3.1 Fichier principal - `main.cf`
 
 C'est le fichier le plus important. Voici les paramètres clés à configurer :
 
@@ -147,7 +147,7 @@ home_mailbox = Maildir/
 
 ---
 
-### 3.2 Fichier des services — `master.cf`
+### 3.2 Fichier des services - `master.cf`
 
 Ce fichier contrôle les processus internes de Postfix. Voici les lignes essentielles :
 
@@ -207,7 +207,7 @@ sudo systemctl status dovecot
 
 Ajouter dans `/etc/postfix/main.cf` pour déléguer l'authentification à Dovecot via un socket Unix :
 
-```ini title="/etc/postfix/main.cf — section SASL"
+```ini title="/etc/postfix/main.cf - section SASL"
 smtpd_sasl_type = dovecot
 smtpd_sasl_path = private/auth
 smtpd_sasl_auth_enable = yes
@@ -371,7 +371,7 @@ sudo grep "C3D8A602AC" /var/log/mail.log
 
 ---
 
-## 9. Sécurité — SSL/TLS
+## 9. Sécurité - SSL/TLS
 
 | Concept | Description |
 |---------|-------------|
@@ -391,7 +391,7 @@ smtp_tls_security_level = may
 
 ---
 
-## 10. Bilan — Récapitulatif
+## 10. Bilan - Récapitulatif
 
 | Composant / Test | Statut | Détail |
 |-----------------|--------|--------|

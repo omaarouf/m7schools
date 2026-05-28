@@ -1,6 +1,6 @@
----
+﻿---
 id: tp-LVM
-title: TP — LVM Gestion des Volumes Logiques
+title: TP - LVM Gestion des Volumes Logiques
 sidebar_label: TP LVM
 ---
 
@@ -29,7 +29,7 @@ Vous devez voir `/dev/sdb`, `/dev/sdc` et `/dev/sdd` non partitionnes.
 
 ---
 
-## Partie 1 — Installation de LVM
+## Partie 1 - Installation de LVM
 
 ### Exercice 1.1 : Installer le paquet LVM
 
@@ -80,7 +80,7 @@ which pvcreate vgcreate lvcreate
 
 ---
 
-## Partie 2 — Creation de l'infrastructure LVM
+## Partie 2 - Creation de l'infrastructure LVM
 
 :::danger Rappel de l'ordre obligatoire
 ```
@@ -313,7 +313,7 @@ La commande `echo $?` doit retourner `0` (pas d'erreur).
 
 ---
 
-## Partie 3 — Extension du VG et du LV
+## Partie 3 - Extension du VG et du LV
 
 Le disque `/dev/sdd` (10G) est disponible. Ajoutez-le au VG et etendez `lvweb` de 5G.
 
@@ -393,7 +393,7 @@ df -h /mnt/web
 
 ---
 
-## Partie 4 — Reduction de lvdb
+## Partie 4 - Reduction de lvdb
 
 :::danger Ordre obligatoire pour la reduction
 ```
@@ -459,7 +459,7 @@ sudo tar -xzf /tmp/backup_db.tar.gz -C /
 
 ---
 
-## Partie 5 — Snapshot et restauration
+## Partie 5 - Snapshot et restauration
 
 ### Exercice 5.1 : Creer un fichier test dans lvweb
 
@@ -571,12 +571,12 @@ cat /mnt/web/test.txt
 </Tabs>
 
 :::info Resultat attendu
-Le fichier `test.txt` doit afficher **"Contenu avant snapshot"** — la modification faite apres le snapshot a ete annulee.
+Le fichier `test.txt` doit afficher **"Contenu avant snapshot"** - la modification faite apres le snapshot a ete annulee.
 :::
 
 ---
 
-## Partie 6 — Suppression propre
+## Partie 6 - Suppression propre
 
 :::danger Ordre de suppression obligatoire
 ```
@@ -646,7 +646,7 @@ sudo lvs
 </Tabs>
 
 :::info Resultat attendu
-Les trois commandes `pvs`, `vgs` et `lvs` ne doivent retourner aucun resultat — l'infrastructure LVM est completement supprimee.
+Les trois commandes `pvs`, `vgs` et `lvs` ne doivent retourner aucun resultat - l'infrastructure LVM est completement supprimee.
 :::
 
 ---
@@ -666,5 +666,5 @@ Les trois commandes `pvs`, `vgs` et `lvs` ne doivent retourner aucun resultat �
 
 ## Pour aller plus loin
 
-- [Cours LVM](/idosr/linux/lesson-04) — revoir les notions theoriques
-- [Quiz LVM](/quizzes/linux/quizzLVM) — tester vos connaissances
+- [Cours LVM](/idosr/linux/lesson-04) - revoir les notions theoriques
+- [Quiz LVM](/quizzes/linux/quizzLVM) - tester vos connaissances

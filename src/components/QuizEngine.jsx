@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 
 // ============================================================
-// STYLES — injectes une seule fois dans le document
+// STYLES - injectes une seule fois dans le document
 // ============================================================
 const styleId = "quiz-engine-styles";
 if (typeof document !== "undefined" && !document.getElementById(styleId)) {
@@ -90,9 +90,9 @@ const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5);
 // ============================================================
 // COMPOSANT PRINCIPAL
 // Props :
-//   questions  : array  — liste des questions (obligatoire)
-//   title      : string — titre affiche dans la barre sticky
-//   courseLink : string — lien vers le cours (ex: "/idosr/linux/lesson-01")
+//   questions  : array  - liste des questions (obligatoire)
+//   title      : string - titre affiche dans la barre sticky
+//   courseLink : string - lien vers le cours (ex: "/idosr/linux/lesson-01")
 // ============================================================
 export default function QuizEngine({ questions, title = "Quiz", courseLink }) {
 
@@ -262,7 +262,7 @@ export default function QuizEngine({ questions, title = "Quiz", courseLink }) {
       {/* SECTION VRAI / FAUX */}
       {vfQuestions.length > 0 && (
         <>
-          <div className="lq-section-title">Section 1 — Vrai / Faux</div>
+          <div className="lq-section-title">Section 1 - Vrai / Faux</div>
           {vfQuestions.map((q, i) => renderQuestion(q, i))}
         </>
       )}
@@ -271,7 +271,7 @@ export default function QuizEngine({ questions, title = "Quiz", courseLink }) {
       {qcmQuestions.length > 0 && (
         <>
           <div className="lq-section-title">
-            {vfQuestions.length > 0 ? "Section 2 — QCM" : "Section 1 — QCM"} (Questions a Choix Multiple)
+            {vfQuestions.length > 0 ? "Section 2 - QCM" : "Section 1 - QCM"} (Questions a Choix Multiple)
           </div>
           {qcmQuestions.map((q, i) => renderQuestion(q, vfQuestions.length + i))}
         </>

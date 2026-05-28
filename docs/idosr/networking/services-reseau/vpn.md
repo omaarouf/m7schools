@@ -1,4 +1,4 @@
----
+﻿---
 id: vpn
 title: VPN
 sidebar_label: VPN
@@ -80,7 +80,7 @@ Router# ping 192.168.2.1 source 192.168.1.1
 
 ---
 
-## 3. IPsec — Phase 1 (ISAKMP)
+## 3. IPsec - Phase 1 (ISAKMP)
 
 IPsec fonctionne en deux phases. La Phase 1 etablit un canal securise pour negocier les parametres de la Phase 2.
 
@@ -96,7 +96,7 @@ Router(config-isakmp)# exit
 
 | Parametre | Valeur | Description |
 |---|---|---|
-| `authentication pre-share` | — | Cle pre-partagee (PSK) |
+| `authentication pre-share` | - | Cle pre-partagee (PSK) |
 | `encryption aes 256` | AES-256 | Algorithme de chiffrement |
 | `hash sha256` | SHA-256 | Algorithme de hachage |
 | `group 14` | DH 2048 bits | Groupe Diffie-Hellman |
@@ -112,7 +112,7 @@ La cle pre-partagee doit etre identique sur les deux routeurs. Utiliser une cle 
 
 ---
 
-## 4. IPsec — Phase 2 (Transform Set + Crypto Map)
+## 4. IPsec - Phase 2 (Transform Set + Crypto Map)
 
 La Phase 2 definit comment le trafic de donnees est chiffre.
 
@@ -144,7 +144,7 @@ Router(config-if)# exit
 
 ---
 
-## 5. Configuration complete IPsec — Resume
+## 5. Configuration complete IPsec - Resume
 
 ```bash title="Configuration IPsec complète sur R1 (200.1.1.1)"
 Router1(config)# crypto isakmp policy 10
@@ -204,8 +204,8 @@ dst         src         state          conn-id  slot  status
 
 | Champ | Description |
 |---|---|
-| `QM_IDLE` | Phase 1 etablie — tunnel actif |
-| `MM_NO_STATE` | Phase 1 echouee — verifier cle PSK et politique |
+| `QM_IDLE` | Phase 1 etablie - tunnel actif |
+| `MM_NO_STATE` | Phase 1 echouee - verifier cle PSK et politique |
 | `ACTIVE` | SA active |
 
 :::tip Tunnel IPsec inactif

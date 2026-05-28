@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import QuizEngine from "@site/src/components/QuizEngine";
 
 const questions = [
@@ -9,7 +9,7 @@ const questions = [
     question: "Le RAID 0 offre une redondance des donnees en cas de panne d'un disque ?",
     options: ["Vrai", "Faux"],
     correct: 1,
-    explanation: "FAUX. Le RAID 0 (striping) n'offre aucune redondance — si un disque tombe en panne, toutes les donnees sont perdues. Il ameliore uniquement les performances.",
+    explanation: "FAUX. Le RAID 0 (striping) n'offre aucune redondance - si un disque tombe en panne, toutes les donnees sont perdues. Il ameliore uniquement les performances.",
   },
   {
     id: 2,
@@ -17,7 +17,7 @@ const questions = [
     question: "Le RAID 1 necessite au minimum 2 disques pour fonctionner ?",
     options: ["Vrai", "Faux"],
     correct: 0,
-    explanation: "VRAI. Le RAID 1 (mirroring) necessite exactement 2 disques — les donnees sont ecrites en miroir sur les deux disques simultanement.",
+    explanation: "VRAI. Le RAID 1 (mirroring) necessite exactement 2 disques - les donnees sont ecrites en miroir sur les deux disques simultanement.",
   },
   {
     id: 3,
@@ -81,7 +81,7 @@ const questions = [
     question: "Le RAID 10 necessite un minimum de 3 disques pour fonctionner ?",
     options: ["Vrai", "Faux"],
     correct: 1,
-    explanation: "FAUX. Le RAID 10 (miroir + stripe) necessite un minimum de 4 disques — au moins 2 paires de disques en miroir dont les donnees sont reparties par striping.",
+    explanation: "FAUX. Le RAID 10 (miroir + stripe) necessite un minimum de 4 disques - au moins 2 paires de disques en miroir dont les donnees sont reparties par striping.",
   },
 
   // ── QCM ──
@@ -109,7 +109,7 @@ const questions = [
       "Le disque a une erreur SMART",
     ],
     correct: 1,
-    explanation: "(S) dans /proc/mdstat indique qu'un disque est un Spare — il est branche et pret a intervenir mais n'est pas actif dans l'array. Un disque actif est note sans lettre ou avec [U].",
+    explanation: "(S) dans /proc/mdstat indique qu'un disque est un Spare - il est branche et pret a intervenir mais n'est pas actif dans l'array. Un disque actif est note sans lettre ou avec [U].",
   },
   {
     id: 13,
@@ -330,7 +330,7 @@ const questions = [
       "L'array est en cours de creation initiale",
     ],
     correct: 1,
-    explanation: "Un etat 'degraded' signifie que l'array fonctionne encore (les donnees sont accessibles) mais qu'un ou plusieurs disques sont absents ou defaillants. La tolerance aux pannes est reduite — il faut remplacer le disque rapidement.",
+    explanation: "Un etat 'degraded' signifie que l'array fonctionne encore (les donnees sont accessibles) mais qu'un ou plusieurs disques sont absents ou defaillants. La tolerance aux pannes est reduite - il faut remplacer le disque rapidement.",
   },
   {
     id: 30,
@@ -343,7 +343,7 @@ const questions = [
       "mdadm --stop /dev/md0 puis mdadm --manage /dev/md0 --remove /dev/sdc",
     ],
     correct: 1,
-    explanation: "Il faut d'abord marquer le disque comme defaillant (--fail) pour le sortir de l'array proprement, puis le retirer (--remove). L'ordre inverse est impossible — on ne peut pas retirer un disque encore considere actif.",
+    explanation: "Il faut d'abord marquer le disque comme defaillant (--fail) pour le sortir de l'array proprement, puis le retirer (--remove). L'ordre inverse est impossible - on ne peut pas retirer un disque encore considere actif.",
   },
   {
     id: 31,
@@ -369,7 +369,7 @@ const questions = [
       "btrfs",
     ],
     correct: 2,
-    explanation: "XFS ne supporte pas la reduction de taille — il peut uniquement etre etendu. ext4 peut etre reduit (avec resize2fs apres e2fsck). C'est une contrainte importante lors du choix du systeme de fichiers sur Fedora/RHEL.",
+    explanation: "XFS ne supporte pas la reduction de taille - il peut uniquement etre etendu. ext4 peut etre reduit (avec resize2fs apres e2fsck). C'est une contrainte importante lors du choix du systeme de fichiers sur Fedora/RHEL.",
   },
   {
     id: 33,
@@ -421,7 +421,7 @@ const questions = [
       "3 disques",
     ],
     correct: 1,
-    explanation: "Le RAID 5 tolere la panne d'exactement 1 disque grace a la parite repartie. Si un second disque tombe en panne pendant la reconstruction, toutes les donnees sont perdues — d'ou l'importance d'un disque spare.",
+    explanation: "Le RAID 5 tolere la panne d'exactement 1 disque grace a la parite repartie. Si un second disque tombe en panne pendant la reconstruction, toutes les donnees sont perdues - d'ou l'importance d'un disque spare.",
   },
   {
     id: 37,
@@ -481,7 +481,7 @@ export default function QuizzRaid() {
   return (
     <QuizEngine
       questions={questions}
-      title="Quiz — RAID Logiciel avec mdadm"
+      title="Quiz - RAID Logiciel avec mdadm"
       courseLink="/idosr/linux/lesson-06"
     />
   );

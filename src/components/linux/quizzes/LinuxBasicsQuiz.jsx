@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import QuizEngine from "@site/src/components/QuizEngine";
 
 const questions = [
@@ -463,7 +463,7 @@ export default function LinuxBasicsQuiz() {
   return (
     <QuizEngine
       questions={questions}
-      title="Quiz — Commandes de Base Linux"
+      title="Quiz - Commandes de Base Linux"
       courseLink="/idosr/linux/lesson-00"
     />
   );

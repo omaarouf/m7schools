@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import QuizEngine from "@site/src/components/QuizEngine";
 
 const questions = [
@@ -423,7 +423,7 @@ const questions = [
       "Oui, mais seulement apres un redemarrage complet",
     ],
     correct: 1,
-    explanation: "Sur Fedora/Red Hat, tous les fichiers .conf dans /etc/httpd/conf.d/ sont inclus automatiquement. Il n'y a pas de commande a2ensite — il suffit de placer le fichier et de recharger Apache.",
+    explanation: "Sur Fedora/Red Hat, tous les fichiers .conf dans /etc/httpd/conf.d/ sont inclus automatiquement. Il n'y a pas de commande a2ensite - il suffit de placer le fichier et de recharger Apache.",
   },
   {
     id: 37,
@@ -483,7 +483,7 @@ export default function QuizzApache() {
   return (
     <QuizEngine
       questions={questions}
-      title="Quiz — Serveur Web Apache"
+      title="Quiz - Serveur Web Apache"
       courseLink="/docs/linux/lesson-07"
     />
   );

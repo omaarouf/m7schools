@@ -1,6 +1,6 @@
----
+﻿---
 id: tp-Routage
-title: TP — Routage sous Linux
+title: TP - Routage sous Linux
 sidebar_label: TP Routage
 ---
 
@@ -25,7 +25,7 @@ Poste A (192.168.1.2)  ──── Reseau A (192.168.1.0/24) ──── eth0 
 
 ---
 
-## Partie 1 — Configuration des adresses IP
+## Partie 1 - Configuration des adresses IP
 
 **1.1 Configurez l'adresse IP `192.168.1.1/24` sur l'interface `eth0` du routeur.**
 
@@ -158,7 +158,7 @@ sudo nmcli connection up eth0
 
 ---
 
-## Partie 2 — Forwarding IP
+## Partie 2 - Forwarding IP
 
 **2.1 Verifiez l'etat actuel du forwarding IP sur le routeur.**
 
@@ -270,7 +270,7 @@ cat /proc/sys/net/ipv4/ip_forward
 
 ---
 
-## Partie 3 — Routage Statique
+## Partie 3 - Routage Statique
 
 **3.1 Affichez la table de routage actuelle du routeur.**
 
@@ -452,7 +452,7 @@ ip route show
 
 ---
 
-## Partie 4 — NAT et Masquerading
+## Partie 4 - NAT et Masquerading
 
 **4.1 Configurez le masquerading sur le routeur pour permettre aux machines du reseau A d'acceder a internet via `eth0`.**
 
@@ -527,7 +527,7 @@ sudo iptables -t nat -L PREROUTING -v
 
 ---
 
-## Partie 5 — Routage Dynamique OSPF avec FRR
+## Partie 5 - Routage Dynamique OSPF avec FRR
 
 **5.1 Installez FRR sur le routeur.**
 
@@ -680,7 +680,7 @@ routeur# show ip ospf neighbor
 
 ---
 
-## Partie 6 — Diagnostic et verification
+## Partie 6 - Diagnostic et verification
 
 **6.1 Tracez le chemin des paquets de Poste A vers Poste B.**
 
@@ -778,5 +778,5 @@ ip addr show
 
 ## Pour aller plus loin
 
-- [Cours Routage](/linux/lesson-08) — revoir les notions theoriques
-- [Quiz Routage](/quizzes/linux/quizzRoutage) — tester vos connaissances
+- [Cours Routage](/linux/lesson-08) - revoir les notions theoriques
+- [Quiz Routage](/quizzes/linux/quizzRoutage) - tester vos connaissances

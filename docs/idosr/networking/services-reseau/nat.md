@@ -1,4 +1,4 @@
----
+﻿---
 id: nat
 title: NAT & PAT
 sidebar_label: NAT & PAT
@@ -51,7 +51,7 @@ Router(config-if)# exit
 :::warning inside vs outside
 - `ip nat inside` : interface connectee au reseau **prive** (LAN)
 - `ip nat outside` : interface connectee au reseau **public** (Internet/ISP)
-Ces deux marqueurs sont obligatoires — sans eux, NAT ne fonctionne pas.
+Ces deux marqueurs sont obligatoires - sans eux, NAT ne fonctionne pas.
 :::
 
 ---
@@ -60,19 +60,19 @@ Ces deux marqueurs sont obligatoires — sans eux, NAT ne fonctionne pas.
 
 Un pool d'adresses publiques est utilise. Chaque hote interne recoit une adresse publique differente du pool a la demande.
 
-```bash title="Étape 1 — ACL définissant les hôtes à traduire"
+```bash title="Étape 1 - ACL définissant les hôtes à traduire"
 Router(config)# access-list 1 permit 192.168.1.0 0.0.0.255
 ```
 
-```bash title="Étape 2 — Créer le pool d'adresses publiques"
+```bash title="Étape 2 - Créer le pool d'adresses publiques"
 Router(config)# ip nat pool PUBLIC_POOL 200.1.1.1 200.1.1.10 netmask 255.255.255.0
 ```
 
-```bash title="Étape 3 — Lier l'ACL au pool"
+```bash title="Étape 3 - Lier l'ACL au pool"
 Router(config)# ip nat inside source list 1 pool PUBLIC_POOL
 ```
 
-```bash title="Étape 4 — Appliquer sur les interfaces"
+```bash title="Étape 4 - Appliquer sur les interfaces"
 Router(config)# interface gigabitethernet 0/0
 Router(config-if)# ip nat inside
 Router(config-if)# exit
@@ -88,7 +88,7 @@ Si le pool est epuise (toutes les adresses publiques sont utilisees), les nouvel
 
 ---
 
-## 4. PAT — Port Address Translation (NAT Overload)
+## 4. PAT - Port Address Translation (NAT Overload)
 
 PAT traduit plusieurs adresses privees vers une seule adresse publique en utilisant des numeros de port differents. C'est la methode la plus utilisee pour l'acces Internet.
 
@@ -118,7 +118,7 @@ Router(config)# ip nat inside source list 1 pool PAT_POOL overload
 ```
 
 :::info Le mot cle overload
-`overload` active PAT — sans ce mot cle, c'est du NAT dynamique classique (1 IP privee = 1 IP publique). Avec `overload`, des milliers d'hotes partagent une seule IP publique via des ports differents.
+`overload` active PAT - sans ce mot cle, c'est du NAT dynamique classique (1 IP privee = 1 IP publique). Avec `overload`, des milliers d'hotes partagent une seule IP publique via des ports differents.
 :::
 
 ---

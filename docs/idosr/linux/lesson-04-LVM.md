@@ -1,4 +1,4 @@
----
+﻿---
 id: lesson-04
 title: LVM - Gestion des Volumes Logiques
 sidebar_label: LVM - Gestion des Disques
@@ -20,7 +20,7 @@ Il permet de redimensionner, créer ou déplacer des partitions (volumes logique
 sans interrompre le système, tout en agrégeant plusieurs disques physiques en un seul grand
 espace de stockage (groupe de volumes)
 
-LVM est un **outil kernel** — il n'y a pas de demon principal. Le service `lvm2-monitor` assure uniquement la surveillance.
+LVM est un **outil kernel** - il n'y a pas de demon principal. Le service `lvm2-monitor` assure uniquement la surveillance.
 
 ### 1.1 Installation
 
@@ -61,9 +61,9 @@ PV  →  VG  →  LV  →  mkfs  →  mount
 
 | Etape | Composant | Description |
 |---|---|---|
-| 1 | **PV** — Physical Volume | Disque physique initialise pour LVM |
-| 2 | **VG** — Volume Group | Groupe de disques physiques |
-| 3 | **LV** — Logical Volume | Volume logique decoupe depuis le VG |
+| 1 | **PV** - Physical Volume | Disque physique initialise pour LVM |
+| 2 | **VG** - Volume Group | Groupe de disques physiques |
+| 3 | **LV** - Logical Volume | Volume logique decoupe depuis le VG |
 | 4 | **mkfs** | Formatage du volume logique |
 | 5 | **mount** | Montage dans l'arborescence Linux |
 
@@ -577,5 +577,5 @@ sudo e2fsck -f /dev/NomVG/NomLV   # verifier ext4
 </Tabs>
 ## Pour aller plus loin
  
-- [Quiz ](/quizzes/linux/quizzLVM) — testez vos connaissances sur ce cours
-- [TP ](/TP/linux/tp-LVM) — mise en pratique guidee
+- [Quiz ](/quizzes/linux/quizzLVM) - testez vos connaissances sur ce cours
+- [TP ](/TP/linux/tp-LVM) - mise en pratique guidee

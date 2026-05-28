@@ -1,4 +1,4 @@
----
+﻿---
 id: intro
 title: Administration Linux - Introduction
 sidebar_label: Introduction
@@ -8,7 +8,7 @@ sidebar_label: Introduction
 
 **Administration des serveurs Linux (Ubuntu Server / Fedora).**
 
-Ce module couvre l installation, la configuration et la gestion des serveurs Linux dans un environnement professionnel. Toutes les commandes et configurations sont presentees pour **Ubuntu Server** et **Fedora** — ces deux distributions sont utilisees a la place de Debian et Red Hat car elles sont plus accessibles en formation.
+Ce module couvre l installation, la configuration et la gestion des serveurs Linux dans un environnement professionnel. Toutes les commandes et configurations sont presentees pour **Ubuntu Server** et **Fedora** - ces deux distributions sont utilisees a la place de Debian et Red Hat car elles sont plus accessibles en formation.
 
 :::info Avertissement
 
@@ -37,7 +37,7 @@ Ce contenu est cree et maintenu par moi. Il peut contenir des erreurs ou necessi
 | Lecon 02 | Serveur DHCP |
 | Lecon 03 | Serveur DNS et DDNS |
 | Lecon 04 | OpenLDAP |
-| Lecon 05 | LVM — Gestion des Disques |
+| Lecon 05 | LVM - Gestion des Disques |
 | Lecon 06 | RAID Logiciel |
 | Lecon 07 | Serveur Web Apache |
 | Lecon 08 | Routage Linux |
@@ -48,11 +48,11 @@ Ce contenu est cree et maintenu par moi. Il peut contenir des erreurs ou necessi
 
 :::info Methode de travail
 
-**1. Lire le cours** — comprendre les concepts et les commandes
+**1. Lire le cours** - comprendre les concepts et les commandes
 
-**2. Faire le TP** — pratiquer sur machine virtuelle
+**2. Faire le TP** - pratiquer sur machine virtuelle
 
-**3. Faire le Quiz** — verifier vos connaissances
+**3. Faire le Quiz** - verifier vos connaissances
 
 **4. Passer a la lecon suivante**
 
@@ -60,7 +60,7 @@ Ce contenu est cree et maintenu par moi. Il peut contenir des erreurs ou necessi
 
 :::tip Conseil pratique
 
-Chaque lecon utilise des **onglets synchronises** — cliquez sur **Ubuntu** ou **Fedora** pour afficher les commandes correspondant a votre systeme. Le choix est memorise automatiquement sur toute la page.
+Chaque lecon utilise des **onglets synchronises** - cliquez sur **Ubuntu** ou **Fedora** pour afficher les commandes correspondant a votre systeme. Le choix est memorise automatiquement sur toute la page.
 
 :::
 
@@ -68,6 +68,6 @@ Chaque lecon utilise des **onglets synchronises** — cliquez sur **Ubuntu** ou 
 
 
 
-> Commencer par **Lecon 00 — Les Commandes de Base Linux** dans la barre laterale.
+> Commencer par **Lecon 00 - Les Commandes de Base Linux** dans la barre laterale.
 
 > **Bon courage et bonne pratique**

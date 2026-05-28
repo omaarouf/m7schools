@@ -1,4 +1,4 @@
----
+﻿---
 id: lesson-11
 title:  Samba et nfs 
 ---
@@ -7,11 +7,11 @@ title:  Samba et nfs
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Samba et NFS — Partage de fichiers réseau
+# Samba et NFS - Partage de fichiers réseau
 
 ---
 
-## Partie 1 — Samba
+## Partie 1 - Samba
 
 ### 1. Installation
 
@@ -239,7 +239,7 @@ Sur Red Hat/Rocky, SELinux peut bloquer Samba même si la configuration est corr
 
 ```bash
 # SELinux non applicable sur Ubuntu/Debian
-# AppArmor est utilisé à la place — aucune action requise pour Samba
+# AppArmor est utilisé à la place - aucune action requise pour Samba
 ```
 
 </TabItem>
@@ -255,7 +255,7 @@ sudo setsebool -P samba_export_all_rw on
 
 ---
 
-## Partie 2 — NFS (Network File System)
+## Partie 2 - NFS (Network File System)
 
 ### 1. Installation
 
@@ -358,7 +358,7 @@ sudo umount /mnt/data                                 # Démonter
 
 ---
 
-### 6. Montage persistant — /etc/fstab
+### 6. Montage persistant - /etc/fstab
 
 ```bash
 192.168.1.1:/srv/data  /mnt/data  nfs  defaults,_netdev  0  0

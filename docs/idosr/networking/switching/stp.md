@@ -1,4 +1,4 @@
----
+﻿---
 id: stp
 title: Spanning Tree Protocol (STP)
 sidebar_label: Spanning Tree Protocol (STP)
@@ -92,7 +92,7 @@ Switch(config)# spanning-tree mode mst
 ```
 
 :::tip
-En production, utiliser **Rapid PVST+** — il converge en quelques secondes contre 30 a 50 secondes pour PVST+ classique.
+En production, utiliser **Rapid PVST+** - il converge en quelques secondes contre 30 a 50 secondes pour PVST+ classique.
 :::
 
 ---
@@ -153,14 +153,14 @@ Switch(config-if)# no shutdown
 
 | Etat | Duree | Description |
 |---|---|---|
-| **Blocking** | — | Recoit les BPDUs, ne transmet pas de trames |
+| **Blocking** | - | Recoit les BPDUs, ne transmet pas de trames |
 | **Listening** | 15 sec | Participe a l'election STP |
 | **Learning** | 15 sec | Apprend les adresses MAC |
-| **Forwarding** | — | Transmet normalement le trafic |
-| **Disabled** | — | Port desactive administrativement |
+| **Forwarding** | - | Transmet normalement le trafic |
+| **Disabled** | - | Port desactive administrativement |
 
 :::info Rapid PVST+
-Avec Rapid PVST+, les etats Listening et Learning sont quasi instantanes — la convergence passe de ~50 secondes a 1-2 secondes.
+Avec Rapid PVST+, les etats Listening et Learning sont quasi instantanes - la convergence passe de ~50 secondes a 1-2 secondes.
 :::
 
 ---

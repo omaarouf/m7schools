@@ -1,4 +1,4 @@
----
+﻿---
 id: rip
 title: RIP & RIPng
 sidebar_label: RIP & RIPng
@@ -20,12 +20,12 @@ RIP (Routing Information Protocol) est un protocole de routage a vecteur de dist
 | Standard | RFC 2453 |
 
 :::warning Limite de RIP
-RIP est limite a 15 sauts — il ne convient pas aux reseaux de grande taille. Pour les reseaux d'entreprise, utiliser OSPF ou EIGRP.
+RIP est limite a 15 sauts - il ne convient pas aux reseaux de grande taille. Pour les reseaux d'entreprise, utiliser OSPF ou EIGRP.
 :::
 
 ---
 
-## 2. RIPv2 — Configuration de base
+## 2. RIPv2 - Configuration de base
 
 ```bash title="Activer RIPv2 et annoncer les réseaux"
 Router(config)# router rip
@@ -45,7 +45,7 @@ Router(config-router)# exit
 | Authentification | Non | Oui (MD5) |
 | VLSM / CIDR | Non | Oui |
 
-Toujours utiliser **RIPv2** — RIPv1 est obsolete.
+Toujours utiliser **RIPv2** - RIPv1 est obsolete.
 :::
 
 :::warning no auto-summary
@@ -81,9 +81,9 @@ Router(config-router)# exit
 
 ---
 
-## 5. RIPng — Configuration IPv6
+## 5. RIPng - Configuration IPv6
 
-RIPng (RIP next generation) est la version IPv6 de RIP. La configuration differe — RIPng est active directement sur les interfaces.
+RIPng (RIP next generation) est la version IPv6 de RIP. La configuration differe - RIPng est active directement sur les interfaces.
 
 ### Activer le routage IPv6
 

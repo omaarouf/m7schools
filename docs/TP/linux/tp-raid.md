@@ -1,20 +1,20 @@
----
+﻿---
 id: tp-Raid
-title: TP — RAID Logiciel avec mdadm
-sidebar_label: TP — RAID mdadm
+title: TP - RAID Logiciel avec mdadm
+sidebar_label: TP - RAID mdadm
 ---
 
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# TP — RAID Logiciel et LVM
+# TP - RAID Logiciel et LVM
 
 6 travaux pratiques progressifs, du plus simple au plus complexe.
 
 ---
 
-## TP n°1 — Installation et Verification (Facile)
+## TP n°1 - Installation et Verification (Facile)
 
 **Objectif :** Installer LVM et mdadm, verifier les disques disponibles.
 
@@ -96,7 +96,7 @@ df -h
 | Indicateur | Signification |
 |---|---|
 | `[UU]` | Tous les disques sont sains et actifs |
-| `[U_]` | Un disque est en panne — etat degrade |
+| `[U_]` | Un disque est en panne - etat degrade |
 | `(S)` | Le disque est un spare (reserve inactif) |
 
 </details>
@@ -155,7 +155,7 @@ watch cat /proc/mdstat
 
 ---
 
-## TP n°2 — Creation LVM de Base (Facile-Moyen)
+## TP n°2 - Creation LVM de Base (Facile-Moyen)
 
 **Objectif :** Creer des volumes physiques, groupes de volumes et volumes logiques. Formater, monter et rendre permanent.
 
@@ -275,7 +275,7 @@ df -h /var/www
 | `sudo pvs` | `sudo pvdisplay` | Resume rapide vs infos completes (UUID, taille PE...) |
 | `sudo vgs` | `sudo vgdisplay` | Resume rapide vs infos completes (PE size, total PE...) |
 | `sudo lvs` | `sudo lvdisplay` | Resume rapide vs infos completes (chemin, taille, etat...) |
-| `sudo lvscan` | — | Liste tous les LV avec leur etat (active/inactive) |
+| `sudo lvscan` | - | Liste tous les LV avec leur etat (active/inactive) |
 
 </details>
 
@@ -308,7 +308,7 @@ sudo mount /dev/vgApp/lvApp /app
 
 ---
 
-## TP n°3 — Creation RAID 1 et RAID 5 (Moyen)
+## TP n°3 - Creation RAID 1 et RAID 5 (Moyen)
 
 **Objectif :** Creer un RAID 1 et un RAID 5 avec mdadm, formater, monter et rendre les arrays persistants.
 
@@ -346,7 +346,7 @@ sudo mount /dev/md0 /mnt/raid1
 df -h /mnt/raid1
 ```
 
-Le RAID 1 affiche la capacite d'**un seul disque** — les donnees sont en miroir.
+Le RAID 1 affiche la capacite d'**un seul disque** - les donnees sont en miroir.
 
 </details>
 
@@ -370,7 +370,7 @@ sudo dracut --force
 ```
 
 :::warning
-Sans cette etape, le RAID ne se reassemble PAS au redemarrage — c'est l'etape la plus oubliee !
+Sans cette etape, le RAID ne se reassemble PAS au redemarrage - c'est l'etape la plus oubliee !
 :::
 
 </details>
@@ -457,14 +457,14 @@ Sans cette sauvegarde, au demarrage le noyau Linux ne sait pas quels disques app
 
 ---
 
-## TP n°4 — Extension et Reduction LVM (Moyen-Difficile)
+## TP n°4 - Extension et Reduction LVM (Moyen-Difficile)
 
 **Objectif :** Etendre un VG avec un nouveau disque, etendre un LV a chaud, reduire un LV en ordre strict, creer des snapshots.
 
 :::danger Ordre de reduction STRICT
 `umount` → `e2fsck -f` → `resize2fs` → `lvreduce` → `mount`
 
-Ne jamais inverser — perte de donnees irreversible.
+Ne jamais inverser - perte de donnees irreversible.
 :::
 
 ---
@@ -528,19 +528,19 @@ L'option `-r` (`--resizefs`) etend automatiquement le systeme de fichiers apres 
 <summary>Voir la reponse</summary>
 
 ```bash
-# ETAPE 1 — Demonter (OBLIGATOIRE)
+# ETAPE 1 - Demonter (OBLIGATOIRE)
 sudo umount /logs
 
-# ETAPE 2 — Verifier le FS (OBLIGATOIRE)
+# ETAPE 2 - Verifier le FS (OBLIGATOIRE)
 sudo e2fsck -f /dev/PostgresLogs/lvLogs
 
-# ETAPE 3 — Reduire le FS D'ABORD
+# ETAPE 3 - Reduire le FS D'ABORD
 sudo resize2fs /dev/PostgresLogs/lvLogs 25G
 
-# ETAPE 4 — Reduire le LV ENSUITE
+# ETAPE 4 - Reduire le LV ENSUITE
 sudo lvreduce -L 25G /dev/PostgresLogs/lvLogs
 
-# ETAPE 5 — Remonter
+# ETAPE 5 - Remonter
 sudo mount /dev/PostgresLogs/lvLogs /logs
 
 df -h /logs
@@ -556,7 +556,7 @@ sudo lvs
 <details>
 <summary>Voir la reponse</summary>
 
-Si on reduit d'abord le LV sans reduire le systeme de fichiers, le FS depasse les nouvelles limites du LV — les donnees de la fin du volume sont **coupees et perdues irreversiblement**. Il faut d'abord reduire le FS pour qu'il tienne dans la nouvelle taille, puis reduire le LV.
+Si on reduit d'abord le LV sans reduire le systeme de fichiers, le FS depasse les nouvelles limites du LV - les donnees de la fin du volume sont **coupees et perdues irreversiblement**. Il faut d'abord reduire le FS pour qu'il tienne dans la nouvelle taille, puis reduire le LV.
 
 </details>
 
@@ -600,7 +600,7 @@ sudo lvremove /dev/PostgresData/snap_data
 
 ---
 
-## TP n°5 — Simulation de Panne et Reconstruction RAID (Difficile)
+## TP n°5 - Simulation de Panne et Reconstruction RAID (Difficile)
 
 **Objectif :** Simuler la panne d'un disque, observer la reconstruction automatique via le spare, remplacer un disque defaillant et etendre un RAID.
 
@@ -632,7 +632,7 @@ cat /proc/mdstat
 sudo mdadm --detail /dev/md0
 ```
 
-Sortie attendue : `[U_]` — `(F)` Faulty — `State: degraded`.
+Sortie attendue : `[U_]` - `(F)` Faulty - `State: degraded`.
 
 </details>
 
@@ -720,7 +720,7 @@ watch cat /proc/mdstat
 
 ---
 
-## TP n°6 — LVM sur RAID et Scenario Complet (Tres Difficile)
+## TP n°6 - LVM sur RAID et Scenario Complet (Tres Difficile)
 
 **Objectif :** Combiner RAID et LVM pour un serveur de production, de la creation a la suppression propre.
 
@@ -852,7 +852,7 @@ sudo mdadm --zero-superblock /dev/sdd
 
 ---
 
-**7. Verification finale — ecrire toutes les commandes de controle.**
+**7. Verification finale - ecrire toutes les commandes de controle.**
 
 <details>
 <summary>Voir la reponse</summary>

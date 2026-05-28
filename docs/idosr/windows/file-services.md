@@ -1,7 +1,7 @@
 ---
-id: lesson-04
-title: Lecon 04 - File-Services
-sidebar_label: Lecon 04
+id: file-services
+title: Services de Fichiers
+sidebar_label: Services de Fichiers
 ---
 
 # Lecon 04: File-Services

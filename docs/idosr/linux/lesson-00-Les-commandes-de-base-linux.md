@@ -1,4 +1,4 @@
----
+﻿---
 id: lesson-00
 title: Les Commandes de Base Linux
 ---
@@ -684,5 +684,5 @@ cat /proc/ioports            # Affiche les ports d'entree/sortie utilises
 
 ## Pour aller plus loin
  
-- [Quiz ](/quizzes/linux/quizz-00-les-commandes-de-base) — testez vos connaissances sur ce cours
-- [TP ](/TP/linux/tp-lesson-00) — mise en pratique guidee
+- [Quiz ](/quizzes/linux/quizz-00-les-commandes-de-base) - testez vos connaissances sur ce cours
+- [TP ](/TP/linux/tp-lesson-00) - mise en pratique guidee

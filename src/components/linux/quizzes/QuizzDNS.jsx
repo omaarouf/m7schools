@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import QuizEngine from "@site/src/components/QuizEngine";
 
 const questions = [
@@ -351,7 +351,7 @@ export default function QuizzDNS() {
   return (
     <QuizEngine
       questions={questions}
-      title="Quiz — Serveur DNS et DDNS"
+      title="Quiz - Serveur DNS et DDNS"
       courseLink="/docs/linux/lesson-03"
     />
   );

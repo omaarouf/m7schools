@@ -1,16 +1,16 @@
----
+﻿---
 id: tp-lesson-00
-title: TP — Les Commandes de Base Linux
+title: TP - Les Commandes de Base Linux
 sidebar_label: TP Commandes de Base
 ---
 
-# TP — Les Commandes de Base Linux
+# TP - Les Commandes de Base Linux
 
 6 travaux pratiques progressifs, du plus simple au plus complexe.
 
 ---
 
-## TP n°1 — Navigation et Structure de Base
+## TP n°1 - Navigation et Structure de Base
 
 **Objectif :** Se familiariser avec la navigation dans l arborescence Linux.
 
@@ -93,7 +93,7 @@ cd ../..
 
 ---
 
-## TP n°2 — Creation d Arborescence
+## TP n°2 - Creation d Arborescence
 
 **Objectif :** Creer l arborescence suivante en utilisant le minimum de commandes.
 
@@ -217,7 +217,7 @@ cp /var/named/localdomain.zone /ISTAHH/Formation/istahh.ma
 
 ---
 
-## TP n°3 — Arborescence Complexe et Gestion de Fichiers
+## TP n°3 - Arborescence Complexe et Gestion de Fichiers
 
 **Objectif :** Creer l arborescence suivante en une seule commande, puis effectuer des operations sur les fichiers.
 
@@ -409,7 +409,7 @@ ls -lhsr /etc
 
 ---
 
-## TP n°4 — Droits et Permissions
+## TP n°4 - Droits et Permissions
 
 **Objectif :** Maitriser la gestion des permissions sur les fichiers et repertoires.
 
@@ -520,7 +520,7 @@ chmod u+x script.sh
 
 ---
 
-## TP n°5 — Recherche Avancee et Redirections
+## TP n°5 - Recherche Avancee et Redirections
 
 **Objectif :** Maitriser `grep`, `find`, les pipes et les redirections.
 
@@ -656,7 +656,7 @@ ls -lhS /var/log | head -n 6
 
 ---
 
-## TP n°6 — TP Complet (Scenario Reel)
+## TP n°6 - TP Complet (Scenario Reel)
 
 **Objectif :** Simuler la mise en place d un environnement de travail pour une equipe de developpement.
 

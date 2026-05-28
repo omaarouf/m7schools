@@ -1,4 +1,4 @@
----
+﻿---
 id: etherchannel
 title: EtherChannel
 sidebar_label: EtherChannel
@@ -12,8 +12,8 @@ L'EtherChannel (aussi appele Link Aggregation) combine 2 a 8 interfaces physique
 
 **Avantages :**
 - Bande passante agregee (ex: 4 x 1 Gbps = 4 Gbps logique)
-- Redondance — si un lien tombe, le trafic bascule sur les autres
-- STP voit le Port-Channel comme un seul lien — pas de blocage
+- Redondance - si un lien tombe, le trafic bascule sur les autres
+- STP voit le Port-Channel comme un seul lien - pas de blocage
 
 :::info
 Tous les ports d'un EtherChannel doivent avoir la meme vitesse, le meme mode duplex et la meme configuration VLAN.
@@ -30,7 +30,7 @@ Tous les ports d'un EtherChannel doivent avoir la meme vitesse, le meme mode dup
 | **Static** | Aucun | `on` (force sans negociation) |
 
 :::tip Recommandation
-Utiliser **LACP** — c'est un standard ouvert compatible avec tous les equipements reseau.
+Utiliser **LACP** - c'est un standard ouvert compatible avec tous les equipements reseau.
 :::
 
 ---
@@ -39,14 +39,14 @@ Utiliser **LACP** — c'est un standard ouvert compatible avec tous les equipeme
 
 PAgP est le protocole proprietaire Cisco.
 
-```bash title="EtherChannel PAgP — mode desirable (actif)"
+```bash title="EtherChannel PAgP - mode desirable (actif)"
 Switch(config)# interface range fastethernet 0/1 - 2
 Switch(config-if-range)# channel-group 1 mode desirable
 Switch(config-if-range)# no shutdown
 Switch(config-if-range)# exit
 ```
 
-```bash title="EtherChannel PAgP — mode auto (passif)"
+```bash title="EtherChannel PAgP - mode auto (passif)"
 Switch(config)# interface range fastethernet 0/3 - 4
 Switch(config-if-range)# channel-group 2 mode auto
 Switch(config-if-range)# no shutdown
@@ -67,14 +67,14 @@ Switch(config-if-range)# exit
 
 LACP est le standard IEEE 802.3ad, compatible avec tous les constructeurs.
 
-```bash title="EtherChannel LACP — mode active (actif)"
+```bash title="EtherChannel LACP - mode active (actif)"
 Switch(config)# interface range fastethernet 0/1 - 2
 Switch(config-if-range)# channel-group 1 mode active
 Switch(config-if-range)# no shutdown
 Switch(config-if-range)# exit
 ```
 
-```bash title="EtherChannel LACP — mode passive (passif)"
+```bash title="EtherChannel LACP - mode passive (passif)"
 Switch(config)# interface range fastethernet 0/3 - 4
 Switch(config-if-range)# channel-group 2 mode passive
 Switch(config-if-range)# no shutdown
@@ -110,7 +110,7 @@ Switch(config-if)# exit
 ```
 
 :::warning
-La configuration du Port-Channel s'applique automatiquement a tous les ports membres. Ne pas configurer les ports physiques individuellement apres creation du groupe — cela provoquerait des incoherences.
+La configuration du Port-Channel s'applique automatiquement a tous les ports membres. Ne pas configurer les ports physiques individuellement apres creation du groupe - cela provoquerait des incoherences.
 :::
 
 ---
@@ -157,7 +157,7 @@ Group  Port-channel  Protocol    Ports
 ```
 
 :::info Lecture des flags
-- `SU` sur le Port-Channel : **S**witched (Layer 2) + **U**tilise — fonctionnel
-- `P` sur les ports membres : **P**orte bundlee — incluse dans le groupe
-- `D` : port down — probleme physique ou de configuration
+- `SU` sur le Port-Channel : **S**witched (Layer 2) + **U**tilise - fonctionnel
+- `P` sur les ports membres : **P**orte bundlee - incluse dans le groupe
+- `D` : port down - probleme physique ou de configuration
 :::

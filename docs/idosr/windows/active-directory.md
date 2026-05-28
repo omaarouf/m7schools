@@ -1,7 +1,7 @@
 ---
-id: lesson-01
-title: Lecon 01 - Active-Directory
-sidebar_label: Lecon 01
+id: active-directory
+title: Active Directory (AD DS)
+sidebar_label: Active Directory
 ---
 
 # Lecon 01: Active-Directory

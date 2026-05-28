@@ -1,15 +1,15 @@
----
+﻿---
 id: tp-DHCP
 title:  DHCP
 ---
 
-# TP — Serveur DHCP
+# TP - Serveur DHCP
 
 7 travaux pratiques progressifs, du plus simple au plus complexe.
 
 ---
 
-## TP n°1 — Installation et Verification (Facile)
+## TP n°1 - Installation et Verification (Facile)
 
 
 **Objectif :** Installer le serveur DHCP et verifier son etat.
@@ -138,7 +138,7 @@ cat /var/lib/dhcpd/dhcpd.leases
 
 ---
 
-## TP n°2 — Configuration d un Scope Simple (Facile-Moyen)
+## TP n°2 - Configuration d un Scope Simple (Facile-Moyen)
 
 **Objectif :** Configurer une plage DHCP basique pour le reseau `192.168.1.0/24`.
 
@@ -286,7 +286,7 @@ tail -f /var/log/messages | grep dhcpd
 
 ---
 
-## TP n°3 — Reservation par Adresse MAC (Moyen)
+## TP n°3 - Reservation par Adresse MAC (Moyen)
 
 **Objectif :** Configurer une reservation d IP fixe pour un client specifique.
 
@@ -438,7 +438,7 @@ host pc-etudiant {
 
 ---
 
-## TP n°4 — Pare-feu et Securite DHCP (Moyen)
+## TP n°4 - Pare-feu et Securite DHCP (Moyen)
 
 **Objectif :** Configurer le pare-feu pour autoriser le trafic DHCP.
 
@@ -568,7 +568,7 @@ cat /var/lib/dhcpd/dhcpd.leases
 
 ---
 
-## TP n°5 — Diagnostic DHCP (Moyen-Difficile)
+## TP n°5 - Diagnostic DHCP (Moyen-Difficile)
 
 **Objectif :** Diagnostiquer pourquoi un client ne reçoit pas d adresse IP.
 
@@ -589,7 +589,7 @@ Fedora :
 systemctl status dhcpd
 ```
 
-Si `inactive (dead)` — probleme de configuration.
+Si `inactive (dead)` - probleme de configuration.
 
 </details>
 
@@ -715,7 +715,7 @@ tail -f /var/log/messages | grep dhcpd
 
 ---
 
-## TP n°6 — Configuration Avancee (Difficile)
+## TP n°6 - Configuration Avancee (Difficile)
 
 **Objectif :** Configurer plusieurs scopes DHCP pour differents reseaux.
 
@@ -839,7 +839,7 @@ cat /etc/dhcp/dhcpd.conf
 
 ---
 
-## TP n°7 — Scenario Reel Complet (Difficile)
+## TP n°7 - Scenario Reel Complet (Difficile)
 
 **Objectif :** Mettre en place un serveur DHCP complet pour l entreprise `OFPPT`.
 
@@ -854,8 +854,8 @@ cat /etc/dhcp/dhcpd.conf
 | Domaine | ofppt.local |
 | Bail par defaut | 600 secondes |
 | Bail maximum | 7200 secondes |
-| Reservation 1 | `pc-direction` — MAC `08:00:27:AA:BB:CC` — IP `192.168.20.50` |
-| Reservation 2 | `pc-formation` — MAC `08:00:27:DD:EE:FF` — IP `192.168.20.51` |
+| Reservation 1 | `pc-direction` - MAC `08:00:27:AA:BB:CC` - IP `192.168.20.50` |
+| Reservation 2 | `pc-formation` - MAC `08:00:27:DD:EE:FF` - IP `192.168.20.51` |
 
 ---
 

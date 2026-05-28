@@ -1,7 +1,7 @@
----
+﻿---
 id: switch
-title: Configuration de Base — Switch
-sidebar_label: Configuration de Base — Switch
+title: Configuration de Base - Switch
+sidebar_label: Configuration de Base - Switch
 ---
 
 > Maitriser la configuration initiale d'un switch Cisco : securisation des acces, gestion a distance, et interface de management.
@@ -54,7 +54,7 @@ SW1(config)# enable secret cisco123
 ```
 
 :::warning enable secret vs enable password
-Toujours utiliser `enable secret` — il chiffre le mot de passe avec MD5. La commande `enable password` stocke le mot de passe en clair.
+Toujours utiliser `enable secret` - il chiffre le mot de passe avec MD5. La commande `enable password` stocke le mot de passe en clair.
 :::
 
 ### Mot de passe de la console
@@ -82,7 +82,7 @@ SW1(config)# banner motd # Acces autorise uniquement. Toute connexion non autori
 ```
 
 :::danger Important
-La banniere doit avertir les utilisateurs non autorises — elle a une valeur juridique.
+La banniere doit avertir les utilisateurs non autorises - elle a une valeur juridique.
 :::
 
 ---
@@ -145,7 +145,7 @@ SW1# wr
 ```
 
 :::tip
-Toujours sauvegarder apres chaque modification importante. La `running-config` est en RAM — elle est perdue au redemarrage si non sauvegardee.
+Toujours sauvegarder apres chaque modification importante. La `running-config` est en RAM - elle est perdue au redemarrage si non sauvegardee.
 :::
 
 ---
@@ -170,7 +170,7 @@ SW1# show version
 
 ---
 
-## 9. Configuration complete — Exemple
+## 9. Configuration complete - Exemple
 
 ```bash title="Configuration complète d'un switch de base"
 Switch> enable

@@ -1,7 +1,7 @@
 ---
-id: lesson-07
-title: Lecon 07 - Backup-Recovery
-sidebar_label: Lecon 07
+id: backup-recovery
+title: Backup & Recovery
+sidebar_label: Backup & Recovery
 ---
 
 # Lecon 07: Backup-Recovery

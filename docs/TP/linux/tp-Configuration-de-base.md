@@ -1,16 +1,16 @@
----
+﻿---
 id: tp-Configuration-de-base
-title: TP — Configuration de Base Linux Server
+title: TP - Configuration de Base Linux Server
 sidebar_label: TP Configuration de Base
 ---
 
-# TP — Configuration de Base Linux Server
+# TP - Configuration de Base Linux Server
 
 7 travaux pratiques progressifs, du plus simple au plus complexe.
 
 ---
 
-## TP n°1 — Demons et Services (Facile)
+## TP n°1 - Demons et Services (Facile)
 
 **Objectif :** Comprendre et manipuler les demons et services avec systemd.
 
@@ -50,8 +50,8 @@ Fedora :
 systemctl is-enabled sshd
 ```
 
-Si la sortie est `enabled` — le service demarre au boot.
-Si `disabled` — il ne demarre pas automatiquement.
+Si la sortie est `enabled` - le service demarre au boot.
+Si `disabled` - il ne demarre pas automatiquement.
 
 </details>
 
@@ -152,7 +152,7 @@ journalctl -p err
 
 ---
 
-## TP n°2 — Hostname et Configuration Reseau (Facile)
+## TP n°2 - Hostname et Configuration Reseau (Facile)
 
 **Objectif :** Configurer le hostname et verifier les parametres reseau de base.
 
@@ -259,7 +259,7 @@ ping google.com
 
 ---
 
-## TP n°3 — Configuration IP avec nmcli (Moyen)
+## TP n°3 - Configuration IP avec nmcli (Moyen)
 
 **Objectif :** Configurer une adresse IP statique et DHCP via nmcli.
 
@@ -405,7 +405,7 @@ sudo netplan apply
 
 ---
 
-## TP n°4 — Gestion des Packages et Services (Moyen)
+## TP n°4 - Gestion des Packages et Services (Moyen)
 
 **Objectif :** Installer et gerer des packages et services.
 
@@ -540,7 +540,7 @@ systemctl status sshd
 
 ---
 
-## TP n°5 — Gestion des Utilisateurs et Groupes (Moyen-Difficile)
+## TP n°5 - Gestion des Utilisateurs et Groupes (Moyen-Difficile)
 
 **Objectif :** Creer et gerer des utilisateurs, groupes et mots de passe.
 
@@ -657,7 +657,7 @@ userdel -r stagiaire
 
 ---
 
-## TP n°6 — SSH et Authentification par Cles (Difficile)
+## TP n°6 - SSH et Authentification par Cles (Difficile)
 
 **Objectif :** Configurer l authentification SSH par cles RSA et securiser le serveur.
 
@@ -673,8 +673,8 @@ ssh-keygen -t rsa -b 4096
 ```
 
 Cles generees dans :
-- `~/.ssh/id_rsa` — cle privee (ne jamais partager)
-- `~/.ssh/id_rsa.pub` — cle publique
+- `~/.ssh/id_rsa` - cle privee (ne jamais partager)
+- `~/.ssh/id_rsa.pub` - cle publique
 
 </details>
 
@@ -787,7 +787,7 @@ journalctl -u sshd -n 30
 
 ---
 
-## TP n°7 — Scenario Reel Complet (Difficile)
+## TP n°7 - Scenario Reel Complet (Difficile)
 
 **Objectif :** Configurer un serveur Linux complet pour l entreprise `OFPPT`.
 
@@ -943,7 +943,7 @@ nmap -p 22 127.0.0.1
 
 ---
 
-**7. Verification finale complete — IP, utilisateur, SSH, logs.**
+**7. Verification finale complete - IP, utilisateur, SSH, logs.**
 
 <details>
 <summary>Voir la reponse</summary>

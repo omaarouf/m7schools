@@ -1,4 +1,4 @@
----
+﻿---
 id: lesson-07
 title: Serveur Web Apache
 sidebar_label: Serveur Web Apache
@@ -425,7 +425,7 @@ Listen 8080
 </Tabs>
 
 :::info Bonne pratique
-Un seul fichier par site dans `sites-available/`. Les ports sont declares une seule fois dans `ports.conf` — jamais repetes dans chaque fichier de site.
+Un seul fichier par site dans `sites-available/`. Les ports sont declares une seule fois dans `ports.conf` - jamais repetes dans chaque fichier de site.
 :::
 
 ---
@@ -481,7 +481,7 @@ Pour que cette methode fonctionne, le serveur doit avoir les deux adresses IP co
 
 ### Methode 3 : Sites differencies par le nom (recommandee)
 
-C'est la methode la plus utilisee en production. Un seul port 80, une seule IP — Apache distingue les sites grace au `ServerName` envoye par le navigateur dans la requete HTTP.
+C'est la methode la plus utilisee en production. Un seul port 80, une seule IP - Apache distingue les sites grace au `ServerName` envoye par le navigateur dans la requete HTTP.
 
 Un fichier par site, tous ecoutent sur `*:80`.
 
@@ -682,8 +682,8 @@ sudo tail -f /var/log/httpd/error_log
  
 ## Pour aller plus loin
  
-- [Quiz Apache](/quizzes/linux/quizzApache) — testez vos connaissances sur ce cours
-- [TP Apache](/TP/linux/tp-apache) — mise en pratique guidee
+- [Quiz Apache](/quizzes/linux/quizzApache) - testez vos connaissances sur ce cours
+- [TP Apache](/TP/linux/tp-apache) - mise en pratique guidee
  
 
     

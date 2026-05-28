@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import QuizEngine from "@site/src/components/QuizEngine";
 
 const questions = [
@@ -463,7 +463,7 @@ export default function QuizzDhcp() {
   return (
     <QuizEngine
       questions={questions}
-      title="Quiz — Serveur DHCP"
+      title="Quiz - Serveur DHCP"
       courseLink="/idosr/linux/lesson-02"
     />
   );

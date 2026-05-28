@@ -1,4 +1,4 @@
----
+﻿---
 id: hsrp
 title: HSRP
 sidebar_label: HSRP
@@ -8,16 +8,16 @@ sidebar_label: HSRP
 
 ## 1. Principe de HSRP
 
-HSRP (Hot Standby Router Protocol) est un protocole Cisco de redondance de passerelle. Il permet a plusieurs routeurs de partager une adresse IP virtuelle — les hotes du reseau utilisent cette IP virtuelle comme passerelle par defaut.
+HSRP (Hot Standby Router Protocol) est un protocole Cisco de redondance de passerelle. Il permet a plusieurs routeurs de partager une adresse IP virtuelle - les hotes du reseau utilisent cette IP virtuelle comme passerelle par defaut.
 
 **Fonctionnement :**
 - Le routeur **Active** transmet tout le trafic
 - Le routeur **Standby** surveille l'Active via des messages Hello
 - Si l'Active tombe, le Standby prend le relais en quelques secondes
-- Les hotes ne voient aucune interruption — la passerelle virtuelle reste la meme
+- Les hotes ne voient aucune interruption - la passerelle virtuelle reste la meme
 
 :::info
-HSRP est defini par la norme Cisco. Le standard ouvert equivalent est **VRRP** (Virtual Router Redundancy Protocol — RFC 5798).
+HSRP est defini par la norme Cisco. Le standard ouvert equivalent est **VRRP** (Virtual Router Redundancy Protocol - RFC 5798).
 :::
 
 ---
@@ -37,7 +37,7 @@ Router(config-if)# exit
 | Commande | Description |
 |---|---|
 | `standby 1 ip 192.168.1.1` | Adresse IP virtuelle du groupe HSRP 1 |
-| `standby 1 priority 110` | Priorite (defaut 100) — plus elevee = prefere |
+| `standby 1 priority 110` | Priorite (defaut 100) - plus elevee = prefere |
 | `standby 1 preempt` | Reprend le role Active si priorite meilleure |
 
 ---
@@ -61,7 +61,7 @@ Les deux routeurs partagent la meme IP virtuelle (`192.168.1.1`). Chaque routeur
 
 ## 4. Preemption
 
-Sans `preempt`, si le routeur Active tombe puis revient, il ne reprend pas automatiquement son role — le Standby reste Active.
+Sans `preempt`, si le routeur Active tombe puis revient, il ne reprend pas automatiquement son role - le Standby reste Active.
 
 ```bash title="Activer la preemption"
 Router(config)# interface gigabitethernet 0/0
@@ -115,7 +115,7 @@ Router(config-if)# exit
 
 | Critere | HSRP v1 | HSRP v2 |
 |---|---|---|
-| Groupes | 0 — 255 | 0 — 4095 |
+| Groupes | 0 - 255 | 0 - 4095 |
 | Multicast | 224.0.0.2 | 224.0.0.102 |
 | IPv6 | Non | Oui |
 | MAC virtuelle | 0000.0c07.acXX | 0000.0c9f.fXXX |
@@ -130,7 +130,7 @@ Router(config-if)# exit
 | `Learn` | En attente de l'IP virtuelle |
 | `Listen` | Recoit les Hello mais n'est ni Active ni Standby |
 | `Speak` | Participe a l'election |
-| `Standby` | Routeur de secours — surveille l'Active |
+| `Standby` | Routeur de secours - surveille l'Active |
 | `Active` | Transmet le trafic pour l'IP virtuelle |
 
 ---

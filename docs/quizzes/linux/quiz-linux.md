@@ -1,4 +1,4 @@
----
+﻿---
 id: quiz-linux
 title:  OpenLDAP
 sidebar_label: Quiz OpenLDAP
@@ -328,4 +328,4 @@ ldapmodify -x -D "cn=admin,dc=istahh,dc=ma" -W -f modify.ldif
 
 ---
 
-*Score : /12 — Bon courage !*
+*Score : /12 - Bon courage !*

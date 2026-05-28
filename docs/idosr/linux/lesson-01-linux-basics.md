@@ -1,4 +1,4 @@
----
+﻿---
 id: lesson-01
 title: Configuration de Base Linux Server
 ---
@@ -28,7 +28,7 @@ Un **démon** est un programme qui travaille en arrière-plan. Sans les demons, 
 
 ---
 
-### systemd — Gestionnaire de services
+### systemd - Gestionnaire de services
 
 **systemd** est le systeme d initialisation et de gestion des services sur les distributions Linux modernes (Ubuntu, Fedora, Debian, Red Hat).
 
@@ -77,7 +77,7 @@ systemctl is-enabled nomservice
 
 ---
 
-### journalctl — Consulter les logs
+### journalctl - Consulter les logs
 ```bash
 # Voir tous les logs
 journalctl
@@ -105,7 +105,7 @@ journalctl -p err
 | Notion | Definition |
 |--------|-----------|
 | **Socket** | Combinaison IP + Port. Ex : `192.168.1.1:22` |
-| **PID** | Process ID — numero unique attribue a chaque processus |
+| **PID** | Process ID - numero unique attribue a chaque processus |
 | **Init system** | Premier processus lance au boot (systemd sur les distros modernes) |
 
 ---
@@ -538,7 +538,7 @@ sudo dnf list installed | grep dhcp
 ---
 
 
-### netstat — Statistiques reseau
+### netstat - Statistiques reseau
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
@@ -591,7 +591,7 @@ netstat -tulnp
 
 
 ---
-## 7. SSH — Secure Shell
+## 7. SSH - Secure Shell
 
 **SSH (Secure Shell)** est un outil qui permet de se connecter à un autre ordinateur (souvent un serveur) à distance, d'une manière sécurisée grâce au chiffrement, à l'intégrité et à l'authenticité.
 
@@ -634,10 +634,10 @@ ssh omar@192.168.7.10
 ### Commandes SSH et leurs rôles
 | Commande | Role | Remplace |
 |----------|------|---------|
-| `sshd` | Demon SSH — logiciel serveur actif sur le port TCP 22 | — |
+| `sshd` | Demon SSH - logiciel serveur actif sur le port TCP 22 | - |
 | `ssh` | Connexion et execution de commandes a distance | `rlogin`, `rsh` |
 | `scp` | Copier un fichier a distance de maniere securisee | `rcp` |
-| `ssh-keygen` | Generer un couple de cles publique/privee (RSA ou DSA) | — |
+| `ssh-keygen` | Generer un couple de cles publique/privee (RSA ou DSA) | - |
 
 ### Exemples scp
 ```bash
@@ -685,10 +685,10 @@ systemctl status sshd
 ### Creer un utilisateur
 
 ```bash
-# Ubuntu — cree le repertoire home automatiquement et demande le mot de passe
+# Ubuntu - cree le repertoire home automatiquement et demande le mot de passe
 adduser user1
 
-# Fedora / Red Hat — plus manuel
+# Fedora / Red Hat - plus manuel
 useradd user1
 passwd user1          # definir le mot de passe
 
@@ -808,5 +808,5 @@ user1 : x : 1001 : 1001 : Description : /home/user1 : /bin/bash
 
 ## Pour aller plus loin
  
-- [Quiz ](/quizzes/linux/ConfigurationDeBaseLinuxServer) — testez vos connaissances sur ce cours
-- [TP ](/TP/linux/TpLinuxServer) — mise en pratique guidee
+- [Quiz ](/quizzes/linux/ConfigurationDeBaseLinuxServer) - testez vos connaissances sur ce cours
+- [TP ](/TP/linux/TpLinuxServer) - mise en pratique guidee

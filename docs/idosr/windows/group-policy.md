@@ -1,7 +1,7 @@
 ---
-id: lesson-03
-title: Lecon 03 - Group-Policy
-sidebar_label: Lecon 03
+id: group-policy
+title: Group Policy (GPO)
+sidebar_label: Group Policy (GPO)
 ---
 
 # Lecon 03: Group-Policy

@@ -1,10 +1,10 @@
----
+﻿---
 id: bgp
 title: BGP
 sidebar_label: BGP
 ---
 
-> Configurer BGP pour echanger des routes entre systemes autonomes — le protocole de routage qui fait fonctionner Internet.
+> Configurer BGP pour echanger des routes entre systemes autonomes - le protocole de routage qui fait fonctionner Internet.
 
 ## 1. Presentation de BGP
 
@@ -45,8 +45,8 @@ Router(config-router)# exit
 
 :::info Numeros AS
 Les numeros AS sont divises en deux categories :
-- **AS publics** : 1 — 64511 (assignes par l'IANA/RIR)
-- **AS prives** : 64512 — 65535 (usage interne, non routes sur Internet)
+- **AS publics** : 1 - 64511 (assignes par l'IANA/RIR)
+- **AS prives** : 64512 - 65535 (usage interne, non routes sur Internet)
 :::
 
 ---
@@ -65,7 +65,7 @@ Router(config-router)# exit
 ```
 
 :::tip Loopback pour iBGP
-Utiliser les interfaces loopback comme source pour les sessions iBGP — la session reste stable meme si une interface physique tombe (tant qu'une route vers le loopback existe).
+Utiliser les interfaces loopback comme source pour les sessions iBGP - la session reste stable meme si une interface physique tombe (tant qu'une route vers le loopback existe).
 :::
 
 ---
@@ -101,13 +101,13 @@ BGP utilise des attributs pour selectionner le meilleur chemin :
 
 | Attribut | Description | Preference |
 |---|---|---|
-| **Weight** | Cisco proprietaire — local au routeur | Plus eleve = prefere |
+| **Weight** | Cisco proprietaire - local au routeur | Plus eleve = prefere |
 | **LOCAL_PREF** | Preference dans le meme AS | Plus eleve = prefere |
 | **AS-PATH** | Liste des AS traverses | Plus court = prefere |
 | **MED** | Metrique vers le voisin externe | Plus bas = prefere |
 
 :::info
-L'ordre de selection BGP suit la mnemonique : **W**e **L**ove **O**ranges **A**s **O**ranges **M**ean **P**ure **R**efreshment — Weight, Local_pref, Originated, AS-path, Origin, MED, Paths, Router-ID.
+L'ordre de selection BGP suit la mnemonique : **W**e **L**ove **O**ranges **A**s **O**ranges **M**ean **P**ure **R**efreshment - Weight, Local_pref, Originated, AS-path, Origin, MED, Paths, Router-ID.
 :::
 
 ---
@@ -146,6 +146,6 @@ Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
 :::info Etats BGP
 Si `State/PfxRcd` affiche un mot (ex: `Active`, `Idle`) plutot qu'un nombre, la session n'est pas etablie :
 - `Idle` : BGP ne tente pas de connexion
-- `Active` : BGP tente d'etablir la session TCP — voisin injoignable
+- `Active` : BGP tente d'etablir la session TCP - voisin injoignable
 - Un nombre (ex: `5`) : session etablie, 5 prefixes recus
 :::

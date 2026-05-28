@@ -1,6 +1,6 @@
----
+﻿---
 id: tp-Apache
-title: TP — Serveur Web Apache
+title: TP - Serveur Web Apache
 sidebar_label: TP Apache
 ---
 
@@ -18,7 +18,7 @@ import TabItem from '@theme/TabItem';
 
 ---
 
-## Partie 1 — Installation et verification
+## Partie 1 - Installation et verification
 
 **1.1 Installez Apache sur le serveur et verifiez que le service fonctionne correctement.**
 
@@ -133,7 +133,7 @@ sudo firewall-cmd --list-services
 
 ---
 
-## Partie 2 — Premier site web (methode simple)
+## Partie 2 - Premier site web (methode simple)
 
 **2.1 Creez le dossier `/var/www/ofppt` et une page d'accueil `index.html`.**
 
@@ -293,7 +293,7 @@ sudo systemctl restart httpd
 
 ---
 
-## Partie 3 — Configuration DNS
+## Partie 3 - Configuration DNS
 
 **3.1 Ajoutez un enregistrement A et un enregistrement CNAME dans la zone Bind9 pour `ofppt.local`.**
 
@@ -379,7 +379,7 @@ Les deux commandes `curl` doivent retourner la meme page HTML. `nslookup www.ofp
 
 ---
 
-## Partie 4 — Sites virtuels (Name-based)
+## Partie 4 - Sites virtuels (Name-based)
 
 **4.1 Creez les dossiers et pages d'accueil pour `site1` et `site2`.**
 
@@ -409,7 +409,7 @@ sudo nano /var/www/site1/index.html
 <html>
   <head><title>Site 1</title></head>
   <body>
-    <h1>Site 1 — www.site1.local</h1>
+    <h1>Site 1 - www.site1.local</h1>
   </body>
 </html>
 ```
@@ -435,7 +435,7 @@ sudo nano /var/www/site2/index.html
 <html>
   <head><title>Site 2</title></head>
   <body>
-    <h1>Site 2 — www.site2.local</h1>
+    <h1>Site 2 - www.site2.local</h1>
   </body>
 </html>
 ```
@@ -658,7 +658,7 @@ Chaque commande doit retourner la page HTML du site correspondant avec un conten
 
 ---
 
-## Partie 5 — Consultation des journaux
+## Partie 5 - Consultation des journaux
 
 **5.1 Consultez le journal des acces de `site1` et `site2`.**
 
@@ -738,7 +738,7 @@ sudo chmod 755 /var/www/site1
 
 ---
 
-## Partie 6 — Exercice EFM Casablanca 2023
+## Partie 6 - Exercice EFM Casablanca 2023
 
 > Vous etes l'administrateur d'un reseau qui comporte un serveur WEB (`ServeurWEB`) et son client (`ClientWEB`). Vous avez la tache de configurer le serveur WEB ainsi que son client pour pouvoir charger une page `index.html`.
 
@@ -998,5 +998,5 @@ La page doit afficher le contenu **EFM 2022-2023**.
 
 ## Pour aller plus loin
 
-- [Cours Apache](/docs/linux/lesson-07) — revoir les notions theoriques
-- [Quiz Apache](/docs/quizzes/linux/quizzApache) — tester vos connaissances
+- [Cours Apache](/docs/linux/lesson-07) - revoir les notions theoriques
+- [Quiz Apache](/docs/quizzes/linux/quizzApache) - tester vos connaissances

@@ -1,4 +1,4 @@
----
+﻿---
 id: vlans
 title: Configuration des VLANs
 sidebar_label: Configuration des VLANs
@@ -14,9 +14,9 @@ VTP permet de synchroniser automatiquement la base de donnees VLAN entre plusieu
 
 | Mode | Description |
 |---|---|
-| `server` | Cree, modifie et supprime des VLANs — synchronise les clients |
-| `client` | Recoit les VLANs du serveur — ne peut pas en creer |
-| `transparent` | Ignore VTP — gere ses propres VLANs localement |
+| `server` | Cree, modifie et supprime des VLANs - synchronise les clients |
+| `client` | Recoit les VLANs du serveur - ne peut pas en creer |
+| `transparent` | Ignore VTP - gere ses propres VLANs localement |
 
 ```bash title="Configuration VTP"
 Switch(config)# vtp domain OFPPT
@@ -55,7 +55,7 @@ Switch(config)# no vlan 10
 ```
 
 :::danger
-Supprimer un VLAN ne desassigne pas automatiquement les ports — les ports resteront dans un VLAN inexistant et perdront toute connectivite. Reassigner les ports avant de supprimer un VLAN.
+Supprimer un VLAN ne desassigne pas automatiquement les ports - les ports resteront dans un VLAN inexistant et perdront toute connectivite. Reassigner les ports avant de supprimer un VLAN.
 :::
 
 ---
@@ -146,7 +146,7 @@ DTP peut etre exploite pour des attaques de type VLAN hopping. Toujours desactiv
 
 ## 6. Routage inter-VLAN
 
-### Methode 1 — Router-on-a-Stick
+### Methode 1 - Router-on-a-Stick
 
 Utilise une seule interface physique du routeur avec des sous-interfaces (subinterfaces). Chaque sous-interface est associee a un VLAN.
 
@@ -172,7 +172,7 @@ Router(config-subif)# exit
 Le port du switch connecte au routeur doit etre configure en mode trunk pour transporter les VLANs 10, 20 et 30.
 :::
 
-### Methode 2 — Routage sur Switch Layer 3 (SVI)
+### Methode 2 - Routage sur Switch Layer 3 (SVI)
 
 Utilise un switch de couche 3 avec des interfaces virtuelles commutees (SVI). Plus performant car le routage est fait en materiel.
 

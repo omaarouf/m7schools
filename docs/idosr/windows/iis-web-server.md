@@ -1,7 +1,7 @@
 ---
-id: lesson-05
-title: Lecon 05 - IIS-Web-Server
-sidebar_label: Lecon 05
+id: iis-web-server
+title: IIS Web Server
+sidebar_label: IIS Web Server
 ---
 
 # Lecon 05: IIS-Web-Server

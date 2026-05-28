@@ -1,4 +1,4 @@
----
+﻿---
 id: lesson-08
 title: Routage sous Linux
 sidebar_label: Routage sous Linux
@@ -18,7 +18,7 @@ Le routage IP est le principe de transmission qui permet a deux ordinateurs plac
 | Type | Outil | Description |
 |---|---|---|
 | **Statique** | `ip route` | Routes ajoutees manuellement dans la table de routage |
-| **Dynamique** | `frr` | Demon de routage — OSPF, RIP, BGP |
+| **Dynamique** | `frr` | Demon de routage - OSPF, RIP, BGP |
 
 ### 1.1 Fichiers principaux
 
@@ -34,7 +34,7 @@ Le routage IP est le principe de transmission qui permet a deux ordinateurs plac
 ## 2. Activer le Forwarding IP
 
 :::danger Forwarding IP obligatoire
-Sans `ip_forward = 1`, le serveur Linux **ne routera pas** les paquets entre ses interfaces — il se comportera comme un simple hote, pas un routeur.
+Sans `ip_forward = 1`, le serveur Linux **ne routera pas** les paquets entre ses interfaces - il se comportera comme un simple hote, pas un routeur.
 :::
 
 ### 2.1 Activation temporaire
@@ -248,7 +248,7 @@ ip route show
 
 ### 3.4 Routes statiques permanentes
 
-Les routes ajoutees avec `ip route add` sont **temporaires** — elles disparaissent au redemarrage.
+Les routes ajoutees avec `ip route add` sont **temporaires** - elles disparaissent au redemarrage.
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
@@ -314,7 +314,7 @@ sudo service iptables save
 </TabItem>
 </Tabs>
 
-### 4.2 DNAT — Redirection de port
+### 4.2 DNAT - Redirection de port
 
 Le DNAT (Destination NAT) redirige les connexions entrantes vers une machine interne. Utile pour cacher un serveur derriere une passerelle.
 
@@ -733,5 +733,5 @@ ip addr show                 # interfaces et adresses IP
 
 ## Pour aller plus loin
 
-- [Quiz Routage](/quizzes/linux/quizzRoutage) — tester vos connaissances
-- [TP Routage](/tp/linux/tp-routage) — mise en pratique guidee
+- [Quiz Routage](/quizzes/linux/quizzRoutage) - tester vos connaissances
+- [TP Routage](/tp/linux/tp-routage) - mise en pratique guidee

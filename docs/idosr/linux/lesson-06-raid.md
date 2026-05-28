@@ -1,4 +1,4 @@
----
+﻿---
 id: lesson-06
 title: RAID LOGICIEL – mdadm
 ---
@@ -17,8 +17,8 @@ Le RAID (Redundant Array of Independent Disks) est un ensemble de techniques de 
 
 | Niveau | Nom | Disques min | Pannes tolerees | Espace utile | Usage typique |
 |---|---|---|---|---|---|
-| **RAID 0** | Striping | 2 | 0 | 100% (N x taille) | Performances — pas de redondance |
-| **RAID 1** | Mirroring | 2 | 1 | 50% (1 x taille) | Redondance — serveurs critiques |
+| **RAID 0** | Striping | 2 | 0 | 100% (N x taille) | Performances - pas de redondance |
+| **RAID 1** | Mirroring | 2 | 1 | 50% (1 x taille) | Redondance - serveurs critiques |
 | **RAID 5** | Striping + parite | 3 | 1 | (N-1) x taille | Equilibre perfs / redondance |
 | **RAID 6** | Double parite | 4 | 2 | (N-2) x taille | Haute disponibilite |
 
@@ -117,7 +117,7 @@ Disque /dev/sdd : 8 GiB, 8589934592 octets, 16777216 secteurs
 
 ## 5. Creer un RAID
 
-### RAID 1 (Mirroring — 2 disques)
+### RAID 1 (Mirroring - 2 disques)
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
@@ -136,7 +136,7 @@ sudo mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sdb /dev/sdc
 </TabItem>
 </Tabs>
 
-### RAID 5 (Striping + parite — 3 disques minimum)
+### RAID 5 (Striping + parite - 3 disques minimum)
 
 <Tabs groupId="linux-distros">
 <TabItem value="ubuntu" label="Ubuntu / Debian">
@@ -232,7 +232,7 @@ df -h /mnt/raid
 </Tabs>
 
 :::warning XFS sur Fedora
-Le systeme de fichiers XFS (defaut sur Fedora/RHEL) ne peut PAS etre reduit — contrairement a ext4. Prendre en compte cette contrainte lors du dimensionnement.
+Le systeme de fichiers XFS (defaut sur Fedora/RHEL) ne peut PAS etre reduit - contrairement a ext4. Prendre en compte cette contrainte lors du dimensionnement.
 :::
 
 ---
@@ -247,7 +247,7 @@ Le systeme de fichiers XFS (defaut sur Fedora/RHEL) ne peut PAS etre reduit — 
 ```bash
 sudo mdadm --manage /dev/md0 --add /dev/sdd
 
-# Verifier — le nouveau disque apparait en (S) = Spare
+# Verifier - le nouveau disque apparait en (S) = Spare
 cat /proc/mdstat
 ```
 
@@ -257,7 +257,7 @@ cat /proc/mdstat
 ```bash
 sudo mdadm --manage /dev/md0 --add /dev/sdd
 
-# Verifier — le nouveau disque apparait en (S) = Spare
+# Verifier - le nouveau disque apparait en (S) = Spare
 cat /proc/mdstat
 ```
 
@@ -401,7 +401,7 @@ sudo mdadm --grow /dev/md0 --raid-devices=4
 # 3. Surveiller la reconstruction
 watch cat /proc/mdstat
 
-# 4. Etendre le systeme de fichiers (ext4 — a chaud)
+# 4. Etendre le systeme de fichiers (ext4 - a chaud)
 sudo resize2fs /dev/md0
 
 # 5. Verifier le nouvel espace
@@ -421,7 +421,7 @@ sudo mdadm --grow /dev/md0 --raid-devices=4
 # 3. Surveiller la reconstruction
 watch cat /proc/mdstat
 
-# 4. Etendre le systeme de fichiers (xfs — a chaud)
+# 4. Etendre le systeme de fichiers (xfs - a chaud)
 sudo xfs_growfs /mnt/raid
 
 # 5. Verifier le nouvel espace
@@ -541,7 +541,7 @@ echo 100000 > /proc/sys/dev/raid/speed_limit_min
 | Champ | Description |
 |---|---|
 | `State: clean` | RAID sain et operationnel |
-| `State: degraded` | Un disque manquant — RAID vulnerable |
+| `State: degraded` | Un disque manquant - RAID vulnerable |
 | `active sync` | Disque actif et synchronise |
 | `spare` | Disque de reserve en attente |
 | `faulty` | Disque marque defaillant |

@@ -1,4 +1,4 @@
----
+﻿---
 id: voip
 title: VoIP (CME)
 sidebar_label: VoIP (CME)
@@ -15,7 +15,7 @@ Cisco CME (Communications Manager Express) transforme un routeur Cisco en serveu
 | Composant | Description |
 |---|---|
 | **ePhone** | Telephone IP physique enregistre sur CME |
-| **ePhone-DN** | Directory Number — extension telephone virtuelle |
+| **ePhone-DN** | Directory Number - extension telephone virtuelle |
 | **Telephony-Service** | Service CME configure sur le routeur |
 | **SCCP** | Protocole de signalisation entre les telephones et CME |
 | **TFTP** | Serveur de fichiers de configuration pour les telephones |
@@ -37,8 +37,8 @@ Router(dhcp-config)# exit
 ```
 
 :::info Option 150 vs Option 66
-- **Option 150** : specifique Cisco — adresse IP du serveur TFTP (liste d'adresses possible)
-- **Option 66** : standard — nom ou adresse du serveur TFTP (une seule valeur)
+- **Option 150** : specifique Cisco - adresse IP du serveur TFTP (liste d'adresses possible)
+- **Option 66** : standard - nom ou adresse du serveur TFTP (une seule valeur)
 Les telephones Cisco utilisent l'option 150 en priorite.
 :::
 
@@ -63,7 +63,7 @@ Router(config-telephony)# exit
 | `auto assign` | Attribution automatique des ePhone-DN aux ePhones |
 
 :::tip max-ephones et max-dn
-Configurer `max-dn` >= `max-ephones` — chaque telephone a besoin d'au moins une extension.
+Configurer `max-dn` >= `max-ephones` - chaque telephone a besoin d'au moins une extension.
 :::
 
 ---

@@ -1,7 +1,7 @@
----
+﻿---
 id: router
-title: Configuration de Base — Routeur
-sidebar_label: Configuration de Base — Routeur
+title: Configuration de Base - Routeur
+sidebar_label: Configuration de Base - Routeur
 ---
 
 > Maitriser la configuration initiale d'un routeur Cisco : securisation des acces, configuration des interfaces, gestion a distance SSH.
@@ -65,7 +65,7 @@ R1(config)# service password-encryption
 ```
 
 :::warning
-`service password-encryption` utilise un chiffrement faible (type 7). Il protege contre la lecture directe du fichier de config mais n'est pas suffisant seul — toujours combiner avec `enable secret`.
+`service password-encryption` utilise un chiffrement faible (type 7). Il protege contre la lecture directe du fichier de config mais n'est pas suffisant seul - toujours combiner avec `enable secret`.
 :::
 
 ---
@@ -80,7 +80,7 @@ R1(config)# banner motd # Acces autorise uniquement. Toute connexion non autoris
 
 ## 5. Configuration des interfaces
 
-Contrairement au switch, les interfaces d'un routeur sont desactivees par defaut — il faut les activer avec `no shutdown`.
+Contrairement au switch, les interfaces d'un routeur sont desactivees par defaut - il faut les activer avec `no shutdown`.
 
 ### Interface Ethernet (LAN)
 
@@ -182,7 +182,7 @@ R1# copy running-config startup-config
 
 ---
 
-## 10. Configuration complete — Exemple
+## 10. Configuration complete - Exemple
 
 ```bash title="Configuration complète d'un routeur de base"
 Router> enable

@@ -1,4 +1,4 @@
----
+﻿---
 id: efms-intro
 title: Évaluations de Fin de Module
 sidebar_label: Introduction
@@ -12,10 +12,10 @@ sidebar_label: Introduction
 
 Chaque EFM disponible ici est une copie fidèle de l'examen original, enrichie de réponses détaillées masquées. La structure est toujours la même :
 
-- **Dossier I** — Partie théorique : questions de cours, définitions, explications de commandes
-- **Dossier II** — Partie pratique : scénarios réels avec topologie réseau, configuration de services
+- **Dossier I** - Partie théorique : questions de cours, définitions, explications de commandes
+- **Dossier II** - Partie pratique : scénarios réels avec topologie réseau, configuration de services
 
-Les réponses sont cachées derrière un bouton **"Voir la réponse"** — clique dessus uniquement après avoir essayé de répondre par toi-même.
+Les réponses sont cachées derrière un bouton **"Voir la réponse"** - clique dessus uniquement après avoir essayé de répondre par toi-même.
 
 ---
 
@@ -51,7 +51,7 @@ Les EFMs OFPPT évaluent deux choses distinctes :
 
 :::warning Les pièges classiques
 - Oublier de **vérifier** après chaque configuration (systemctl status, named-checkzone, dhcpd -t...)
-- Confondre les commandes **Ubuntu** et **Fedora** — toujours préciser la distribution
+- Confondre les commandes **Ubuntu** et **Fedora** - toujours préciser la distribution
 - Négliger la **persistance** : démarrer un service sans l'activer au boot (`enable`)
 - Ne pas **tester la syntaxe** avant de redémarrer un service
 :::
@@ -65,9 +65,9 @@ Les points sont répartis ainsi dans la majorité des variantes :
 | Exercice | Thèmes typiques | Points |
 |---|---|---|
 | Dossier I | Commandes, services, concepts | 10 pts |
-| Exercice 1 | DNS + DHCP | 15 — 18 pts |
-| Exercice 2 | Service web (Apache) ou Messagerie | 3 — 4 pts |
-| Exercice 3 | SSH, SAMBA, ou NFS | 2 — 3 pts |
+| Exercice 1 | DNS + DHCP | 15 - 18 pts |
+| Exercice 2 | Service web (Apache) ou Messagerie | 3 - 4 pts |
+| Exercice 3 | SSH, SAMBA, ou NFS | 2 - 3 pts |
 | **Total** | | **40 pts** |
 
 ---

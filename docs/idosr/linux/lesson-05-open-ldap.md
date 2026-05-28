@@ -1,4 +1,4 @@
----
+﻿---
 id: lesson-05
 title:  OpenLDAP
 sidebar_label: OpenLDAP
@@ -285,7 +285,7 @@ BASE dc=example,dc=com
 |---------|-------|--------------------------|
 | Serveur principal | slapd | /etc/openldap/slapd.conf |
 | Serveur replique | slurpd | /etc/openldap/slapd.conf |
-| Client LDAP | — | /etc/openldap/ldap.conf |
+| Client LDAP | - | /etc/openldap/ldap.conf |
 
 | Element | Role |
 |---------|------|
@@ -318,7 +318,7 @@ Ces commandes permettent d interagir avec un serveur LDAP depuis un terminal Lin
 
 ---
 
-### 1. ldapadd — Ajouter une entree
+### 1. ldapadd - Ajouter une entree
 
 Ajouter une nouvelle entree dans l annuaire.
 
@@ -343,7 +343,7 @@ ldapadd -x -D "cn=admin,dc=istahh,dc=ma" -W -f user.ldif
 
 ---
 
-### 2. ldapdelete — Supprimer une entree
+### 2. ldapdelete - Supprimer une entree
 
 ```bash
 ldapdelete -x -D "cn=admin,dc=istahh,dc=ma" -W \
@@ -362,7 +362,7 @@ ldapdelete -x -D "cn=admin,dc=istahh,dc=ma" -W -f delete.ldif
 
 ---
 
-### 3. ldapmodify — Modifier une entree
+### 3. ldapmodify - Modifier une entree
 
 Creer `modify.ldif` pour modifier l email :
 
@@ -379,7 +379,7 @@ ldapmodify -x -D "cn=admin,dc=istahh,dc=ma" -W -f modify.ldif
 
 ---
 
-### 4. ldapmodrdn — Modifier le RDN
+### 4. ldapmodrdn - Modifier le RDN
 
 Changer le nom principal (RDN) :
 
@@ -390,7 +390,7 @@ ldapmodrdn -x -D "cn=admin,dc=istahh,dc=ma" -W \
 
 ---
 
-### 5. ldappasswd — Changer le mot de passe
+### 5. ldappasswd - Changer le mot de passe
 
 ```bash
 ldappasswd -x -D "cn=admin,dc=istahh,dc=ma" -W \
@@ -399,7 +399,7 @@ ldappasswd -x -D "cn=admin,dc=istahh,dc=ma" -W \
 
 ---
 
-### 6. ldapsearch — Rechercher
+### 6. ldapsearch - Rechercher
 
 ```bash
 # Afficher toutes les entrees
@@ -414,7 +414,7 @@ ldapsearch -x -b "dc=istahh,dc=ma" "(uid=ali)" cn mail
 
 ---
 
-### 7. slapcat — Export complet
+### 7. slapcat - Export complet
 
 ```bash
 slapcat
@@ -467,7 +467,7 @@ shadowWarning: 7
 | Attribut | Description |
 |----------|-------------|
 | `shadowAccount` | Permet la gestion du mot de passe comme `/etc/shadow` sous Linux |
-| `userPassword: {crypt}` | Mot de passe chiffre — ne jamais mettre un mot de passe en clair en production |
+| `userPassword: {crypt}` | Mot de passe chiffre - ne jamais mettre un mot de passe en clair en production |
 | `shadowLastChange` | Nombre de jours depuis le 01/01/1970 (epoch Unix) - date du dernier changement de mot de passe |
 | `shadowMax` | Nombre maximal de jours avant expiration du mot de passe |
 | `shadowWarning` | Nombre de jours avant expiration pour afficher un avertissement |
@@ -505,7 +505,7 @@ ldapadd -x -D "cn=admin,dc=istahh,dc=ma" -W -f comptes.ldif
 
 ---
 
-### Etape 1 — Installation
+### Etape 1 - Installation
 
 **Cote serveur LDAP :**
 
@@ -524,7 +524,7 @@ sudo apt install libnss-ldap libpam-ldap ldap-utils
 
 ---
 
-### Etape 2 — Configuration du serveur LDAP
+### Etape 2 - Configuration du serveur LDAP
 
 Le serveur LDAP :
 - Contient les utilisateurs
@@ -534,7 +534,7 @@ Le serveur LDAP :
 
 ---
 
-### Etape 3 — Configuration du client LDAP
+### Etape 3 - Configuration du client LDAP
 
 Fichier : `/etc/ldap/ldap.conf`
 
@@ -545,7 +545,7 @@ BASE dc=istahh,dc=ma
 
 ---
 
-### Etape 4 — NSS (Name Service Switch)
+### Etape 4 - NSS (Name Service Switch)
 
 **NSS** est un mecanisme Linux qui permet au systeme de savoir ou chercher les informations utilisateurs (utilisateurs, groupes, mots de passe).
 
@@ -573,7 +573,7 @@ Si NSS est correct, l utilisateur LDAP apparait dans le resultat.
 
 ---
 
-### Etape 5 — PAM (Pluggable Authentication Modules)
+### Etape 5 - PAM (Pluggable Authentication Modules)
 
 **PAM** est le systeme Linux qui gere :
 - L authentification
@@ -599,7 +599,7 @@ Ces fichiers contiennent les modules LDAP.
 
 ---
 
-### Etape 6 — Migration
+### Etape 6 - Migration
 
 La migration consiste a transferer les comptes locaux (`/etc/passwd`) vers le serveur LDAP.
 
@@ -632,7 +632,7 @@ $DEFAULT_BASE = "dc=istahh,dc=ma";
 
 ---
 
-## 13. Lab Complet — Creer, Modifier, Rechercher, Supprimer
+## 13. Lab Complet - Creer, Modifier, Rechercher, Supprimer
 
 ```bash
 # 1. CREER un utilisateur
