@@ -13,24 +13,25 @@ if (typeof document !== "undefined" && !document.getElementById(styleId)) {
       position: sticky; top: 60px; z-index: 50;
       background: var(--ifm-background-color);
       border-bottom: 2px solid var(--lq-accent, #1a3c8f);
-      padding: 10px 20px;
-      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 16px 8px;
+      display: flex; flex-direction: column; gap: 6px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.10);
       margin-bottom: 24px; transition: border-color 0.4s;
     }
-    .lq-sticky-title { font-weight: 700; font-size: 14px; color: var(--ifm-font-color-base); }
+    .lq-sticky-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .lq-sticky-title { font-weight: 700; font-size: 14px; color: var(--ifm-font-color-base); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .lq-badge {
-      border-radius: 20px; padding: 2px 10px; font-size: 12px; font-weight: 600;
+      border-radius: 20px; padding: 2px 10px; font-size: 12px; font-weight: 600; white-space: nowrap; flex-shrink: 0;
       background: color-mix(in srgb, var(--lq-accent, #1a3c8f) 12%, transparent);
       color: var(--lq-accent, #1a3c8f);
       border: 1px solid color-mix(in srgb, var(--lq-accent, #1a3c8f) 30%, transparent);
     }
-    .lq-progress-track { width: 100px; height: 6px; background: var(--ifm-color-emphasis-200); border-radius: 99px; overflow: hidden; }
+    .lq-progress-track { width: 100%; height: 6px; background: var(--ifm-color-emphasis-200); border-radius: 99px; overflow: hidden; }
     .lq-progress-bar { height: 100%; border-radius: 99px; background: var(--lq-accent, #1a3c8f); transition: width 0.4s ease, background 0.4s; }
-    .lq-score-num { font-weight: 800; font-size: 18px; color: var(--lq-accent, #1a3c8f); min-width: 48px; text-align: right; transition: color 0.4s; }
-    .lq-btn-validate { border: none; border-radius: 6px; padding: 4px 14px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .lq-score-num { font-weight: 800; font-size: 16px; color: var(--lq-accent, #1a3c8f); white-space: nowrap; flex-shrink: 0; transition: color 0.4s; }
+    .lq-btn-validate { border: none; border-radius: 6px; padding: 5px 18px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; flex-shrink: 0; }
     .lq-btn-validate:disabled { background: var(--ifm-color-emphasis-200) !important; color: var(--ifm-color-emphasis-500) !important; cursor: not-allowed; }
-    .lq-btn-outline { background: transparent; border: 1px solid var(--ifm-color-primary); color: var(--ifm-color-primary); border-radius: 6px; padding: 4px 14px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .lq-btn-outline { background: transparent; border: 1px solid var(--ifm-color-primary); color: var(--ifm-color-primary); border-radius: 6px; padding: 5px 18px; font-size: 13px; font-weight: 600; cursor: pointer; flex-shrink: 0; }
     .lq-card { border: 1px solid var(--ifm-color-emphasis-300); border-radius: 10px; padding: 18px 20px 14px; margin-bottom: 14px; background: var(--ifm-background-surface-color); transition: border-color 0.3s, background 0.3s; }
     .lq-card.correct { border-color: #16a34a55; background: color-mix(in srgb, #16a34a 6%, var(--ifm-background-surface-color)); }
     .lq-card.wrong   { border-color: #dc262655; background: color-mix(in srgb, #dc2626 6%, var(--ifm-background-surface-color)); }
@@ -230,17 +231,22 @@ export default function QuizEngine({ questions, title = "Quiz", courseLink }) {
 
       {/* BARRE STICKY */}
       <div className="lq-sticky">
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <span className="lq-sticky-title">{title}</span>
-          <span className="lq-badge">{scoreLabel}</span>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div className="lq-progress-track">
-            <div className="lq-progress-bar" style={{ width: pct + "%" }} />
+        {/* Ligne 1 : titre + score */}
+        <div className="lq-sticky-row">
+          <div style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 0 }}>
+            <span className="lq-sticky-title">{title}</span>
+            <span className="lq-badge">{scoreLabel}</span>
           </div>
           <span className="lq-score-num">
             {submitted ? score + "/" + total : answered + "/" + total}
           </span>
+        </div>
+        {/* Ligne 2 : barre de progression pleine largeur */}
+        <div className="lq-progress-track">
+          <div className="lq-progress-bar" style={{ width: pct + "%" }} />
+        </div>
+        {/* Ligne 3 : bouton Valider ou Recommencer */}
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
           {submitted ? (
             <button className="lq-btn-outline" onClick={handleReset}>Recommencer</button>
           ) : (
@@ -253,7 +259,7 @@ export default function QuizEngine({ questions, title = "Quiz", courseLink }) {
                 color:      answered === total ? "#fff"        : undefined,
               }}
             >
-              Valider
+              {answered < total ? "Valider (" + answered + "/" + total + ")" : "Valider"}
             </button>
           )}
         </div>
