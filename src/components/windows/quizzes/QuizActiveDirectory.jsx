@@ -165,6 +165,62 @@ const questions = [
     correct: 1,
     explanation: "`-Properties MemberOf` charge la propriete MemberOf, puis `Select-Object -ExpandProperty MemberOf` affiche la liste des DN des groupes.",
   },
+
+  // ── Preparation reseau et promotion AD ───────────────────────────────────
+  {
+    id: 21, type: "vf",
+    question: "Avant de promouvoir un serveur en controleur de domaine, il est recommande de configurer une adresse IP STATIQUE plutot que DHCP.",
+    options: ["Vrai", "Faux"], correct: 0,
+    explanation: "VRAI. Un controleur de domaine doit avoir une IP fixe pour etre joignable en permanence par les clients qui l utilisent pour l authentification et la resolution DNS.",
+  },
+  {
+    id: 22, type: "qcm",
+    question: "Quelle commande PowerShell permet d identifier le numero d interface reseau (`ifIndex`) necessaire pour configurer l IP ?",
+    options: [
+      "Get-NetworkInterface",
+      "Get-NetAdapter",
+      "Show-NetAdapter",
+      "Get-IPConfiguration",
+    ],
+    correct: 1,
+    explanation: "`Get-NetAdapter` liste toutes les interfaces reseau avec leur nom, statut, adresse MAC et vitesse. La colonne `ifIndex` est le numero necessaire pour `New-NetIPAddress` et `Set-DnsClientServerAddress`.",
+  },
+  {
+    id: 23, type: "qcm",
+    question: "Quelle commande configure l IP `192.168.100.201/24` avec la passerelle `192.168.100.2` sur l interface 14 ?",
+    options: [
+      "Set-NetIPAddress -InterfaceIndex 14 -IPAddress 192.168.100.201 -Prefix 24 -Gateway 192.168.100.2",
+      "New-NetIPAddress -InterfaceIndex 14 -IPAddress 192.168.100.201 -PrefixLength 24 -DefaultGateway 192.168.100.2",
+      "Set-IPAddress -Interface 14 -IP 192.168.100.201 -Mask 24 -GW 192.168.100.2",
+      "Configure-NetAdapter -Index 14 -IP 192.168.100.201/24 -Gateway 192.168.100.2",
+    ],
+    correct: 1,
+    explanation: "`New-NetIPAddress` est la commande correcte. Les parametres : `-InterfaceIndex` (numero d interface), `-IPAddress` (IP), `-PrefixLength` (longueur masque, 24 = /24), `-DefaultGateway` (passerelle).",
+  },
+  {
+    id: 24, type: "qcm",
+    question: "Pourquoi configurer `127.0.0.1` comme DNS principal avant la promotion AD DS ?",
+    options: [
+      "127.0.0.1 est l adresse du serveur Google DNS",
+      "Apres la promotion, le serveur devient son propre serveur DNS - il doit se resoudre lui-meme",
+      "C est obligatoire sinon la commande Install-ADDSForest echoue",
+      "Pour accelerer les requetes DNS locales",
+    ],
+    correct: 1,
+    explanation: "Apres la promotion, le serveur heberge le DNS de la foret. En configurant `127.0.0.1` comme DNS principal, il se resout lui-meme. `8.8.8.8` sert de secours pour la resolution Internet pendant et apres l installation.",
+  },
+  {
+    id: 25, type: "qcm",
+    question: "Parmi les parametres de `Install-ADDSForest`, lequel est le SEUL vraiment obligatoire (la commande refuse sans lui) ?",
+    options: [
+      "-SafeModeAdministratorPassword",
+      "-InstallDns",
+      "-DomainName",
+      "-ForestMode",
+    ],
+    correct: 2,
+    explanation: "`-DomainName` est le seul parametre obligatoire : sans lui, la commande refuse de s executer. `-SafeModeAdministratorPassword` est 'requis interactif' (demande a la console si omis). `-InstallDns`, `-ForestMode` et `-DomainNetbiosName` sont facultatifs (valeurs par defaut appliquees).",
+  },
 ];
 
 export default function QuizActiveDirectory() {

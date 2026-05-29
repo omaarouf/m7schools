@@ -25,29 +25,87 @@ Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
 
 ---
 
+### Configurer l adresse IP avant la promotion
+
+Avant de promouvoir un serveur en controleur de domaine, il faut lui attribuer une adresse IP statique.
+
+```powershell title="Etape 1 - Identifier l interface reseau"
+Get-NetAdapter
+```
+
+Exemple de sortie :
+
+```
+Name        InterfaceDescription                   ifIndex Status   MacAddress          LinkSpeed
+----        --------------------                   ------- ------   ----------          ---------
+Ethernet0   Intel(R) 82574L Gigabit Network Conn...     14 Up       00-0C-29-66-97-3A    1 Gbps
+```
+
+```powershell title="Etape 2 - Configurer l IP statique"
+New-NetIPAddress -InterfaceIndex 14 -IPAddress 192.168.100.201 -PrefixLength 24 -DefaultGateway 192.168.100.2
+```
+
+```powershell title="Etape 3 - Configurer les serveurs DNS"
+Set-DnsClientServerAddress -InterfaceIndex 14 -ServerAddresses 127.0.0.1, 8.8.8.8
+```
+
+```powershell title="Etape 4 - Verifier la configuration DNS"
+Get-DnsClientServerAddress -InterfaceIndex 14
+```
+
+| Parametre | Description |
+|---|---|
+| `-InterfaceIndex` | Numero de l interface (obtenu via `Get-NetAdapter`) |
+| `-IPAddress` | Adresse IP statique a attribuer |
+| `-PrefixLength` | Longueur du masque (`24` = /24 = 255.255.255.0) |
+| `-DefaultGateway` | Passerelle par defaut |
+| `-ServerAddresses` | Serveurs DNS (`127.0.0.1` = lui-meme apres promotion, `8.8.8.8` = DNS public) |
+
+:::tip
+Pour un futur controleur de domaine, configurer `127.0.0.1` comme DNS principal (il devient son propre DNS apres promotion) et `8.8.8.8` comme DNS secondaire.
+:::
+
+---
+
 ### Promouvoir en Controleur de Domaine
 
 #### Nouvelle foret
 
-```powershell
+La methode recommandee est de stocker le mot de passe DSRM dans une variable avant d executer la commande :
+
+```powershell title="Methode recommandee (avec variable $pass)"
+$pass = ConvertTo-SecureString "idsr-202" -AsPlainText -Force
+
 Install-ADDSForest `
-    -DomainName "contoso.com" `
+    -DomainName "ofppt.local" `
+    -DomainNetbiosName "OFPPT" `
     -InstallDns `
-    -ForestMode 2022 `
-    -DomainMode 2022 `
-    -SafeModeAdministratorPassword (ConvertTo-SecureString "Pass123!" -AsPlainText -Force)
+    -ForestMode Win2016 `
+    -DomainMode Win2016 `
+    -SafeModeAdministratorPassword $pass
 ```
 
-| Parametre | Statut | Description |
+```powershell title="Version minimale (parametres obligatoires uniquement)"
+Install-ADDSForest -DomainName "ofppt.local"
+```
+
+:::info Version minimale
+La version minimale fonctionne : Windows demandera le mot de passe DSRM de facon interactive et appliquera automatiquement le niveau fonctionnel maximal disponible sur votre systeme.
+:::
+
+#### Detail des parametres
+
+| Parametre | Statut | Comportement si omis |
 |---|---|---|
-| `-DomainName` | Obligatoire | Nom du domaine |
-| `-InstallDns` | Recommandé | Installe et configure DNS |
-| `-ForestMode` | Recommandé | Niveau fonctionnel foret (2016, 2019, 2022) |
-| `-DomainMode` | Recommandé | Niveau fonctionnel domaine |
-| `-SafeModeAdministratorPassword` | Recommandé | Mot de passe DSRM |
+| `-DomainName` | 🔴 Obligatoire | La commande refuse de se lancer |
+| `-SafeModeAdministratorPassword` | 🟡 Requis (Interactif) | PowerShell demande le mot de passe DSRM a la saisie |
+| `-DomainNetbiosName` | 🟢 Facultatif | Windows prend la premiere partie du DNS (ex: `OFPPT` pour `ofppt.local`) |
+| `-InstallDns` | 🟢 Facultatif | DNS installe automatiquement lors d une nouvelle foret |
+| `-ForestMode` / `-DomainMode` | 🟢 Facultatif | Windows applique le niveau fonctionnel maximal disponible |
 
-
-
+:::warning ConvertTo-SecureString
+`ConvertTo-SecureString "motdepasse" -AsPlainText -Force` convertit un texte en clair en objet `SecureString`. Le parametre `-Force` est obligatoire quand on utilise `-AsPlainText`. En production, eviter les mots de passe en clair dans les scripts.
+:::
 
 ---
 

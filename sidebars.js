@@ -138,7 +138,60 @@ const sidebars = {
       label: 'Conception Reseau',
       collapsed: true,
       items: [
-        'quizzes/quiz-networking',
+        {
+          type: 'category',
+          label: 'Configuration de Base',
+          items: [
+            'quizzes/networking/quiz-switch',
+            'quizzes/networking/quiz-router',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Switching',
+          items: [
+            'quizzes/networking/quiz-vlans',
+            'quizzes/networking/quiz-stp',
+            'quizzes/networking/quiz-etherchannel',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Routage',
+          items: [
+            'quizzes/networking/quiz-routage-statique',
+            'quizzes/networking/quiz-rip',
+            'quizzes/networking/quiz-ospf',
+            'quizzes/networking/quiz-eigrp',
+            'quizzes/networking/quiz-bgp',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Securite',
+          items: [
+            'quizzes/networking/quiz-port-security',
+            'quizzes/networking/quiz-acl',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Gestion & Monitoring',
+          items: [
+            'quizzes/networking/quiz-gestion-reseau',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Services Reseau',
+          items: [
+            'quizzes/networking/quiz-hsrp',
+            'quizzes/networking/quiz-dhcp',
+            'quizzes/networking/quiz-nat',
+            'quizzes/networking/quiz-voip',
+            'quizzes/networking/quiz-vpn',
+          ],
+        },
       ],
     },
     
@@ -186,7 +239,60 @@ const sidebars = {
       label: 'Conception Reseau',
       collapsed: true,
       items: [
-        'TP/networking/conception-reseau',
+        {
+          type: 'category',
+          label: 'Configuration de Base',
+          items: [
+            'TP/networking/tp-switch',
+            'TP/networking/tp-router',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Switching',
+          items: [
+            'TP/networking/tp-vlans',
+            'TP/networking/tp-stp',
+            'TP/networking/tp-etherchannel',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Routage',
+          items: [
+            'TP/networking/tp-routage-statique',
+            'TP/networking/tp-rip',
+            'TP/networking/tp-ospf',
+            'TP/networking/tp-eigrp',
+            'TP/networking/tp-bgp',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Securite',
+          items: [
+            'TP/networking/tp-port-security',
+            'TP/networking/tp-acl',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Gestion & Monitoring',
+          items: [
+            'TP/networking/tp-gestion-reseau',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Services Reseau',
+          items: [
+            'TP/networking/tp-hsrp',
+            'TP/networking/tp-dhcp-cisco',
+            'TP/networking/tp-nat',
+            'TP/networking/tp-voip',
+            'TP/networking/tp-vpn',
+          ],
+        },
       ],
     },
     {

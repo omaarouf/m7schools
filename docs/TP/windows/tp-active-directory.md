@@ -11,34 +11,77 @@ title: Active Directory
 
 ## TP n°1 - Installation AD DS (Facile)
 
-**Objectif :** Installer le role Active Directory Domain Services et promouvoir le serveur en controleur de domaine.
+**Objectif :** Configurer l adresse IP, installer AD DS et promouvoir le serveur en controleur de domaine.
 
 **Contexte :**
 | Parametre | Valeur |
 |---|---|
 | Nom du domaine | `ofppt.local` |
 | NetBIOS | `OFPPT` |
-| Niveau fonctionnel | 2022 |
-| IP du serveur | `192.168.1.10` |
+| Niveau fonctionnel | Win2016 |
+| IP du serveur | `192.168.100.201/24` |
+| Passerelle | `192.168.100.2` |
+| Mot de passe DSRM | `idsr-202` |
 
 ---
 
-**1. Verifier si le role AD DS est deja installe.**
+**1. Identifier l interface reseau disponible sur le serveur.**
 
 <details>
 <summary>Voir la reponse</summary>
 
 ```powershell
-Get-WindowsFeature -Name AD-Domain-Services
+Get-NetAdapter
 ```
 
-Le statut `Installed` indique que le role est deja present.
+Relever le numero `ifIndex` de l interface active (colonne `ifIndex`, ex: `14`).
 
 </details>
 
 ---
 
-**2. Installer le role AD DS avec les outils de gestion.**
+**2. Configurer l adresse IP statique sur l interface (ifIndex 14).**
+
+<details>
+<summary>Voir la reponse</summary>
+
+```powershell
+New-NetIPAddress -InterfaceIndex 14 -IPAddress 192.168.100.201 -PrefixLength 24 -DefaultGateway 192.168.100.2
+```
+
+</details>
+
+---
+
+**3. Configurer les serveurs DNS (lui-meme + DNS public de secours).**
+
+<details>
+<summary>Voir la reponse</summary>
+
+```powershell
+Set-DnsClientServerAddress -InterfaceIndex 14 -ServerAddresses 127.0.0.1, 8.8.8.8
+```
+
+`127.0.0.1` = le serveur lui-meme (apres promotion il deviendra son propre DNS).
+
+</details>
+
+---
+
+**4. Verifier la configuration DNS appliquee.**
+
+<details>
+<summary>Voir la reponse</summary>
+
+```powershell
+Get-DnsClientServerAddress -InterfaceIndex 14
+```
+
+</details>
+
+---
+
+**5. Installer le role AD DS avec les outils de gestion.**
 
 <details>
 <summary>Voir la reponse</summary>
@@ -51,26 +94,38 @@ Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
 
 ---
 
-**3. Promouvoir le serveur en controleur de domaine pour une nouvelle foret `ofppt.local`.**
+**6. Promouvoir le serveur en controleur de domaine pour la nouvelle foret `ofppt.local`.**
 
 <details>
 <summary>Voir la reponse</summary>
 
 ```powershell
+$pass = ConvertTo-SecureString "idsr-202" -AsPlainText -Force
+
 Install-ADDSForest `
     -DomainName "ofppt.local" `
     -DomainNetbiosName "OFPPT" `
-    -ForestMode 2022 `
-    -DomainMode 2022 `
     -InstallDns `
-    -SafeModeAdministratorPassword (ConvertTo-SecureString "Pass123!" -AsPlainText -Force)
+    -ForestMode Win2016 `
+    -DomainMode Win2016 `
+    -SafeModeAdministratorPassword $pass
 ```
+
+Le serveur redemarrera automatiquement apres la promotion.
+
+| Parametre | Statut | Comportement si omis |
+|---|---|---|
+| `-DomainName` | 🔴 Obligatoire | La commande refuse de se lancer |
+| `-SafeModeAdministratorPassword` | 🟡 Requis (Interactif) | PowerShell demande le mot de passe a la saisie |
+| `-DomainNetbiosName` | 🟢 Facultatif | Derive automatiquement du DNS (ex: `OFPPT`) |
+| `-InstallDns` | 🟢 Facultatif | DNS installe auto pour une nouvelle foret |
+| `-ForestMode` / `-DomainMode` | 🟢 Facultatif | Niveau fonctionnel max du systeme applique |
 
 </details>
 
 ---
 
-**4. Verifier que le domaine est correctement configure apres redemarrage.**
+**7. Verifier que le domaine et la foret sont correctement configures apres redemarrage.**
 
 <details>
 <summary>Voir la reponse</summary>
@@ -78,13 +133,16 @@ Install-ADDSForest `
 ```powershell
 Get-ADDomain
 Get-ADForest
+Get-Service -Name "NTDS", "DNS"
 ```
+
+Les services `NTDS` et `DNS` doivent etre en etat `Running`.
 
 </details>
 
 ---
 
-**5. Creer trois unites d'organisation : `Utilisateurs`, `Groupes`, `Ordinateurs`.**
+**8. Creer trois unites d organisation : `Utilisateurs`, `Groupes`, `Ordinateurs`.**
 
 <details>
 <summary>Voir la reponse</summary>
@@ -99,7 +157,7 @@ New-ADOrganizationalUnit -Name "Ordinateurs"  -Path "DC=ofppt,DC=local"
 
 ---
 
-**6. Lister toutes les OU du domaine.**
+**9. Lister toutes les OU du domaine.**
 
 <details>
 <summary>Voir la reponse</summary>
@@ -107,22 +165,6 @@ New-ADOrganizationalUnit -Name "Ordinateurs"  -Path "DC=ofppt,DC=local"
 ```powershell
 Get-ADOrganizationalUnit -Filter * | Select-Object Name, DistinguishedName
 ```
-
-</details>
-
----
-
-**7. Verifier que le service AD DS est actif.**
-
-<details>
-<summary>Voir la reponse</summary>
-
-```powershell
-Get-Service -Name "NTDS"
-Get-Service -Name "DNS"
-```
-
-Les deux services doivent etre en etat `Running`.
 
 </details>
 
