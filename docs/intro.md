@@ -56,4 +56,3 @@ Cette plateforme regroupe des **cours structures, des exercices pratiques et des
 
 > **Apprendre. Pratiquer. Maitriser.**
 >
-> - M7Schools, cree par Omar Maarouf
