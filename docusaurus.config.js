@@ -90,13 +90,6 @@ const config = {
           position: 'left',
           label: 'TP',
         },
-        {
-          type: 'docSidebar',
-          sidebarId: 'EfmsSidebar',
-          position: 'left',
-          label: 'EFMs',
-        },
-        
       ],
     },
 
