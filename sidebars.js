@@ -8,7 +8,7 @@ const sidebars = {
       id: 'intro',
       label: 'Home',
     },
-    
+
     {
       type: 'category',
       label: 'Conception Reseau',
@@ -100,7 +100,7 @@ const sidebars = {
         //'cours/windows/file-services',
         //'cours/windows/iis-web-server',
         //'cours/windows/backup-recovery',
-        
+
       ],
     },
     {
@@ -124,15 +124,24 @@ const sidebars = {
         'cours/linux/lesson-12',
       ],
     },
+    {
+      type: 'category',
+      label: 'DevSecOps',
+      collapsed: true,
+      items: [
+        'cours/DevSecOps/intro',
+
+      ],
+    },
   ],
 
   quizzesSidebar: [
     {
-    type: 'doc',
-    id: 'quizzes/quizzes-intro',
-    label: 'Quizzes',
+      type: 'doc',
+      id: 'quizzes/quizzes-intro',
+      label: 'Quizzes',
     },
-  
+
     {
       type: 'category',
       label: 'Conception Reseau',
@@ -194,7 +203,7 @@ const sidebars = {
         },
       ],
     },
-    
+
     {
       type: 'category',
       label: 'Administration Windows',
@@ -224,15 +233,15 @@ const sidebars = {
         'quizzes/linux/quiz-linux',
       ],
     },
-      
-    
+
+
   ],
 
   TpSidebar: [
     {
-    type: 'doc',
-    id: 'TP/tp-intro',
-    label: 'TP Pratiques',
+      type: 'doc',
+      id: 'TP/tp-intro',
+      label: 'TP Pratiques',
     },
     {
       type: 'category',
@@ -322,13 +331,13 @@ const sidebars = {
         'TP/linux/tp-Routage',
         'TP/linux/tp-Raid',
       ],
-    },  
+    },
   ],
   EfmsSidebar: [
     {
-    type: 'doc',
-    id: 'EFMs/efms-intro',
-    label: 'EFMs',
+      type: 'doc',
+      id: 'EFMs/efms-intro',
+      label: 'EFMs',
     },
     {
       type: 'category',
@@ -348,7 +357,7 @@ const sidebars = {
 
 
       ],
-    },  
+    },
   ],
 
 };
