@@ -41,6 +41,7 @@ Ce contenu est cree et maintenu par moi. Il peut contenir des erreurs ou necessi
 | Lecon 06 | RAID Logiciel |
 | Lecon 07 | Serveur Web Apache |
 | Lecon 08 | Routage Linux |
+| Lecon 13 | Noyau Linux (Kernel) |
 
 ---
 

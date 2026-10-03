@@ -14,10 +14,11 @@ Testez et validez vos connaissances avec nos quiz interactifs couvrant tous les 
 
 | Module | Quizzes disponibles | Questions |
 |---|---|---|
-| Administration Linux | 9 | ~180 |
+| Administration Linux | 10 | ~183 |
 | Administration Windows | 5 | 100 |
+| DevSecOps | 8 | 26 |
 | Conception Reseau | A venir | — |
-| **Total** | **14** | **~280** |
+| **Total** | **23** | **~309** |
 
 ---
 
@@ -34,6 +35,7 @@ Testez et validez vos connaissances avec nos quiz interactifs couvrant tous les 
 | Routage | Routage sous Linux | [Faire le quiz →](/quizzes/linux/quizzRoutage) |
 | RAID | RAID Logiciel avec mdadm | [Faire le quiz →](/quizzes/linux/quizzRaid) |
 | OpenLDAP | OpenLDAP | [Faire le quiz →](/quizzes/linux/quiz-ldap) |
+| Noyau Linux | Noyau Linux (Kernel) | [Faire le quiz →](/quizzes/linux/quizzKernel) |
 
 ---
 
@@ -56,6 +58,19 @@ Testez et validez vos connaissances avec nos quiz interactifs couvrant tous les 
 Les quiz Conception Reseau seront disponibles prochainement.
 
 :::
+
+## DevSecOps
+
+| Quiz | Lecon associee | Questions | Acces |
+|---|---|---:|---|
+| Docker - Installation | Installation et vérification | 3 | [Faire le quiz →](/quizzes/devsecops/quiz-docker-installation) |
+| Docker - Commandes de base | Commandes et cycle de vie des conteneurs | 5 | [Faire le quiz →](/quizzes/devsecops/quiz-docker-commandes) |
+| Docker - Dockerfile | Construction d'images | 3 | [Faire le quiz →](/quizzes/devsecops/quiz-docker-dockerfile) |
+| Docker - Volumes | Persistance des données | 3 | [Faire le quiz →](/quizzes/devsecops/quiz-docker-volumes) |
+| Docker - Réseaux | Communication entre conteneurs | 3 | [Faire le quiz →](/quizzes/devsecops/quiz-docker-reseaux) |
+| Docker - Compose | Déploiement multi-conteneurs | 3 | [Faire le quiz →](/quizzes/devsecops/quiz-docker-compose) |
+| Docker - Sécurité | Sécurisation des images et conteneurs | 3 | [Faire le quiz →](/quizzes/devsecops/quiz-docker-securite) |
+| Git - Commandes de base | Initialisation, état et indexation des fichiers | 3 | [Faire le quiz →](/quizzes/devsecops/quiz-git-commandes) |
 
 ---
 

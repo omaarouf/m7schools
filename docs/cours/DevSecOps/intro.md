@@ -1,4 +1,4 @@
-﻿---
+---
 id: intro
 title: DevSecOps - Introduction
 sidebar_label: Introduction
@@ -6,54 +6,51 @@ sidebar_label: Introduction
 
 # DevSecOps
 
-**Ce module couvre l'automatisation des tâches d'administration système à travers les outils et pratiques DevSecOps. Toutes les commandes et configurations sont présentées pour Ubuntu Server et Fedora — ces deux distributions sont utilisées à la place de Debian et Red Hat car elles sont plus accessibles en formation.**
+Le **DevSecOps** intègre la sécurité à chaque étape du cycle de vie d'un service informatique : conception, développement, déploiement et exploitation. L'objectif est de travailler de façon collaborative et automatisée afin de livrer des changements plus fréquemment, tout en détectant et en corrigeant les risques de sécurité au plus tôt.
 
-:::info Avertissement
-
-Ce contenu est créé et maintenu par moi. Il peut contenir des erreurs ou nécessiter des améliorations. Il est fortement recommandé de **tester toutes les commandes sur une machine virtuelle réelle** avant de les appliquer en production.
-
-:::
-
----
+DevSecOps ne se résume pas à l'utilisation d'un outil ou à l'ajout d'une étape de contrôle avant la mise en production. Il repose sur des pratiques partagées par les équipes et sur des vérifications répétables, intégrées autant que possible aux processus existants.
 
 ## Objectifs du module
 
-- Maîtriser les commandes de base Linux
-- Configurer les paramètres réseau (IP statique, DHCP, DNS)
-- Installer et administrer les services réseau (SSH, DHCP, DNS, LDAP, Samba)
-- Gérer les utilisateurs, les groupes et les permissions
-- Diagnostiquer et résoudre les problèmes système
+À la fin de ce module, vous devriez pouvoir :
 
----
+- expliquer les principes et les objectifs du DevSecOps ;
+- expliquer le rôle de Docker dans la création et l'exécution d'applications conteneurisées ;
+- créer et administrer des conteneurs, des images, des volumes et des réseaux Docker ;
+- décrire une application avec Docker Compose ;
+- utiliser les commandes Git de base pour suivre les changements d'un projet ;
+- appliquer des pratiques de base pour réduire les risques liés aux conteneurs ;
+- tester et documenter vos manipulations dans un environnement isolé.
 
-## Contenu du module
+## Parcours Docker
 
 | Leçon | Sujet |
-|-------|-------|
-| Leçon 00 | Introduction à l'automatisation et aux scripts Shell |
-| Leçon 01 | Gestion des utilisateurs et groupes |
-| Leçon 02 | Permissions et droits d'accès |
-| Leçon 03 | Sauvegarde et restauration |
-| Leçon 04 | Monitoring et gestion des logs |
+|---|---|
+| 1 | Installation et vérification de Docker |
+| 2 | Commandes Docker de base |
+| 3 | Création d'images avec un Dockerfile |
+| 4 | Persistance des données avec les volumes |
+| 5 | Communication entre conteneurs avec les réseaux |
+| 6 | Déploiement multi-conteneurs avec Docker Compose |
+| 7 | Sécurisation des images et des conteneurs |
 
----
+## Parcours Git
 
-## Comment utiliser ce cours
+| Leçon | Sujet |
+|---|---|
+| 1 | Configuration de Git, dépôts, suivi des changements, commits et branches |
 
-:::info Méthode de travail
+## Méthode de travail
 
-**1. Lire le cours** — comprendre les concepts et les commandes
+1. Lire les notions et exécuter les commandes depuis un terminal disposant de Docker.
+2. Réaliser les exercices dans un environnement local de test.
+3. Vérifier les conteneurs et les ressources créés avant de passer à la leçon suivante.
+4. Supprimer les ressources de test lorsque vous avez terminé.
 
-**2. Faire le TP** — pratiquer sur machine virtuelle
+:::warning Environnement de pratique
 
-**3. Faire le Quiz** — vérifier vos connaissances
-
-**4. Passer à la leçon suivante**
+N'effectuez pas les exercices sur un système ou un service de production. Les images téléchargées et les conteneurs exécutés doivent être vérifiés avant toute utilisation réelle.
 
 :::
 
----
-
-> Commencer par **Leçon 00 - Les Commandes de Base Linux** dans la barre latérale.
-
-> **Bon courage et bonne pratique !**
+> Commencez par la leçon **Installation et vérification de Docker** dans la barre latérale.

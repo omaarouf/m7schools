@@ -122,15 +122,37 @@ const sidebars = {
         'cours/linux/lesson-10',
         'cours/linux/lesson-11',
         'cours/linux/lesson-12',
+        'cours/linux/lesson-13',
       ],
     },
     {
       type: 'category',
       label: 'DevSecOps',
-      collapsed: true,
+      collapsed: false,
       items: [
         'cours/DevSecOps/intro',
-
+        {
+          type: 'category',
+          label: 'Docker',
+          collapsed: false,
+          items: [
+            'cours/DevSecOps/docker-01-installation',
+            'cours/DevSecOps/docker-02-commandes-de-base',
+            'cours/DevSecOps/docker-03-dockerfile',
+            'cours/DevSecOps/docker-04-volumes',
+            'cours/DevSecOps/docker-05-reseaux',
+            'cours/DevSecOps/docker-06-compose',
+            'cours/DevSecOps/docker-07-securite',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Git',
+          collapsed: false,
+          items: [
+            'cours/DevSecOps/git-01-commandes-de-base',
+          ],
+        },
       ],
     },
   ],
@@ -231,6 +253,36 @@ const sidebars = {
         'quizzes/linux/quizzRaid',
         'quizzes/linux/quiz-ldap',
         'quizzes/linux/quiz-linux',
+        'quizzes/linux/quizzKernel',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'DevSecOps',
+      collapsed: false,
+      items: [
+        {
+          type: 'category',
+          label: 'Docker',
+          collapsed: false,
+          items: [
+            'quizzes/devsecops/quiz-docker-installation',
+            'quizzes/devsecops/quiz-docker-commandes',
+            'quizzes/devsecops/quiz-docker-dockerfile',
+            'quizzes/devsecops/quiz-docker-volumes',
+            'quizzes/devsecops/quiz-docker-reseaux',
+            'quizzes/devsecops/quiz-docker-compose',
+            'quizzes/devsecops/quiz-docker-securite',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Git',
+          collapsed: false,
+          items: [
+            'quizzes/devsecops/quiz-git-commandes',
+          ],
+        },
       ],
     },
 
