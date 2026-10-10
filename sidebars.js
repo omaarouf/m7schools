@@ -123,6 +123,7 @@ const sidebars = {
         'cours/linux/lesson-11',
         'cours/linux/lesson-12',
         'cours/linux/lesson-13',
+        'cours/linux/lesson-14',
       ],
     },
     {
@@ -254,6 +255,7 @@ const sidebars = {
         'quizzes/linux/quiz-ldap',
         'quizzes/linux/quiz-linux',
         'quizzes/linux/quizzKernel',
+        'quizzes/linux/quizzDemarrageSysteme',
       ],
     },
     {
