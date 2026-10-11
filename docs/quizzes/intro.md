@@ -14,11 +14,11 @@ Testez et validez vos connaissances avec nos quiz interactifs couvrant tous les 
 
 | Module | Quizzes disponibles | Questions |
 |---|---|---|
-| Administration Linux | 11 | ~186 |
+| Administration Linux | 12 | ~196 |
 | Administration Windows | 5 | 100 |
 | DevSecOps | 8 | 26 |
 | Conception Reseau | A venir | — |
-| **Total** | **24** | **~312** |
+| **Total** | **25** | **~322** |
 
 ---
 
@@ -37,6 +37,7 @@ Testez et validez vos connaissances avec nos quiz interactifs couvrant tous les 
 | OpenLDAP | OpenLDAP | [Faire le quiz →](/quizzes/linux/quiz-ldap) |
 | Noyau Linux | Noyau Linux (Kernel) | [Faire le quiz →](/quizzes/linux/quizzKernel) |
 | Démarrage du système | Démarrage du système Linux | [Faire le quiz →](/quizzes/linux/quizzDemarrageSysteme) |
+| Systèmes de fichiers | Les systèmes de fichiers Linux | [Faire le quiz →](/quizzes/linux/quizzSystemesFichiers) |
 
 ---
 
